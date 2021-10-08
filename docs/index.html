@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!--     Basic Three.js -->
+    <script src="https://unpkg.com/three@0.133.0/build/three.js"></script>
+    <script src="https://unpkg.com/three@0.133.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://unpkg.com/three@0.133.0/examples/js/controls/OrbitControls.js"></script>
+    <!--     VRM Plugin -->
+    <script src="https://unpkg.com/@pixiv/three-vrm@0.6.7/lib/three-vrm.js"></script>
+    <!--     Mediapipe or Tensorflow.js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.4.1633559476/holistic.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <!--     Kalidokit Kinematic Solver -->
+    <script src="kalidokit.umd.js"></script>
+    <style>
+      @font-face {
+        font-family: "Jelly";
+        font-display: block;
+        src: url("https://yeemachine.github.io/kalidoface-live2d-models/Font/kalidoface-jelly.ttf")
+          format("truetype");
+      }
+      h1 {
+        font-family: "Jelly";
+        font-size: 36px;
+        color: white;
+        position: absolute;
+        bottom: -8px;
+        left: 16px;
+        font-weight: normal;
+        -webkit-font-feature-settings: "liga";
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      a,a:visited,a:link{
+        text-decoration:none;
+        color:white;
+      }
+      .preview {
+        display: flex;
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        transform: scale(-1, 1);
+        overflow: hidden;
+        border-radius: 8px;
+      }
+      video {
+        max-width: 400px;
+        height: auto;
+      }
+      body {
+        margin: 0;
+        background: #9c577e;
+      }
+      canvas {
+        display: block;
+      }
+      .guides {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: auto;
+        width: 100%;
+        z-index: 1;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="preview">
+      <video class="input_video" width="1280px" height="720px"></video>
+      <canvas class="guides"></canvas>
+    </div>
+    <script src="script.js"></script>
+    <h1><a href="https://3d.kalidoface.com">kalidoface</a></h1>
+  </body>
+</html>

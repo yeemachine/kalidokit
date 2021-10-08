@@ -1,13 +1,15 @@
 {
     "name": "kalidokit",
-    "version": "0.10",
+    "version": "0.1.0",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/yeemachine/kalidokit.git"
     },
     "main": "src/main.js",
     "scripts": {
-        "build": "vite build"
+        "dev": "vite docs --host",
+        "build": "vite build",
+        "serve": "vite docs"
     },
     "devDependencies": {
         "vite": "2.6.0"
