@@ -1,0 +1,34 @@
+{
+    "name": "kalidokit",
+    "version": "0.10",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/yeemachine/kalidokit.git"
+    },
+    "main": "src/main.js",
+    "scripts": {
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "vite": "2.6.0"
+    },
+    "prettier": {
+        "tabWidth": 4,
+        "trailingComma": "es5",
+        "printWidth": 120
+    },
+    "description": "Kalidokit is a blendshape and kinematics solver for Mediapipe/TFJS Models: Facemesh, Blazepose, and Handpose.",
+    "bugs": {
+        "url": "https://github.com/yeemachine/kalidokit/issues"
+    },
+    "homepage": "https://github.com/yeemachine/kalidokit#readme",
+    "keywords": [
+        "mediapipe",
+        "tensorflow",
+        "face-tracking",
+        "pose-tracking",
+        "detection"
+    ],
+    "author": "yeemachine",
+    "license": "MIT"
+}
