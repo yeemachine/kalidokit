@@ -1,6 +1,8 @@
-# KalidoKit - Vtuber Face and Full-Body Kinematics
+# KalidoKit - Face and Full-Body Tracking Kinematics
 
-Kalidokit is a blendshape and kinematics solver for Mediapipe/TFJS Models: [Facemesh](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection), [Blazepose](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection), [Handpose](https://google.github.io/mediapipe/solutions/hands.html), and [Holistic](https://google.github.io/mediapipe/solutions/holistic.html). It takes the 3D point cloud and turns into easy-to-use rotations and values for a variety of application uses.
+Kalidokit is a blendshape and kinematics solver for Mediapipe/TFJS face and body tracking models, compatible with [Facemesh](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection), [Blazepose](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection), [Handpose](https://google.github.io/mediapipe/solutions/hands.html), and [Holistic](https://google.github.io/mediapipe/solutions/holistic.html).
+
+It takes the 3D point cloud and turns into easy-to-use rotations and values for a variety of application uses.
 
 As the core to Vtuber web apps, [Kalidoface](https://kalidoface.com) and [Kalidoface 3D](https://3d.kalidoface.com), KalidoKit is designed specifically for rigging 3D VRM models and Live2D avatars!
 
@@ -27,7 +29,7 @@ import { Face, Pose, Hand } from "kalidokit";
 #### Via CDN
 
 ```js
-<script src="https://cdn.jsdelivr.net/npm/kalidokit@0.1.00/dist/kalidokit.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kalidokit@0.1.0/dist/kalidokit.umd.js"></script>
 ```
 
 ## Methods
@@ -45,9 +47,9 @@ Pose.solve(poseWorld3DArray, poseLandmarkArray);
 Hand.solve(handLandmarkArray, "Right");
 ```
 
-## KalidoKit Template for Vtubing
+## Remixable Vtuber Template with KalidoKit
 
-Quick-start your Vtuber app with this demo template on Glitch. This demo uses Mediapipe Holistic, Three.js, and Three-VRM. Feel free to make it your own!
+Quick-start your Vtuber app with this simple remixable example on Glitch. Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. Feel free to make it your own!
 
 <a href="https://glitch.com/edit/#!/remix/kalidokit-template"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 

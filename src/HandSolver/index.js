@@ -49,10 +49,10 @@ const rigFingers = (hand, side = "Right") => {
     hand[side + "Wrist"].x = clamp(hand[side + "Wrist"].x * 2 * invert, -0.3, 0.3); // twist
     hand[side + "Wrist"].y = clamp(
         hand[side + "Wrist"].y * 2.3,
-        side === "Right" ? -1 : -0.6,
-        side === "Right" ? 0.6 : 1
+        side === "Right" ? -1.2 : -0.6,
+        side === "Right" ? 0.6 : 1.6
     );
-    hand[side + "Wrist"].z = clamp(hand[side + "Wrist"].z * -2.3 * invert); //left right
+    hand[side + "Wrist"].z = hand[side + "Wrist"].z * -2.3 * invert; //left right
 
     digits.forEach((e) => {
         segments.forEach((j) => {
@@ -74,14 +74,14 @@ const rigFingers = (hand, side = "Right") => {
                 if (j === "Proximal") {
                     newThumb.z = clamp(
                         startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert,
-                        side === "Right" ? -0.6 : -0.1,
-                        side === "Right" ? 0.1 : 0.6
+                        side === "Right" ? -0.6 : -0.3,
+                        side === "Right" ? 0.3 : 0.6
                     );
-                    newThumb.x = clamp(startPos.x + trackedFinger.z * -Math.PI * dampener.x, -0.6, 0.1);
+                    newThumb.x = clamp(startPos.x + trackedFinger.z * -Math.PI * dampener.x, -0.6, 0.3);
                     newThumb.y = clamp(
                         startPos.y + trackedFinger.z * -Math.PI * dampener.y * invert,
-                        side === "Right" ? -1.6 : -0.1,
-                        side === "Right" ? 0.1 : 1.6
+                        side === "Right" ? -1 : -0.3,
+                        side === "Right" ? 0.3 : 1
                     );
                 } else {
                     newThumb.z = clamp(startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert, -2, 2);
@@ -95,8 +95,8 @@ const rigFingers = (hand, side = "Right") => {
                 //will document human limits later
                 trackedFinger.z = clamp(
                     trackedFinger.z * -Math.PI * invert,
-                    side === "Right" ? -2.3 : 0,
-                    side === "Right" ? 0 : 2.3
+                    side === "Right" ? -Math.PI : 0,
+                    side === "Right" ? 0 : Math.PI
                 );
             }
         });
