@@ -37,18 +37,22 @@ import { Face, Pose, Hand } from "kalidokit";
 Kalidokit is composed of 3 classes for Face, Pose, and Hand calculations. They accept landmark outputs from models like Facemesh, Blazepose, Handpose, and Holistic.
 
 ```js
-Kalidokit.Face.solve(facelandmarkArray); // Accepts an array(468 or 478 with iris tracking) of vectors
-Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray); // Accepts arrays(33) of keypoints
-Kalidokit.Hand.solve(handLandmarkArray, "Right"); // Accepts array(21) of vectors, specify 'Right' or 'Left'
+// Accepts an array(468 or 478 with iris tracking) of vectors
+Kalidokit.Face.solve(facelandmarkArray);
+// Accepts arrays(33) of Pose keypoints and 3D Pose keypoints
+Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray);
+// Accepts array(21) of hand landmark vectors; specify 'Right' or 'Left' side
+Kalidokit.Hand.solve(handLandmarkArray, "Right");
 
-// Using Exported Members
+// Using exported classes directly
 Face.solve(facelandmarkArray);
 Pose.solve(poseWorld3DArray, poseLandmarkArray);
 Hand.solve(handLandmarkArray, "Right");
 
 // Additional Utils
-Kalidokit.Face.stabilizeBlink({ r: 0, l: 1 }, headRotationY); // Stabilizes left/right blink + wink
-Kalidokit.Vector; // The internal Vector math class
+// Stabilizes left/right blink + wink by providing blenshapes and head rotation
+Kalidokit.Face.stabilizeBlink({ r: 0, l: 1 }, headRotationY);
+Kalidokit.Vector; // The internal vector math class
 ```
 
 ## Remixable Vtuber Template with KalidoKit
