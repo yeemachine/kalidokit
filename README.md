@@ -58,7 +58,8 @@ Additional Utils
 // Stabilizes left/right blink + wink by providing blenshapes and head rotation
 Kalidokit.Face.stabilizeBlink({ r: 0, l: 1 }, headRotationY);
 
-Kalidokit.Vector; // The internal vector math class
+// The internal vector math class
+Kalidokit.Vector();
 ```
 
 ## Remixable Vtuber Template with KalidoKit
