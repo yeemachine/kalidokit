@@ -163,8 +163,8 @@ Below are the resting defaults from Kalidokit.
 ```
 
 ```js
-//Kalidokit.Pose.solve()
-//Joint rotations in radians, leg calculators are a WIP
+// Kalidokit.Pose.solve()
+// Joint rotations in radians, leg calculators are a WIP
 {
     RightUpperArm: {x: 0, y: 0, z: -1.25},
     LeftUpperArm: {x: 0, y: 0, z: 1.25},
@@ -185,10 +185,10 @@ Below are the resting defaults from Kalidokit.
 ```
 
 ```js
-//Kalidokit.Hand.solve()
-//Joint rotations in radians
-//only wrist and thumb have 3 degrees of freedom
-//all other finger joints move in the Z axis only
+// Kalidokit.Hand.solve()
+// Joint rotations in radians
+// only wrist and thumb have 3 degrees of freedom
+// all other finger joints move in the Z axis only
 {
     RightWrist: {x: -0.13, y: -0.07, z: -1.04},
     RightRingProximal: {x: 0, y: 0, z: -0.13},
