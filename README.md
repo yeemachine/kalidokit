@@ -39,8 +39,10 @@ Kalidokit is composed of 3 classes for Face, Pose, and Hand calculations. They a
 ```js
 // Accepts an array(468 or 478 with iris tracking) of vectors
 Kalidokit.Face.solve(facelandmarkArray);
+
 // Accepts arrays(33) of Pose keypoints and 3D Pose keypoints
 Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray);
+
 // Accepts array(21) of hand landmark vectors; specify 'Right' or 'Left' side
 Kalidokit.Hand.solve(handLandmarkArray, "Right");
 
@@ -48,10 +50,14 @@ Kalidokit.Hand.solve(handLandmarkArray, "Right");
 Face.solve(facelandmarkArray);
 Pose.solve(poseWorld3DArray, poseLandmarkArray);
 Hand.solve(handLandmarkArray, "Right");
+```
 
-// Additional Utils
+Additional Utils
+
+```js
 // Stabilizes left/right blink + wink by providing blenshapes and head rotation
 Kalidokit.Face.stabilizeBlink({ r: 0, l: 1 }, headRotationY);
+
 Kalidokit.Vector; // The internal vector math class
 ```
 
