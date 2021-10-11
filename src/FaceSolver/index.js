@@ -21,7 +21,7 @@ export class FaceSolver {
 
     static stabilizeBlink = stabilizeBlink;
 
-    static solve(lm, { runtime = "mediapipe", smoothBlink = true } = {}) {
+    static solve(lm, { runtime = "mediapipe", smoothBlink = false } = {}) {
         if (!lm) {
             console.error("Need Face Landmarks");
             return;
@@ -29,7 +29,7 @@ export class FaceSolver {
         let getHead = calcHead(lm);
         let getEye = calcEyes(lm);
         if (smoothBlink) {
-            getEye = stabilizeBlink(getEye, getHead.x);
+            getEye = stabilizeBlink(getEye, getHead.y);
         }
         let getPupils = calcPupils(lm);
         let getMouth = calcMouth(lm, getHead.x, runtime);

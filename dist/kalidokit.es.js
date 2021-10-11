@@ -801,7 +801,7 @@ class HandSolver {
     ];
     let handRotation = Vector.rollPitchYaw(palm[0], palm[1], palm[2]);
     handRotation.y = handRotation.z;
-    handRotation.y -= side === "Left" ? 0.3 : 0.5;
+    handRotation.y -= side === "Left" ? 0.4 : 0.4;
     let hand = {};
     hand[side + "Wrist"] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
     hand[side + "RingProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[13], lm[14]) };
@@ -970,17 +970,17 @@ const pupilPos = (lm, side = "left") => {
   ratioY *= 4;
   return { x: ratioX, y: ratioY };
 };
-const stabilizeBlink = (eye, headX, noWink = false, maxRot = 12) => {
+const stabilizeBlink = (eye, headY, noWink = false, maxRot = 0.5) => {
   eye.r = clamp(eye.r, 0, 1);
   eye.l = clamp(eye.l, 0, 1);
   const blinkDiff = Math.abs(eye.l - eye.r);
   const blinkThresh = noWink ? 1.1 : 0.8;
   const isClosing = eye.l < 0.3 && eye.r < 0.3;
   const isOpen = eye.l > 0.6 && eye.r > 0.6;
-  if (headX > maxRot) {
+  if (headY > maxRot) {
     return { l: eye.r, r: eye.r };
   }
-  if (headX < -1 * maxRot) {
+  if (headY < -maxRot) {
     return { l: eye.l, r: eye.l };
   }
   return {
@@ -1079,7 +1079,7 @@ class FaceSolver {
     this.brow = 0;
     this.pupil = { x: 0, y: 0 };
   }
-  static solve(lm, { runtime = "mediapipe", smoothBlink = true } = {}) {
+  static solve(lm, { runtime = "mediapipe", smoothBlink = false } = {}) {
     if (!lm) {
       console.error("Need Face Landmarks");
       return;
@@ -1087,7 +1087,7 @@ class FaceSolver {
     let getHead = calcHead(lm);
     let getEye = calcEyes(lm);
     if (smoothBlink) {
-      getEye = stabilizeBlink(getEye, getHead.x);
+      getEye = stabilizeBlink(getEye, getHead.y);
     }
     let getPupils = calcPupils(lm);
     let getMouth = calcMouth(lm, getHead.x, runtime);

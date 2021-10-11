@@ -37,14 +37,18 @@ import { Face, Pose, Hand } from "kalidokit";
 Kalidokit is composed of 3 classes for Face, Pose, and Hand calculations. They accept landmark outputs from models like Facemesh, Blazepose, Handpose, and Holistic.
 
 ```js
-Kalidokit.Face.solve(facelandmarkArray);
-Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray);
-Kalidokit.Hand.solve(handLandmarkArray, "Right"); //'Right' or 'Left'
+Kalidokit.Face.solve(facelandmarkArray); // Accepts an array(468 or 478 with iris tracking) of vectors
+Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray); // Accepts arrays(33) of keypoints
+Kalidokit.Hand.solve(handLandmarkArray, "Right"); // Accepts array(21) of vectors, specify 'Right' or 'Left'
 
-//Using Exported Members
+// Using Exported Members
 Face.solve(facelandmarkArray);
 Pose.solve(poseWorld3DArray, poseLandmarkArray);
 Hand.solve(handLandmarkArray, "Right");
+
+// Additional Utils
+Kalidokit.Face.stabilizeBlink({ r: 0, l: 1 }, headRotationY); // Stabilizes left/right blink + wink
+Kalidokit.Vector; // The internal Vector math class
 ```
 
 ## Remixable Vtuber Template with KalidoKit
@@ -63,7 +67,7 @@ import '@mediapipe/holistic/holistic';
 
 let holistic
 
-//Init Mediapipe Holistic Model
+// Init Mediapipe Holistic Model
 async function initHolistic() {
 
   holistic = new Holistic({locateFile: (file) => {
@@ -71,8 +75,8 @@ async function initHolistic() {
   }});
 
   holistic.onResults(results=>{
-    //do something with prediction results
-    //landmark names may change depending on TFJS/Mediapipe model version
+    // do something with prediction results
+    // landmark names may change depending on TFJS/Mediapipe model version
     let facelm = results.faceLandmarks;
     let poselm = results.poseLandmarks;
     let poselm3D = results.ea;
@@ -89,10 +93,10 @@ async function initHolistic() {
 }
 initHolistic()
 
-//Predict animation loop
+// Predict animation loop
 async function predict(){
     if(holistic){
-        //send image to holistic prediction
+        // send image to holistic prediction
         await holistic.send({image: HTMLVideoElement});
     }
     requestAnimationFrame(predict);
@@ -106,8 +110,8 @@ For Face and Pose pretrained models from Mediapipe and Tensorflow.js, there are 
 
 ```js
 Kalidokit.Pose.solve(poselm3D,poselm,{
-    runtime:'tfjs', //default is 'mediapipe
-    video: HTMLVideoElement,//specify an html video or manually set image size
+    runtime:'tfjs', // default is 'mediapipe
+    video: HTMLVideoElement,// specify an html video or manually set image size
     imageSize:{
         width: 640,
         height: 480,
@@ -115,7 +119,7 @@ Kalidokit.Pose.solve(poselm3D,poselm,{
 })
 
 Kalidokit.Face.solve(facelm,{
-    runtime:'tfjs', //default is 'mediapipe
+    runtime:'tfjs', // default is 'mediapipe
 })
 ```
 
@@ -124,9 +128,9 @@ Kalidokit.Face.solve(facelm,{
 Below are the resting defaults from Kalidokit.
 
 ```js
-//Kalidokit.Face.solve()
-//Head rotations in radians
-//Degrees and normalized rotations also available
+// Kalidokit.Face.solve()
+// Head rotations in radians
+// Degrees and normalized rotations also available
 {
     eye: {l: 1,r: 1},
     mouth: {
@@ -194,6 +198,6 @@ Below are the resting defaults from Kalidokit.
 }
 ```
 
-## Contributions
+## Open to Contributions
 
 The current library is a work in progress and contributions to improve it are very welcome. Our goal is to make character face and pose animation even more accessible to creatives regardless of skill level!

@@ -111,17 +111,17 @@ export const pupilPos = (lm, side = "left") => {
     return { x: ratioX, y: ratioY };
 };
 
-export const stabilizeBlink = (eye, headX, noWink = false, maxRot = 12) => {
+export const stabilizeBlink = (eye, headY, noWink = false, maxRot = 0.5) => {
     eye.r = clamp(eye.r, 0, 1);
     eye.l = clamp(eye.l, 0, 1);
     const blinkDiff = Math.abs(eye.l - eye.r);
     const blinkThresh = noWink ? 1.1 : 0.8;
     const isClosing = eye.l < 0.3 && eye.r < 0.3;
     const isOpen = eye.l > 0.6 && eye.r > 0.6;
-    if (headX > maxRot) {
+    if (headY > maxRot) {
         return { l: eye.r, r: eye.r };
     }
-    if (headX < -1 * maxRot) {
+    if (headY < -maxRot) {
         return { l: eye.l, r: eye.l };
     }
     return {
