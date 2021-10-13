@@ -24,7 +24,7 @@ module.exports = defineConfig({
     },
     plugins: [
         Banner(
-            `/**\n * @${pkg.name} v${pkg.version}\n * ${pkg.description}\n *\n * @license\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Idntifier: ${pkg.license} \n * ${pkg.homepage}\n */`
+            `/**\n * @${pkg.name} v${pkg.version}\n * ${pkg.description}\n *\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Idntifier: ${pkg.license} \n * ${pkg.homepage}\n */`
         ),
     ],
 });
