@@ -20,7 +20,7 @@
         "trailingComma": "es5",
         "printWidth": 120
     },
-    "description": "Blendshape and kinematics solver for Mediapipe/TFJS Face, Pose, and Hand tracking.",
+    "description": "Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Pose, and Hand tracking models.",
     "bugs": {
         "url": "https://github.com/yeemachine/kalidokit/issues"
     },
