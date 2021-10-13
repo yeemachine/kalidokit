@@ -21,22 +21,10 @@ module.exports = defineConfig({
                 globals: {},
             },
         },
-        terserOptions: {
-            output: {
-                comments: function (node, comment) {
-                    var text = comment.value;
-                    var type = comment.type;
-                    if (type == "comment2") {
-                        // multiline comment
-                        return "hi";
-                    }
-                },
-            },
-        },
     },
     plugins: [
         Banner(
-            `/**\n * ${pkg.name} v${pkg.version}\n * ${pkg.description}\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Idntifier: ${pkg.license} \n * ${pkg.homepage}\n */`
+            `/**\n * @${pkg.name} v${pkg.version}\n * ${pkg.description}\n *\n * @license\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Idntifier: ${pkg.license} \n * ${pkg.homepage}\n */`
         ),
     ],
 });
