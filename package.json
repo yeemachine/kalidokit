@@ -20,7 +20,7 @@
         "trailingComma": "es5",
         "printWidth": 120
     },
-    "description": "Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Pose, and Hand tracking models.",
+    "description": "Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Pose, and Finger tracking models.",
     "bugs": {
         "url": "https://github.com/yeemachine/kalidokit/issues"
     },
@@ -30,6 +30,7 @@
         "tensorflow",
         "face-tracking",
         "pose-tracking",
+        "finger-tracking",
         "detection"
     ],
     "author": "Richard Yee",

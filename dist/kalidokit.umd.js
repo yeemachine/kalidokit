@@ -1,6 +1,6 @@
 /**
  * @kalidokit v0.1.0
- * Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Pose, and Hand tracking models.
+ * Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Pose, and Finger tracking models.
  *
  * @license
  * Copyright (c) 2020-2021 Richard Yee
