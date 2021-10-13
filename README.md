@@ -1,4 +1,4 @@
-# KalidoKit - Face and Full-Body Tracking Kinematics
+# KalidoKit - Face, Pose, and Hand Tracking Kinematics
 
 Kalidokit is a blendshape and kinematics solver for Mediapipe/TFJS face and body tracking models, compatible with [Facemesh](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection), [Blazepose](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection), [Handpose](https://google.github.io/mediapipe/solutions/hands.html), and [Holistic](https://google.github.io/mediapipe/solutions/holistic.html).
 
