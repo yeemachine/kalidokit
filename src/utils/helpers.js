@@ -1,11 +1,11 @@
 export const clamp = (value, min, max) => {
-  return Math.max(Math.min(value, max), min);
-}
+    return Math.max(Math.min(value, max), min);
+};
 
-export const remap = (val,a,b) => {
- //returns a to b -> 0 to 1 
- return (clamp(val,a,b) - a)/(b-a)
-}
+export const remap = (val, a, b) => {
+    //returns a to b -> 0 to 1
+    return (clamp(val, a, b) - a) / (b - a);
+};
 
 //A set of default pose values to serve as "default" values -->
 export const RestingDefault = {
@@ -114,166 +114,166 @@ export const RestingDefault = {
     },
     RightHand: {
         RightWrist: {
-            x: -0.1315541586772754,
-            y: -0.07882867526197412,
-            z: -1.0417476769631682,
+            x: -0.13,
+            y: -0.07,
+            z: -1.04,
         },
         RightRingProximal: {
             x: 0,
             y: 0,
-            z: -0.13224515812536932,
+            z: -0.13,
         },
         RightRingIntermediate: {
             x: 0,
             y: 0,
-            z: -0.4068258603832122,
+            z: -0.4,
         },
         RightRingDistal: {
             x: 0,
             y: 0,
-            z: -0.04950943047275125,
+            z: -0.04,
         },
         RightIndexProximal: {
             x: 0,
             y: 0,
-            z: -0.24443519921597368,
+            z: -0.24,
         },
         RightIndexIntermediate: {
             x: 0,
             y: 0,
-            z: -0.25695509972035424,
+            z: -0.25,
         },
         RightIndexDistal: {
             x: 0,
             y: 0,
-            z: -0.06699515077992313,
+            z: -0.06,
         },
         RightMiddleProximal: {
             x: 0,
             y: 0,
-            z: -0.09663436414575077,
+            z: -0.09,
         },
         RightMiddleIntermediate: {
             x: 0,
             y: 0,
-            z: -0.44945038168605306,
+            z: -0.44,
         },
         RightMiddleDistal: {
             x: 0,
             y: 0,
-            z: -0.06660398263230727,
+            z: -0.06,
         },
         RightThumbProximal: {
-            x: -0.2349819227955754,
-            y: -0.33498192279557526,
-            z: -0.12613225518081256,
+            x: -0.23,
+            y: -0.33,
+            z: -0.12,
         },
         RightThumbIntermediate: {
             x: -0.2,
-            y: -0.19959491036565571,
-            z: -0.013996364546896928,
+            y: -0.199,
+            z: -0.0139,
         },
         RightThumbDistal: {
             x: -0.2,
-            y: 0.002005509674788991,
-            z: 0.1510027548373945,
+            y: 0.002,
+            z: 0.15,
         },
         RightLittleProximal: {
             x: 0,
             y: 0,
-            z: -0.09045147788376662,
+            z: -0.09,
         },
         RightLittleIntermediate: {
             x: 0,
             y: 0,
-            z: -0.22559206415066682,
+            z: -0.225,
         },
         RightLittleDistal: {
             x: 0,
             y: 0,
-            z: -0.10080630460393536,
+            z: -0.1,
         },
     },
     LeftHand: {
         LeftWrist: {
-            x: -0.1315541586772754,
-            y: -0.07882867526197412,
-            z: -1.0417476769631682,
+            x: -0.13,
+            y: -0.07,
+            z: -1.04,
         },
         LeftRingProximal: {
             x: 0,
             y: 0,
-            z: 0.13224515812536932,
+            z: 0.13,
         },
         LeftRingIntermediate: {
             x: 0,
             y: 0,
-            z: 0.4068258603832122,
+            z: 0.4,
         },
         LeftRingDistal: {
             x: 0,
             y: 0,
-            z: 0.04950943047275125,
+            z: 0.049,
         },
         LeftIndexProximal: {
             x: 0,
             y: 0,
-            z: 0.24443519921597368,
+            z: 0.24,
         },
         LeftIndexIntermediate: {
             x: 0,
             y: 0,
-            z: 0.25695509972035424,
+            z: 0.25,
         },
         LeftIndexDistal: {
             x: 0,
             y: 0,
-            z: 0.06699515077992313,
+            z: 0.06,
         },
         LeftMiddleProximal: {
             x: 0,
             y: 0,
-            z: 0.09663436414575077,
+            z: 0.09,
         },
         LeftMiddleIntermediate: {
             x: 0,
             y: 0,
-            z: 0.44945038168605306,
+            z: 0.44,
         },
         LeftMiddleDistal: {
             x: 0,
             y: 0,
-            z: 0.06660398263230727,
+            z: 0.066,
         },
         LeftThumbProximal: {
-            x: -0.2349819227955754,
-            y: 0.33498192279557526,
-            z: 0.12613225518081256,
+            x: -0.23,
+            y: 0.33,
+            z: 0.12,
         },
         LeftThumbIntermediate: {
             x: -0.2,
-            y: 0.2506506391005022,
-            z: 0.05046474221464442,
+            y: 0.25,
+            z: 0.05,
         },
         LeftThumbDistal: {
             x: -0.2,
-            y: 0.17880674636490754,
-            z: -0.06059662681754624,
+            y: 0.17,
+            z: -0.06,
         },
         LeftLittleProximal: {
             x: 0,
             y: 0,
-            z: 0.1748998529912705,
+            z: 0.17,
         },
         LeftLittleIntermediate: {
             x: 0,
             y: 0,
-            z: 0.4065799037713114,
+            z: 0.4,
         },
         LeftLittleDistal: {
             x: 0,
             y: 0,
-            z: 0.10080630460393536,
+            z: 0.1,
         },
     },
 };

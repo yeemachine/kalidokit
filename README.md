@@ -38,10 +38,17 @@ Kalidokit is composed of 3 classes for Face, Pose, and Hand calculations. They a
 
 ```js
 // Accepts an array(468 or 478 with iris tracking) of vectors
-Kalidokit.Face.solve(facelandmarkArray);
+Kalidokit.Face.solve(facelandmarkArray, {
+    runtime: "mediapipe", // `mediapipe` or `tfjs`
+});
 
 // Accepts arrays(33) of Pose keypoints and 3D Pose keypoints
-Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray);
+Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray, {
+    runtime: "mediapipe", // `mediapipe` or `tfjs`
+    video: HTMLVideoElement,
+    imageSize: { height: 0, width: 0 },
+    enableLegs: true,
+});
 
 // Accepts array(21) of hand landmark vectors; specify 'Right' or 'Left' side
 Kalidokit.Hand.solve(handLandmarkArray, "Right");
@@ -64,7 +71,7 @@ Kalidokit.Vector();
 
 ## Remixable Vtuber Template with KalidoKit
 
-Quick-start your Vtuber app with this simple remixable example on Glitch. Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. Feel free to make it your own!
+Quick-start your Vtuber app with this simple remixable example on Glitch. Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. This demo uses a minimal amount of easing to smooth animations, but feel free to make it your own!
 
 <a href="https://glitch.com/edit/#!/remix/kalidokit-template"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 

@@ -1,5 +1,7 @@
 const path = require("path");
 const { defineConfig } = require("vite");
+import Banner from "vite-plugin-banner";
+import pkg from "./package.json";
 
 module.exports = defineConfig({
     build: {
@@ -19,5 +21,22 @@ module.exports = defineConfig({
                 globals: {},
             },
         },
+        terserOptions: {
+            output: {
+                comments: function (node, comment) {
+                    var text = comment.value;
+                    var type = comment.type;
+                    if (type == "comment2") {
+                        // multiline comment
+                        return "hi";
+                    }
+                },
+            },
+        },
     },
+    plugins: [
+        Banner(
+            `/**\n * ${pkg.name} v${pkg.version}\n * ${pkg.description}\n * Copyright (c) ${pkg.year} ${pkg.author}\n * ${pkg.homepage}\n */`
+        ),
+    ],
 });

@@ -12,14 +12,15 @@
         "serve": "vite docs"
     },
     "devDependencies": {
-        "vite": "2.6.0"
+        "vite": "2.6.0",
+        "vite-plugin-banner": "0.1.3"
     },
     "prettier": {
         "tabWidth": 4,
         "trailingComma": "es5",
         "printWidth": 120
     },
-    "description": "Kalidokit is a blendshape and kinematics solver for Mediapipe/TFJS Models: Facemesh, Blazepose, and Handpose.",
+    "description": "Blendshape and kinematics solver for Mediapipe/TFJS Face, Pose, and Hand tracking.",
     "bugs": {
         "url": "https://github.com/yeemachine/kalidokit/issues"
     },
@@ -31,6 +32,7 @@
         "pose-tracking",
         "detection"
     ],
-    "author": "yeemachine",
-    "license": "MIT"
+    "author": "Richard Yee",
+    "license": "MIT",
+    "year": "2020-2021"
 }
