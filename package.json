@@ -1,10 +1,7 @@
 {
     "name": "kalidokit",
     "version": "0.1.0",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/yeemachine/kalidokit.git"
-    },
+    "repository": "github:yeemachine/kalidokit",
     "main": "src/main.js",
     "scripts": {
         "dev": "vite docs --host",
@@ -33,7 +30,7 @@
         "finger-tracking",
         "detection"
     ],
-    "author": "Richard Yee",
+    "author": "yeemachine",
     "license": "MIT",
     "year": "2020-2021"
 }
