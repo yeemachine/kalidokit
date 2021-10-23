@@ -35,7 +35,7 @@ export const mouthShape = (lm, rotX, runtime = "mediapipe") => {
     ratioX = (ratioX - 0.3) * 2;
 
     // const mouthX = remap(ratioX - 0.4, 0, 0.5);
-    const mouthX = remap(ratioX, -0.4, 0.5);
+    const mouthX = ratioX;
     const mouthY = remap(mouthOpen / eyeInnerDistance, 0.17, 0.5);
 
     //Change sensitivity due to facemesh and holistic have different point outputs.

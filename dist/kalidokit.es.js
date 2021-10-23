@@ -1050,7 +1050,7 @@ const mouthShape = (lm, rotX, runtime = "mediapipe") => {
   ratioY = remap(ratioY, 0.15, 0.7);
   ratioX = remap(ratioX, 0.45, 0.9);
   ratioX = (ratioX - 0.3) * 2;
-  const mouthX = remap(ratioX, -0.4, 0.5);
+  const mouthX = ratioX;
   const mouthY = remap(mouthOpen / eyeInnerDistance, 0.17, 0.5);
   let ratioI = remap(mouthX, 0, 1) * 1.5 * remap(mouthY, 0.3, 0.8);
   let ratioA = mouthY * 0.2 + mouthY * (1 - ratioI) * 0.8;
