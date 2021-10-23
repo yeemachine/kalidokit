@@ -28,19 +28,22 @@ export const mouthShape = (lm, rotX, runtime = "mediapipe") => {
     let ratioX = mouthWidth / eyeOuterDistance;
 
     // normalize and scale mouth open
-    ratioY = remap(ratioY, 0.17, 0.5);
+    ratioY = remap(ratioY, 0.15, 0.7);
 
     // normalize and scale mouth shape
     ratioX = remap(ratioX, 0.45, 0.9);
     ratioX = (ratioX - 0.3) * 2;
 
-    const mouthX = remap(ratioX - 0.4, 0, 0.5);
-    const mouthY = ratioY;
+    // const mouthX = remap(ratioX - 0.4, 0, 0.5);
+    const mouthX = remap(ratioX, -0.4, 0.5);
+    const mouthY = remap(mouthOpen / eyeInnerDistance, 0.17, 0.5);
 
     //Change sensitivity due to facemesh and holistic have different point outputs.
-    const fixFacemesh = runtime === "facemesh" ? 1.3 : 0;
+    const fixFacemesh = runtime === "tfjs" ? 1.3 : 0;
 
-    let ratioI = remap(ratioXY, 1.3 + fixFacemesh * 0.8, 2.6 + fixFacemesh) * remap(mouthY, 0.7, 1);
+    // let ratioI = remap(mouthXY, 1.3 + fixFacemesh * 0.8, 2.6 + fixFacemesh) * remap(mouthY, 0, 1);
+    let ratioI = remap(mouthX, 0, 1) * 1.5 * remap(mouthY, 0.3, 0.8);
+
     let ratioA = mouthY * 0.2 + mouthY * (1 - ratioI) * 0.8;
     let ratioU = mouthY * remap(1 - ratioI, 0, 0.3) * 0.1;
     let ratioE = remap(ratioU, 0.2, 1) * (1 - ratioI) * 0.3;

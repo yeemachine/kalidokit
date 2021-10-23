@@ -21,7 +21,7 @@ export class FaceSolver {
 
     static stabilizeBlink = stabilizeBlink;
 
-    static solve(lm, { runtime = "mediapipe", smoothBlink = false } = {}) {
+    static solve(lm, { runtime = "tfjs", smoothBlink = false } = {}) {
         if (!lm) {
             console.error("Need Face Landmarks");
             return;

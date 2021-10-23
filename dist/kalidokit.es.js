@@ -1,6 +1,6 @@
 /**
  * @kalidokit v0.1.0
- * Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Pose, and Finger tracking models.
+ * Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Eyes, Pose, and Finger tracking models.
  * 
  * @license
  * Copyright (c) 2020-2021 yeemachine
@@ -1045,15 +1045,14 @@ const mouthShape = (lm, rotX, runtime = "mediapipe") => {
   const mouthCornerRight = new Vector(lm[291]);
   const mouthOpen = upperInnerLip.distance(lowerInnerLip);
   const mouthWidth = mouthCornerLeft.distance(mouthCornerRight);
-  let ratioXY = mouthWidth / mouthOpen;
   let ratioY = mouthOpen / eyeInnerDistance;
   let ratioX = mouthWidth / eyeOuterDistance;
-  ratioY = remap(ratioY, 0.17, 0.5);
+  ratioY = remap(ratioY, 0.15, 0.7);
   ratioX = remap(ratioX, 0.45, 0.9);
   ratioX = (ratioX - 0.3) * 2;
-  const mouthY = ratioY;
-  const fixFacemesh = runtime === "facemesh" ? 1.3 : 0;
-  let ratioI = remap(ratioXY, 1.3 + fixFacemesh * 0.8, 2.6 + fixFacemesh) * remap(mouthY, 0.7, 1);
+  const mouthX = remap(ratioX, -0.4, 0.5);
+  const mouthY = remap(mouthOpen / eyeInnerDistance, 0.17, 0.5);
+  let ratioI = remap(mouthX, 0, 1) * 1.5 * remap(mouthY, 0.3, 0.8);
   let ratioA = mouthY * 0.2 + mouthY * (1 - ratioI) * 0.8;
   let ratioU = mouthY * remap(1 - ratioI, 0, 0.3) * 0.1;
   let ratioE = remap(ratioU, 0.2, 1) * (1 - ratioI) * 0.3;
@@ -1088,7 +1087,7 @@ class FaceSolver {
     this.brow = 0;
     this.pupil = { x: 0, y: 0 };
   }
-  static solve(lm, { runtime = "mediapipe", smoothBlink = false } = {}) {
+  static solve(lm, { runtime = "tfjs", smoothBlink = false } = {}) {
     if (!lm) {
       console.error("Need Face Landmarks");
       return;
