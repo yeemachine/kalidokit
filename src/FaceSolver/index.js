@@ -21,19 +21,37 @@ export class FaceSolver {
 
     static stabilizeBlink = stabilizeBlink;
 
-    static solve(lm, { runtime = "tfjs", smoothBlink = false } = {}) {
+    static solve(lm, { runtime = "tfjs", video = null, imageSize = null, smoothBlink = false } = {}) {
         if (!lm) {
             console.error("Need Face Landmarks");
             return;
         }
+        if (video) {
+            let videoEl = video;
+            if (typeof video === "string") {
+                videoEl = document.querySelector(video);
+            }
+            imageSize = {
+                width: videoEl.videoWidth,
+                height: videoEl.videoHeight,
+            };
+        }
+        if (runtime === "mediapipe" && imageSize) {
+            lm.forEach((e) => {
+                e.x *= imageSize.width;
+                e.y *= imageSize.height;
+                e.z *= imageSize.width;
+            });
+        }
+
         let getHead = calcHead(lm);
         let getEye = calcEyes(lm);
         if (smoothBlink) {
             getEye = stabilizeBlink(getEye, getHead.y);
         }
         let getPupils = calcPupils(lm);
-        let getMouth = calcMouth(lm, getHead.x, runtime);
-        let getBrow = calcBrow(lm, getHead.x);
+        let getMouth = calcMouth(lm);
+        let getBrow = calcBrow(lm, getHead.y);
 
         return {
             head: getHead,

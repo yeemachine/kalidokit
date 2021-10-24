@@ -1032,7 +1032,7 @@ const calcBrow = (lm) => {
     return (leftBrow + rightBrow) / 2;
   }
 };
-const mouthShape = (lm, rotX, runtime = "mediapipe") => {
+const calcMouth = (lm) => {
   const eyeInnerCornerL = new Vector(lm[133]);
   const eyeInnerCornerR = new Vector(lm[362]);
   const eyeOuterCornerL = new Vector(lm[130]);
@@ -1069,9 +1069,6 @@ const mouthShape = (lm, rotX, runtime = "mediapipe") => {
     }
   };
 };
-const calcMouth = (lm, headX, type) => {
-  return mouthShape(lm, headX, type);
-};
 class FaceSolver {
   constructor() {
     this.head = { x: 0, y: 0, z: 0 };
@@ -1087,10 +1084,27 @@ class FaceSolver {
     this.brow = 0;
     this.pupil = { x: 0, y: 0 };
   }
-  static solve(lm, { runtime = "tfjs", smoothBlink = false } = {}) {
+  static solve(lm, { runtime = "tfjs", video = null, imageSize = null, smoothBlink = false } = {}) {
     if (!lm) {
       console.error("Need Face Landmarks");
       return;
+    }
+    if (video) {
+      let videoEl = video;
+      if (typeof video === "string") {
+        videoEl = document.querySelector(video);
+      }
+      imageSize = {
+        width: videoEl.videoWidth,
+        height: videoEl.videoHeight
+      };
+    }
+    if (runtime === "mediapipe" && imageSize) {
+      lm.forEach((e) => {
+        e.x *= imageSize.width;
+        e.y *= imageSize.height;
+        e.z *= imageSize.width;
+      });
     }
     let getHead = calcHead(lm);
     let getEye = calcEyes(lm);
@@ -1098,8 +1112,8 @@ class FaceSolver {
       getEye = stabilizeBlink(getEye, getHead.y);
     }
     let getPupils = calcPupils(lm);
-    let getMouth = calcMouth(lm, getHead.x, runtime);
-    let getBrow = calcBrow(lm, getHead.x);
+    let getMouth = calcMouth(lm);
+    let getBrow = calcBrow(lm, getHead.y);
     return {
       head: getHead,
       eye: getEye,

@@ -37,12 +37,15 @@ Kalidokit is composed of 3 classes for Face, Pose, and Hand calculations. They a
 ```js
 // Accepts an array(468 or 478 with iris tracking) of vectors
 Kalidokit.Face.solve(facelandmarkArray, {
-    runtime: "mediapipe", // `mediapipe` or `tfjs`
+    runtime: "tfjs", // `mediapipe` or `tfjs`
+    video: HTMLVideoElement,
+    imageSize: { height: 0, width: 0 },
+    enableLegs: true,
 });
 
 // Accepts arrays(33) of Pose keypoints and 3D Pose keypoints
 Kalidokit.Pose.solve(poseWorld3DArray, poseLandmarkArray, {
-    runtime: "mediapipe", // `mediapipe` or `tfjs`
+    runtime: "tfjs", // `mediapipe` or `tfjs`
     video: HTMLVideoElement,
     imageSize: { height: 0, width: 0 },
     enableLegs: true,
@@ -101,8 +104,8 @@ async function initHolistic() {
     let rightHandlm = results.rightHandLandmarks;
     let leftHandlm = results.leftHandLandmarks;
 
-    let faceRig = Kalidokit.Face.solve(facelm)
-    let poseRig = Kalidokit.Pose.solve(poselm3d,poselm)
+    let faceRig = Kalidokit.Face.solve(facelm,{runtime:'mediapipe',video:HTMLVideoElement})
+    let poseRig = Kalidokit.Pose.solve(poselm3d,poselm,{runtime:'mediapipe',video:HTMLVideoElement})
     let rightHandRig = Kalidokit.Hand.solve(rightHandlm,"Right")
     let leftHandRig = Kalidokit.Hand.solve(leftHandlm,"Left")
 
@@ -124,11 +127,11 @@ predict()
 
 ## Slight differences with Mediapipe and Tensorflow.js
 
-For Face and Pose pretrained models from Mediapipe and Tensorflow.js, there are slight differences in the output values and API. It is recommended to specify which runtime version you are using as well as the video input/image size as options when running tensorflow.js models.
+Due to slight differences in the results from Mediapipe and Tensorflow.js, it is recommended to specify which runtime version you are using as well as the video input/image size as a reference.
 
 ```js
 Kalidokit.Pose.solve(poselm3D,poselm,{
-    runtime:'tfjs', // default is 'mediapipe
+    runtime:'tfjs', // default is 'mediapipe'
     video: HTMLVideoElement,// specify an html video or manually set image size
     imageSize:{
         width: 640,
@@ -137,7 +140,12 @@ Kalidokit.Pose.solve(poselm3D,poselm,{
 })
 
 Kalidokit.Face.solve(facelm,{
-    runtime:'tfjs', // default is 'mediapipe
+    runtime:'mediapipe', // default is 'tfjs'
+    video: HTMLVideoElement,// specify an html video or manually set image size
+    imageSize:{
+        width: 640,
+        height: 480,
+    };
 })
 ```
 

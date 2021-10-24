@@ -1,7 +1,7 @@
 import Vector from "../utils/vector.js";
 import { remap } from "../utils/helpers.js";
 
-export const mouthShape = (lm, rotX, runtime = "mediapipe") => {
+export const calcMouth = (lm) => {
     // eye keypoints
     const eyeInnerCornerL = new Vector(lm[133]);
     const eyeInnerCornerR = new Vector(lm[362]);
@@ -23,7 +23,7 @@ export const mouthShape = (lm, rotX, runtime = "mediapipe") => {
     const mouthWidth = mouthCornerLeft.distance(mouthCornerRight);
 
     // mouth open and mouth shape ratios
-    let ratioXY = mouthWidth / mouthOpen;
+    // let ratioXY = mouthWidth / mouthOpen;
     let ratioY = mouthOpen / eyeInnerDistance;
     let ratioX = mouthWidth / eyeOuterDistance;
 
@@ -39,7 +39,7 @@ export const mouthShape = (lm, rotX, runtime = "mediapipe") => {
     const mouthY = remap(mouthOpen / eyeInnerDistance, 0.17, 0.5);
 
     //Change sensitivity due to facemesh and holistic have different point outputs.
-    const fixFacemesh = runtime === "tfjs" ? 1.3 : 0;
+    // const fixFacemesh = runtime === "tfjs" ? 1.3 : 0;
 
     // let ratioI = remap(mouthXY, 1.3 + fixFacemesh * 0.8, 2.6 + fixFacemesh) * remap(mouthY, 0, 1);
     let ratioI = remap(mouthX, 0, 1) * 1.5 * remap(mouthY, 0.3, 0.8);
@@ -60,8 +60,4 @@ export const mouthShape = (lm, rotX, runtime = "mediapipe") => {
             U: ratioU,
         },
     };
-};
-
-export const calcMouth = (lm, headX, type) => {
-    return mouthShape(lm, headX, type);
 };
