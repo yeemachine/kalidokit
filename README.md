@@ -156,7 +156,7 @@ Kalidokit.Face.solve(facelm,{
 
 ## Outputs
 
-![Kalidoface virtual webcam](https://kalidoface.com)](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif) ![Kalidoface Pose Demo](https://3d.kalidoface.com)](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)
+[![Kalidoface virtual webcam](https://kalidoface.com)](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif) [![Kalidoface Pose Demo](https://3d.kalidoface.com)](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)
 Below are the expected results from Kalidokit solvers.
 
 ```js
