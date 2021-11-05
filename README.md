@@ -79,7 +79,7 @@ Kalidokit.Vector();
 
 ## Remixable Vtuber Template with KalidoKit
 
-![KalidoKit Template on Glitch](docs/kalidkokit_glitch.gif)
+![KalidoKit Template on Glitch](https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true)
 
 Quick-start your Vtuber app with this simple remixable example on Glitch. Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. This demo uses a minimal amount of easing to smooth animations, but feel free to make it your own!
 
