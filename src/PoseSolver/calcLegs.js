@@ -1,9 +1,11 @@
 import Vector from "../utils/vector.js";
 import { clamp } from "../utils/helpers.js";
 
-//WIP, only usable at a specific angle
-//Design Pattern: Find pure rotation calculations first, then modify rotations based on the 2 arm segments
-
+/**
+ * Calculates arm rotation as euler angles
+ * TODO: Make angles more accurate in all rotation axis
+ * @param {Array} lm : array of 3D pose vectors from tfjs or mediapipe
+ */
 export const calcLegs = (lm) => {
     // LEGS WIP //
     let UpperLeg = {
@@ -49,13 +51,19 @@ export const calcLegs = (lm) => {
     };
 };
 
-export const rigLeg = (upperLeg, lowerLeg, side = "right") => {
+/**
+ * Converts normalized rotation values into radians clamped by human limits
+ * @param {Object} UpperLeg : normalized rotation values
+ * @param {Object} LowerLeg : normalized rotation values
+ * @param {String} side : "Left" or "Right"
+ */
+export const rigLeg = (UpperLeg, LowerLeg, side = "right") => {
     let invert = side === "Right" ? 1 : -1;
-    upperLeg.z = upperLeg.z * -2.3 * invert;
-    upperLeg.x = clamp(upperLeg.z * 0.1 * invert, -0.5, Math.PI);
-    lowerLeg.x = lowerLeg.x * -2.14 * 1.3;
+    UpperLeg.z = UpperLeg.z * -2.3 * invert;
+    UpperLeg.x = clamp(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);
+    LowerLeg.x = LowerLeg.x * -2.14 * 1.3;
     return {
-        UpperLeg: upperLeg,
-        LowerLeg: lowerLeg,
+        UpperLeg: UpperLeg,
+        LowerLeg: UpperLeg,
     };
 };

@@ -1,13 +1,25 @@
-export const clamp = (value, min, max) => {
-    return Math.max(Math.min(value, max), min);
+/**
+ * Returns a clamped value between min and max values
+ * @param {Number} val : transformed value
+ * @param {Number} min : minimum value
+ * @param {Number} max : maximum value
+ */
+export const clamp = (val, min, max) => {
+    return Math.max(Math.min(val, max), min);
 };
 
-export const remap = (val, a, b) => {
-    //returns a to b -> 0 to 1
-    return (clamp(val, a, b) - a) / (b - a);
+/**
+ * Returns a remapped value between 0 and 1 using min and max values
+ * @param {Number} value : transformed value
+ * @param {Number} min : minimum value
+ * @param {Number} max : maximum value
+ */
+export const remap = (val, min, max) => {
+    //returns min to max -> 0 to 1
+    return (clamp(val, min, max) - min) / (max - min);
 };
 
-//A set of default pose values to serve as "default" values -->
+/** A set of default pose values to serve as "rest" values */
 export const RestingDefault = {
     Face: {
         eye: {

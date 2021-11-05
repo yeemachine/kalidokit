@@ -1,3 +1,4 @@
+/** Vector Math class. */
 export default class Vector {
     constructor(a, b, c) {
         if (!!a && a.constructor === Array) {

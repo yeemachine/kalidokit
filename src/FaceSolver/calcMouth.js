@@ -1,6 +1,10 @@
 import Vector from "../utils/vector.js";
 import { remap } from "../utils/helpers.js";
 
+/**
+ * Calculate Mouth Shape
+ * @param {Array} lm : array of results from tfjs or mediapipe
+ */
 export const calcMouth = (lm) => {
     // eye keypoints
     const eyeInnerCornerL = new Vector(lm[133]);
@@ -38,26 +42,25 @@ export const calcMouth = (lm) => {
     const mouthX = ratioX;
     const mouthY = remap(mouthOpen / eyeInnerDistance, 0.17, 0.5);
 
-    //Change sensitivity due to facemesh and holistic have different point outputs.
+    //Depricated: Change sensitivity due to facemesh and holistic have different point outputs.
     // const fixFacemesh = runtime === "tfjs" ? 1.3 : 0;
 
     // let ratioI = remap(mouthXY, 1.3 + fixFacemesh * 0.8, 2.6 + fixFacemesh) * remap(mouthY, 0, 1);
-    let ratioI = remap(mouthX, 0, 1) * 1.5 * remap(mouthY, 0.3, 0.8);
-
-    let ratioA = mouthY * 0.2 + mouthY * (1 - ratioI) * 0.8;
+    let ratioI = clamp(remap(mouthX, 0, 1) * 2 * remap(mouthY, 0.2, 0.7), 0, 1);
+    let ratioA = mouthY * 0.4 + mouthY * (1 - ratioI) * 0.6;
     let ratioU = mouthY * remap(1 - ratioI, 0, 0.3) * 0.1;
     let ratioE = remap(ratioU, 0.2, 1) * (1 - ratioI) * 0.3;
-    let ratioO = (1 - ratioI) * remap(mouthY, 0.5, 1) * 0.2;
+    let ratioO = (1 - ratioI) * remap(mouthY, 0.3, 1) * 0.4;
 
     return {
-        x: ratioX,
-        y: ratioY,
+        x: ratioX || 0,
+        y: ratioY || 0,
         shape: {
-            A: ratioA,
-            E: ratioE,
-            I: ratioI,
-            O: ratioO,
-            U: ratioU,
+            A: ratioA || 0,
+            E: ratioE || 0,
+            I: ratioI || 0,
+            O: ratioO || 0,
+            U: ratioU || 0,
         },
     };
 };

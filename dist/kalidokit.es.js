@@ -13,11 +13,11 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-const clamp = (value, min, max) => {
-  return Math.max(Math.min(value, max), min);
+const clamp$1 = (val, min, max) => {
+  return Math.max(Math.min(val, max), min);
 };
-const remap = (val, a, b) => {
-  return (clamp(val, a, b) - a) / (b - a);
+const remap = (val, min, max) => {
+  return (clamp$1(val, min, max) - min) / (max - min);
 };
 const RestingDefault = {
   Face: {
@@ -291,7 +291,7 @@ const RestingDefault = {
 var helpers = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  clamp,
+  clamp: clamp$1,
   remap,
   RestingDefault
 });
@@ -571,8 +571,8 @@ const calcArms = (lm) => {
   };
   LowerArm.r.y = Vector.angleBetween3DCoords(lm[11], lm[13], lm[15]);
   LowerArm.l.y = Vector.angleBetween3DCoords(lm[12], lm[14], lm[16]);
-  LowerArm.r.z = clamp(LowerArm.r.z, -2.14, 0);
-  LowerArm.l.z = clamp(LowerArm.l.z, -2.14, 0);
+  LowerArm.r.z = clamp$1(LowerArm.r.z, -2.14, 0);
+  LowerArm.l.z = clamp$1(LowerArm.l.z, -2.14, 0);
   let Hand = {
     r: Vector.findRotation(Vector.fromArray(lm[15]), Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5)),
     l: Vector.findRotation(Vector.fromArray(lm[16]), Vector.lerp(Vector.fromArray(lm[18]), Vector.fromArray(lm[20]), 0.5))
@@ -609,9 +609,9 @@ const rigArm = (UpperArm, LowerArm, Hand, side = "right") => {
   LowerArm.z *= -2.14 * invert;
   LowerArm.y *= 2.14 * invert;
   LowerArm.x *= 2.14 * invert;
-  UpperArm.x = clamp(UpperArm.x, -0.5, Math.PI);
-  LowerArm.x = clamp(LowerArm.x, -0.3, 0.3);
-  Hand.y = clamp(Hand.z * 2, -0.6, 0.6);
+  UpperArm.x = clamp$1(UpperArm.x, -0.5, Math.PI);
+  LowerArm.x = clamp$1(LowerArm.x, -0.3, 0.3);
+  Hand.y = clamp$1(Hand.z * 2, -0.6, 0.6);
   Hand.z = Hand.z * -2.3 * invert;
   return {
     UpperArm,
@@ -619,7 +619,7 @@ const rigArm = (UpperArm, LowerArm, Hand, side = "right") => {
     Hand
   };
 };
-const calcHips = (lm, lm2d) => {
+const calcHips = (lm3d, lm2d) => {
   let hipLeft2d = Vector.fromArray(lm2d[23]);
   let hipRight2d = Vector.fromArray(lm2d[24]);
   let shoulderLeft2d = Vector.fromArray(lm2d[11]);
@@ -629,13 +629,13 @@ const calcHips = (lm, lm2d) => {
   let spineLength = hipCenter2d.distance(shoulderCenter2d);
   let hips = {
     position: {
-      x: clamp(-1 * (hipCenter2d.x - 0.65), -1, 1),
+      x: clamp$1(-1 * (hipCenter2d.x - 0.65), -1, 1),
       y: 0,
-      z: clamp(spineLength - 1, -2, 0)
+      z: clamp$1(spineLength - 1, -2, 0)
     },
     rotation: null
   };
-  hips.rotation = Vector.rollPitchYaw(lm[23], lm[24]);
+  hips.rotation = Vector.rollPitchYaw(lm3d[23], lm3d[24]);
   if (hips.rotation.y > 0.5) {
     hips.rotation.y -= 2;
   }
@@ -649,7 +649,7 @@ const calcHips = (lm, lm2d) => {
   let turnAroundAmountHips = remap(Math.abs(hips.rotation.y), 0.2, 0.4);
   hips.rotation.z *= 1 - turnAroundAmountHips;
   hips.rotation.x = 0;
-  let spine = Vector.rollPitchYaw(lm[11], lm[12]);
+  let spine = Vector.rollPitchYaw(lm3d[11], lm3d[12]);
   if (spine.y > 0.5) {
     spine.y -= 2;
   }
@@ -687,9 +687,9 @@ const calcLegs = (lm) => {
     r: Vector.findRotation(lm[23], lm[25]),
     l: Vector.findRotation(lm[24], lm[26])
   };
-  UpperLeg.r.z = clamp(UpperLeg.r.z - 0.5, -0.5, 0);
+  UpperLeg.r.z = clamp$1(UpperLeg.r.z - 0.5, -0.5, 0);
   UpperLeg.r.y = 0;
-  UpperLeg.l.z = clamp(UpperLeg.l.z - 0.5, -0.5, 0);
+  UpperLeg.l.z = clamp$1(UpperLeg.l.z - 0.5, -0.5, 0);
   UpperLeg.l.y = 0;
   let LowerLeg = {
     r: Vector.findRotation(lm[25], lm[27]),
@@ -718,14 +718,14 @@ const calcLegs = (lm) => {
     }
   };
 };
-const rigLeg = (upperLeg, lowerLeg, side = "right") => {
+const rigLeg = (UpperLeg, LowerLeg, side = "right") => {
   let invert = side === "Right" ? 1 : -1;
-  upperLeg.z = upperLeg.z * -2.3 * invert;
-  upperLeg.x = clamp(upperLeg.z * 0.1 * invert, -0.5, Math.PI);
-  lowerLeg.x = lowerLeg.x * -2.14 * 1.3;
+  UpperLeg.z = UpperLeg.z * -2.3 * invert;
+  UpperLeg.x = clamp$1(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);
+  LowerLeg.x = LowerLeg.x * -2.14 * 1.3;
   return {
-    UpperLeg: upperLeg,
-    LowerLeg: lowerLeg
+    UpperLeg,
+    LowerLeg: UpperLeg
   };
 };
 class PoseSolver {
@@ -759,7 +759,7 @@ class PoseSolver {
     }
     let Arms = calcArms(lm3d);
     let Hips = calcHips(lm3d, lm2d);
-    let Legs = calcLegs(lm3d);
+    let Legs = enableLegs ? calcLegs(lm3d) : null;
     let rightHandOffscreen = lm3d[15].y > -0.1 || lm3d[15].visibility < 0.23 || 0.995 < lm2d[15].y;
     let leftHandOffscreen = lm3d[16].y > -0.1 || lm3d[16].visibility < 0.23 || 0.995 < lm2d[16].y;
     let leftFootOffscreen = lm3d[23].visibility < 0.63 || Hips.Hips.position.z > -0.4;
@@ -772,10 +772,12 @@ class PoseSolver {
     Arms.LowerArm.r = Arms.LowerArm.r.multiply(rightHandOffscreen ? 0 : 1);
     Arms.Hand.l = Arms.Hand.l.multiply(leftHandOffscreen ? 0 : 1);
     Arms.Hand.r = Arms.Hand.r.multiply(rightHandOffscreen ? 0 : 1);
-    Legs.UpperLeg.l = Legs.UpperLeg.l.multiply(rightFootOffscreen ? 0 : 1);
-    Legs.UpperLeg.r = Legs.UpperLeg.r.multiply(leftFootOffscreen ? 0 : 1);
-    Legs.LowerLeg.l = Legs.LowerLeg.l.multiply(rightFootOffscreen ? 0 : 1);
-    Legs.LowerLeg.r = Legs.LowerLeg.r.multiply(leftFootOffscreen ? 0 : 1);
+    if (enableLegs) {
+      Legs.UpperLeg.l = Legs.UpperLeg.l.multiply(rightFootOffscreen ? 0 : 1);
+      Legs.UpperLeg.r = Legs.UpperLeg.r.multiply(leftFootOffscreen ? 0 : 1);
+      Legs.LowerLeg.l = Legs.LowerLeg.l.multiply(rightFootOffscreen ? 0 : 1);
+      Legs.LowerLeg.r = Legs.LowerLeg.r.multiply(leftFootOffscreen ? 0 : 1);
+    }
     return {
       RightUpperArm: Arms.UpperArm.r,
       RightLowerArm: Arms.LowerArm.r,
@@ -783,10 +785,10 @@ class PoseSolver {
       LeftLowerArm: Arms.LowerArm.l,
       RightHand: Arms.Hand.r,
       LeftHand: Arms.Hand.l,
-      RightUpperLeg: Legs.UpperLeg.r,
-      RightLowerLeg: Legs.LowerLeg.r,
-      LeftUpperLeg: Legs.UpperLeg.l,
-      LeftLowerLeg: Legs.LowerLeg.l,
+      RightUpperLeg: enableLegs ? Legs.UpperLeg.r : RestingDefault.Pose.RightUpperLeg,
+      RightLowerLeg: enableLegs ? Legs.LowerLeg.r : RestingDefault.Pose.RightLowerLeg,
+      LeftUpperLeg: enableLegs ? Legs.UpperLeg.l : RestingDefault.Pose.LeftUpperLeg,
+      LeftLowerLeg: enableLegs ? Legs.LowerLeg.l : RestingDefault.Pose.LeftLowerLeg,
       Hips: Hips.Hips,
       Spine: Hips.Spine
     };
@@ -836,8 +838,8 @@ const rigFingers = (hand, side = "Right") => {
   const invert = side === "Right" ? 1 : -1;
   let digits = ["Ring", "Index", "Little", "Thumb", "Middle"];
   let segments = ["Proximal", "Intermediate", "Distal"];
-  hand[side + "Wrist"].x = clamp(hand[side + "Wrist"].x * 2 * invert, -0.3, 0.3);
-  hand[side + "Wrist"].y = clamp(hand[side + "Wrist"].y * 2.3, side === "Right" ? -1.2 : -0.6, side === "Right" ? 0.6 : 1.6);
+  hand[side + "Wrist"].x = clamp$1(hand[side + "Wrist"].x * 2 * invert, -0.3, 0.3);
+  hand[side + "Wrist"].y = clamp$1(hand[side + "Wrist"].y * 2.3, side === "Right" ? -1.2 : -0.6, side === "Right" ? 0.6 : 1.6);
   hand[side + "Wrist"].z = hand[side + "Wrist"].z * -2.3 * invert;
   digits.forEach((e) => {
     segments.forEach((j) => {
@@ -855,36 +857,37 @@ const rigFingers = (hand, side = "Right") => {
         };
         let newThumb = { x: 0, y: 0, z: 0 };
         if (j === "Proximal") {
-          newThumb.z = clamp(startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert, side === "Right" ? -0.6 : -0.3, side === "Right" ? 0.3 : 0.6);
-          newThumb.x = clamp(startPos.x + trackedFinger.z * -Math.PI * dampener.x, -0.6, 0.3);
-          newThumb.y = clamp(startPos.y + trackedFinger.z * -Math.PI * dampener.y * invert, side === "Right" ? -1 : -0.3, side === "Right" ? 0.3 : 1);
+          newThumb.z = clamp$1(startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert, side === "Right" ? -0.6 : -0.3, side === "Right" ? 0.3 : 0.6);
+          newThumb.x = clamp$1(startPos.x + trackedFinger.z * -Math.PI * dampener.x, -0.6, 0.3);
+          newThumb.y = clamp$1(startPos.y + trackedFinger.z * -Math.PI * dampener.y * invert, side === "Right" ? -1 : -0.3, side === "Right" ? 0.3 : 1);
         } else {
-          newThumb.z = clamp(startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert, -2, 2);
-          newThumb.x = clamp(startPos.x + trackedFinger.z * -Math.PI * dampener.x, -2, 2);
-          newThumb.y = clamp(startPos.y + trackedFinger.z * -Math.PI * dampener.y * invert, -2, 2);
+          newThumb.z = clamp$1(startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert, -2, 2);
+          newThumb.x = clamp$1(startPos.x + trackedFinger.z * -Math.PI * dampener.x, -2, 2);
+          newThumb.y = clamp$1(startPos.y + trackedFinger.z * -Math.PI * dampener.y * invert, -2, 2);
         }
         trackedFinger.x = newThumb.x;
         trackedFinger.y = newThumb.y;
         trackedFinger.z = newThumb.z;
       } else {
-        trackedFinger.z = clamp(trackedFinger.z * -Math.PI * invert, side === "Right" ? -Math.PI : 0, side === "Right" ? 0 : Math.PI);
+        trackedFinger.z = clamp$1(trackedFinger.z * -Math.PI * invert, side === "Right" ? -Math.PI : 0, side === "Right" ? 0 : Math.PI);
       }
     });
   });
   return hand;
 };
-const createEulerPlane = (landmarks) => {
-  let p1 = new Vector(landmarks[21]);
-  let p2 = new Vector(landmarks[251]);
-  let p3 = new Vector(landmarks[397]);
-  let p4 = new Vector(landmarks[172]);
+const createEulerPlane = (lm) => {
+  let p1 = new Vector(lm[21]);
+  let p2 = new Vector(lm[251]);
+  let p3 = new Vector(lm[397]);
+  let p4 = new Vector(lm[172]);
   let p3mid = p3.lerp(p4, 0.5);
   return {
     vector: [p1, p2, p3mid],
     points: [p1, p2, p3, p4]
   };
 };
-const headRotation = (plane) => {
+const calcHead = (lm) => {
+  const plane = createEulerPlane(lm).vector;
   let rotate = Vector.rollPitchYaw(plane[0], plane[1], plane[2]);
   let midPoint = plane[0].lerp(plane[1], 0.5);
   let width = plane[0].distance(plane[1]);
@@ -910,10 +913,6 @@ const headRotation = (plane) => {
     }
   };
 };
-const calcHead = (lm) => {
-  const plane = createEulerPlane(lm);
-  return headRotation(plane.vector);
-};
 const points = {
   eye: {
     left: [130, 133, 160, 159, 158, 144, 145, 153],
@@ -928,27 +927,18 @@ const points = {
     left: [473, 474, 475, 476, 477]
   }
 };
-const getBrowRaise = (lm, side = "left") => {
-  let browPoints = points.brow[side];
-  let browDistance = eyeLidDistance(lm[browPoints[0]], lm[browPoints[1]], lm[browPoints[2]], lm[browPoints[3]], lm[browPoints[4]], lm[browPoints[5]], lm[browPoints[6]], lm[browPoints[7]]);
-  let maxBrowRatio = 1.15;
-  let browHigh = 0.125;
-  let browLow = 0.07;
-  let browRatio = browDistance / maxBrowRatio - 1;
-  let browRaiseRatio = (clamp(browRatio, browLow, browHigh) - browLow) / (browHigh - browLow);
-  return browRaiseRatio;
-};
-const getEyeOpen = (lm, side = "left") => {
+const getEyeOpen = (lm, side = "left", { high = 0.85, low = 0.55 } = {}) => {
   let eyePoints = points.eye[side];
-  let eyeDistance = eyeLidDistance(lm[eyePoints[0]], lm[eyePoints[1]], lm[eyePoints[2]], lm[eyePoints[3]], lm[eyePoints[4]], lm[eyePoints[5]], lm[eyePoints[6]], lm[eyePoints[7]]);
+  let eyeDistance = eyeLidRatio(lm[eyePoints[0]], lm[eyePoints[1]], lm[eyePoints[2]], lm[eyePoints[3]], lm[eyePoints[4]], lm[eyePoints[5]], lm[eyePoints[6]], lm[eyePoints[7]]);
   let maxRatio = 0.285;
-  let high = 0.85;
-  let low = 0.55;
-  let ratio = clamp(eyeDistance / maxRatio, 0, 2);
+  let ratio = clamp$1(eyeDistance / maxRatio, 0, 2);
   let eyeOpenRatio = remap(ratio, low, high);
-  return { norm: eyeOpenRatio, raw: ratio };
+  return {
+    norm: eyeOpenRatio,
+    raw: ratio
+  };
 };
-const eyeLidDistance = (eyeOuterCorner, eyeInnerCorner, eyeOuterUpperLid, eyeMidUpperLid, eyeInnerUpperLid, eyeOuterLowerLid, eyeMidLowerLid, eyeInnerLowerLid) => {
+const eyeLidRatio = (eyeOuterCorner, eyeInnerCorner, eyeOuterUpperLid, eyeMidUpperLid, eyeInnerUpperLid, eyeOuterLowerLid, eyeMidLowerLid, eyeInnerLowerLid) => {
   eyeOuterCorner = new Vector(eyeOuterCorner);
   eyeInnerCorner = new Vector(eyeInnerCorner);
   eyeOuterUpperLid = new Vector(eyeOuterUpperLid);
@@ -979,11 +969,11 @@ const pupilPos = (lm, side = "left") => {
   ratioY *= 4;
   return { x: ratioX, y: ratioY };
 };
-const stabilizeBlink = (eye, headY, noWink = false, maxRot = 0.5) => {
-  eye.r = clamp(eye.r, 0, 1);
-  eye.l = clamp(eye.l, 0, 1);
+const stabilizeBlink = (eye, headY, { enableWink = true, maxRot = 0.5 } = {}) => {
+  eye.r = clamp$1(eye.r, 0, 1);
+  eye.l = clamp$1(eye.l, 0, 1);
   const blinkDiff = Math.abs(eye.l - eye.r);
-  const blinkThresh = noWink ? 1.1 : 0.8;
+  const blinkThresh = enableWink ? 0.8 : 1.2;
   const isClosing = eye.l < 0.3 && eye.r < 0.3;
   const isOpen = eye.l > 0.6 && eye.r > 0.6;
   if (headY > maxRot) {
@@ -997,39 +987,49 @@ const stabilizeBlink = (eye, headY, noWink = false, maxRot = 0.5) => {
     r: blinkDiff >= blinkThresh && !isClosing && !isOpen ? eye.r : eye.r > eye.l ? Vector.lerp(eye.r, eye.l, 0.95) : Vector.lerp(eye.r, eye.l, 0.05)
   };
 };
-const calcEyes = (lm) => {
-  if (lm.length <= 468) {
+const calcEyes = (lm, { high = 0.85, low = 0.55 } = {}) => {
+  if (lm.length !== 478) {
     return {
       l: 1,
       r: 1
     };
   }
-  const leftEyeLid = getEyeOpen(lm, "left");
-  const rightEyeLid = getEyeOpen(lm, "right");
+  const leftEyeLid = getEyeOpen(lm, "left", { high, low });
+  const rightEyeLid = getEyeOpen(lm, "right", { high, low });
   return {
-    l: leftEyeLid.norm,
-    r: rightEyeLid.norm
+    l: leftEyeLid.norm || 0,
+    r: rightEyeLid.norm || 0
   };
 };
 const calcPupils = (lm) => {
-  if (lm.length <= 468) {
+  if (lm.length !== 478) {
     return { x: 0, y: 0 };
   } else {
     const pupilL = pupilPos(lm, "left");
     const pupilR = pupilPos(lm, "right");
     return {
-      x: (pupilL.x + pupilR.x) * 0.5,
-      y: (pupilL.y + pupilR.y) * 0.5
+      x: (pupilL.x + pupilR.x) * 0.5 || 0,
+      y: (pupilL.y + pupilR.y) * 0.5 || 0
     };
   }
 };
+const getBrowRaise = (lm, side = "left") => {
+  let browPoints = points.brow[side];
+  let browDistance = eyeLidRatio(lm[browPoints[0]], lm[browPoints[1]], lm[browPoints[2]], lm[browPoints[3]], lm[browPoints[4]], lm[browPoints[5]], lm[browPoints[6]], lm[browPoints[7]]);
+  let maxBrowRatio = 1.15;
+  let browHigh = 0.125;
+  let browLow = 0.07;
+  let browRatio = browDistance / maxBrowRatio - 1;
+  let browRaiseRatio = (clamp$1(browRatio, browLow, browHigh) - browLow) / (browHigh - browLow);
+  return browRaiseRatio;
+};
 const calcBrow = (lm) => {
-  if (lm.length <= 468) {
+  if (lm.length !== 478) {
     return 0;
   } else {
     const leftBrow = getBrowRaise(lm, "left");
     const rightBrow = getBrowRaise(lm, "right");
-    return (leftBrow + rightBrow) / 2;
+    return (leftBrow + rightBrow) / 2 || 0;
   }
 };
 const calcMouth = (lm) => {
@@ -1052,39 +1052,27 @@ const calcMouth = (lm) => {
   ratioX = (ratioX - 0.3) * 2;
   const mouthX = ratioX;
   const mouthY = remap(mouthOpen / eyeInnerDistance, 0.17, 0.5);
-  let ratioI = remap(mouthX, 0, 1) * 1.5 * remap(mouthY, 0.3, 0.8);
-  let ratioA = mouthY * 0.2 + mouthY * (1 - ratioI) * 0.8;
+  let ratioI = clamp(remap(mouthX, 0, 1) * 2 * remap(mouthY, 0.2, 0.7), 0, 1);
+  let ratioA = mouthY * 0.4 + mouthY * (1 - ratioI) * 0.6;
   let ratioU = mouthY * remap(1 - ratioI, 0, 0.3) * 0.1;
   let ratioE = remap(ratioU, 0.2, 1) * (1 - ratioI) * 0.3;
-  let ratioO = (1 - ratioI) * remap(mouthY, 0.5, 1) * 0.2;
+  let ratioO = (1 - ratioI) * remap(mouthY, 0.3, 1) * 0.4;
   return {
-    x: ratioX,
-    y: ratioY,
+    x: ratioX || 0,
+    y: ratioY || 0,
     shape: {
-      A: ratioA,
-      E: ratioE,
-      I: ratioI,
-      O: ratioO,
-      U: ratioU
+      A: ratioA || 0,
+      E: ratioE || 0,
+      I: ratioI || 0,
+      O: ratioO || 0,
+      U: ratioU || 0
     }
   };
 };
 class FaceSolver {
   constructor() {
-    this.head = { x: 0, y: 0, z: 0 };
-    this.mouth = { x: 0, y: 0 };
-    this.eye = {
-      l: 1,
-      r: 1,
-      indep: {
-        l: 1,
-        r: 1
-      }
-    };
-    this.brow = 0;
-    this.pupil = { x: 0, y: 0 };
   }
-  static solve(lm, { runtime = "tfjs", video = null, imageSize = null, smoothBlink = false } = {}) {
+  static solve(lm, { runtime = "tfjs", video = null, imageSize = null, smoothBlink = false, blinkSettings = [] } = {}) {
     if (!lm) {
       console.error("Need Face Landmarks");
       return;
@@ -1107,12 +1095,16 @@ class FaceSolver {
       });
     }
     let getHead = calcHead(lm);
-    let getEye = calcEyes(lm);
+    let getMouth = calcMouth(lm);
+    blinkSettings = blinkSettings.length > 0 ? blinkSettings : runtime === "tfjs" ? [0.55, 0.85] : [0.35, 0.5];
+    let getEye = calcEyes(lm, {
+      high: blinkSettings[1],
+      low: blinkSettings[0]
+    });
     if (smoothBlink) {
       getEye = stabilizeBlink(getEye, getHead.y);
     }
     let getPupils = calcPupils(lm);
-    let getMouth = calcMouth(lm);
     let getBrow = calcBrow(lm, getHead.y);
     return {
       head: getHead,

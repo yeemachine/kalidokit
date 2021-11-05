@@ -1,8 +1,10 @@
 import Vector from "../utils/vector.js";
 import { clamp } from "../utils/helpers.js";
 
-//Design Pattern: Find pure rotation calculations first, then modify rotations based on the 2 arm segments
-
+/**
+ * Calculates arm rotation as euler angles
+ * @param {Array} lm : array of 3D pose vectors from tfjs or mediapipe
+ */
 export const calcArms = (lm) => {
     //Pure Rotation Calculations
     let UpperArm = {
@@ -58,8 +60,15 @@ export const calcArms = (lm) => {
     };
 };
 
+/**
+ * Converts normalized rotation values into radians clamped by human limits
+ * @param {Object} UpperArm : normalized rotation values
+ * @param {Object} LowerArm : normalized rotation values
+ * @param {Object} Hand : normalized rotation values
+ * @param {String} side : "Left" or "Right"
+ */
 export const rigArm = (UpperArm, LowerArm, Hand, side = "right") => {
-    //Invert modifier based on left vs right side
+    // Invert modifier based on left vs right side
     const invert = side === "Right" ? 1 : -1;
 
     UpperArm.z *= -2.3 * invert;

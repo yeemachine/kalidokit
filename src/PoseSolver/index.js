@@ -3,15 +3,24 @@ import { calcArms } from "./calcArms.js";
 import { calcHips } from "./calcHips.js";
 import { calcLegs } from "./calcLegs.js";
 
+/** Class representing pose solver. */
 export class PoseSolver {
     constructor() {}
-
+    /** expose arm rotation calculator as a static method */
     static calcArms = calcArms;
-
+    /** expose hips position and rotation calculator as a static method */
     static calcHips = calcHips;
-
+    /** expose leg rotation calculator as a static method */
     static calcLegs = calcLegs;
-
+    /**
+     * Combines arm, hips, and leg calcs into one method
+     * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
+     * @param {Array} lm2d : array of 2D pose vectors from tfjs or mediapipe
+     * @param {String} runtime: set as either "tfjs" or "mediapipe"
+     * @param {HTMLVideoElement} video : video element or video selector string
+     * @param {Object} imageSize: manually set hight and width of prediction
+     * @param {Boolean} enableLegs: toggle calculation of legs
+     */
     static solve(lm3d, lm2d, { runtime = "mediapipe", video = null, imageSize = null, enableLegs = true } = {}) {
         if (!lm3d && !lm2d) {
             console.error("Need both World Pose and Pose Landmarks");
@@ -43,7 +52,7 @@ export class PoseSolver {
 
         let Arms = calcArms(lm3d);
         let Hips = calcHips(lm3d, lm2d);
-        let Legs = calcLegs(lm3d);
+        let Legs = enableLegs ? calcLegs(lm3d) : null;
 
         //DETECT OFFSCREEN AND RESET VALUES TO DEFAULTS
         let rightHandOffscreen = lm3d[15].y > -0.1 || lm3d[15].visibility < 0.23 || 0.995 < lm2d[15].y;
@@ -63,10 +72,13 @@ export class PoseSolver {
         Arms.Hand.l = Arms.Hand.l.multiply(leftHandOffscreen ? 0 : 1);
         Arms.Hand.r = Arms.Hand.r.multiply(rightHandOffscreen ? 0 : 1);
 
-        Legs.UpperLeg.l = Legs.UpperLeg.l.multiply(rightFootOffscreen ? 0 : 1);
-        Legs.UpperLeg.r = Legs.UpperLeg.r.multiply(leftFootOffscreen ? 0 : 1);
-        Legs.LowerLeg.l = Legs.LowerLeg.l.multiply(rightFootOffscreen ? 0 : 1);
-        Legs.LowerLeg.r = Legs.LowerLeg.r.multiply(leftFootOffscreen ? 0 : 1);
+        //skip calculations if disable legs
+        if (enableLegs) {
+            Legs.UpperLeg.l = Legs.UpperLeg.l.multiply(rightFootOffscreen ? 0 : 1);
+            Legs.UpperLeg.r = Legs.UpperLeg.r.multiply(leftFootOffscreen ? 0 : 1);
+            Legs.LowerLeg.l = Legs.LowerLeg.l.multiply(rightFootOffscreen ? 0 : 1);
+            Legs.LowerLeg.r = Legs.LowerLeg.r.multiply(leftFootOffscreen ? 0 : 1);
+        }
 
         return {
             RightUpperArm: Arms.UpperArm.r,
@@ -75,10 +87,10 @@ export class PoseSolver {
             LeftLowerArm: Arms.LowerArm.l,
             RightHand: Arms.Hand.r,
             LeftHand: Arms.Hand.l,
-            RightUpperLeg: Legs.UpperLeg.r,
-            RightLowerLeg: Legs.LowerLeg.r,
-            LeftUpperLeg: Legs.UpperLeg.l,
-            LeftLowerLeg: Legs.LowerLeg.l,
+            RightUpperLeg: enableLegs ? Legs.UpperLeg.r : RestingDefault.Pose.RightUpperLeg,
+            RightLowerLeg: enableLegs ? Legs.LowerLeg.r : RestingDefault.Pose.RightLowerLeg,
+            LeftUpperLeg: enableLegs ? Legs.UpperLeg.l : RestingDefault.Pose.LeftUpperLeg,
+            LeftLowerLeg: enableLegs ? Legs.LowerLeg.l : RestingDefault.Pose.LeftLowerLeg,
             Hips: Hips.Hips,
             Spine: Hips.Spine,
         };

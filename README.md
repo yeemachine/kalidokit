@@ -40,7 +40,8 @@ Kalidokit.Face.solve(facelandmarkArray, {
     runtime: "tfjs", // `mediapipe` or `tfjs`
     video: HTMLVideoElement,
     imageSize: { height: 0, width: 0 },
-    enableLegs: true,
+    smoothBlink: false, // smooth left and right eye blink delays
+    blinkSettings: [0.25, 0.75], // adjust upper and lower bound blink sensitivity
 });
 
 // Accepts arrays(33) of Pose keypoints and 3D Pose keypoints
@@ -63,8 +64,14 @@ Hand.solve(handLandmarkArray, "Right");
 Additional Utils
 
 ```js
-// Stabilizes left/right blink + wink by providing blenshapes and head rotation
-Kalidokit.Face.stabilizeBlink({ r: 0, l: 1 }, headRotationY);
+// Stabilizes left/right blink delays + wink by providing blenshapes and head rotation
+Kalidokit.Face.stabilizeBlink(
+    { r: 0, l: 1 }, // left and right eye blendshape values
+    headRotationY, // head rotation in radians
+    {
+        noWink = false, // disables winking
+        maxRot = 0.5 // max head rotation in radians before interpolating obscured eyes
+    });
 
 // The internal vector math class
 Kalidokit.Vector();
@@ -72,7 +79,7 @@ Kalidokit.Vector();
 
 ## Remixable Vtuber Template with KalidoKit
 
-![KalidoKit Template on Glitch](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)
+![KalidoKit Template on Glitch](docs/kalidkokit_glitch.gif)
 
 Quick-start your Vtuber app with this simple remixable example on Glitch. Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. This demo uses a minimal amount of easing to smooth animations, but feel free to make it your own!
 

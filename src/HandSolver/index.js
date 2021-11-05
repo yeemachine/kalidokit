@@ -1,8 +1,14 @@
 import Vector from "../utils/vector.js";
 import { clamp } from "../utils/helpers.js";
 
+/** Class representing hand solver. */
 export class HandSolver {
     constructor() {}
+    /**
+     * Calculates finger and wrist as euler rotations
+     * @param {Array} lm : array of 3D hand vectors from tfjs or mediapipe
+     * @param {String} side: "Left" or "Right"
+     */
     static solve(lm, side = "Right") {
         if (!lm) {
             console.error("Need Hand Landmarks");
@@ -41,7 +47,13 @@ export class HandSolver {
     }
 }
 
+/**
+ * Converts normalized rotation values into radians clamped by human limits
+ * @param {Object} hand : object of labeled joint with normalized rotation values
+ * @param {String} side : "Left" or "Right"
+ */
 const rigFingers = (hand, side = "Right") => {
+    // Invert modifier based on left vs right side
     const invert = side === "Right" ? 1 : -1;
     let digits = ["Ring", "Index", "Little", "Thumb", "Middle"];
     let segments = ["Proximal", "Intermediate", "Distal"];

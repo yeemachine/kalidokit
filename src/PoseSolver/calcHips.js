@@ -1,9 +1,12 @@
 import Vector from "../utils/vector.js";
 import { clamp, remap } from "../utils/helpers.js";
 
-//Design Pattern: Find pure rotation calculations first, then modify rotations based on the 2 arm segments
-
-export const calcHips = (lm, lm2d) => {
+/**
+ * Calculates Hip rotation and world position
+ * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
+ * @param {Array} lm2d : array of 2D pose vectors from tfjs or mediapipe
+ */
+export const calcHips = (lm3d, lm2d) => {
     //Find 2D normalized Hip and Shoulder Joint Positions/Distances
     let hipLeft2d = Vector.fromArray(lm2d[23]);
     let hipRight2d = Vector.fromArray(lm2d[24]);
@@ -21,7 +24,7 @@ export const calcHips = (lm, lm2d) => {
         },
         rotation: null,
     };
-    hips.rotation = Vector.rollPitchYaw(lm[23], lm[24]);
+    hips.rotation = Vector.rollPitchYaw(lm3d[23], lm3d[24]);
     //fix -PI, PI jumping
     if (hips.rotation.y > 0.5) {
         hips.rotation.y -= 2;
@@ -38,7 +41,7 @@ export const calcHips = (lm, lm2d) => {
     hips.rotation.z *= 1 - turnAroundAmountHips;
     hips.rotation.x = 0; //temp fix for inaccurate X axis
 
-    let spine = Vector.rollPitchYaw(lm[11], lm[12]);
+    let spine = Vector.rollPitchYaw(lm3d[11], lm3d[12]);
     //fix -PI, PI jumping
     if (spine.y > 0.5) {
         spine.y -= 2;
@@ -59,9 +62,13 @@ export const calcHips = (lm, lm2d) => {
     return rigHips(hips, spine);
 };
 
+/**
+ * Converts normalized rotations to radians and estimates world position of hips
+ * @param {Object} hips : hip position and rotation values
+ * @param {Object} spine : spine position and rotation values
+ */
 export const rigHips = (hips, spine) => {
     //convert normalized values to radians
-
     hips.rotation.x *= Math.PI;
     hips.rotation.y *= Math.PI;
     hips.rotation.z *= Math.PI;
