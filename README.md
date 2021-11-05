@@ -6,6 +6,8 @@ As the core to Vtuber web apps, [Kalidoface](https://kalidoface.com) and [Kalido
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B75DIY1)
 
+![KalidoKit Template on Glitch](https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true)
+
 ![Kalidoface Face Tracking](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-face-closeup.gif?v=1633451401758) ![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)
 
 ## Install
@@ -78,8 +80,6 @@ Kalidokit.Vector();
 ```
 
 ## Remixable VRM Template with KalidoKit
-
-![KalidoKit Template on Glitch](https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true)
 
 Quick-start your Vtuber app with this simple remixable example on Glitch. Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. This demo uses a minimal amount of easing to smooth animations, but feel free to make it your own!
 
