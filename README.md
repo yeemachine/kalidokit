@@ -83,8 +83,6 @@ Quick-start your Vtuber app with this simple remixable example on Glitch. Face, 
 
 <a href="https://glitch.com/edit/#!/remix/kalidokit-template"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 
-![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)
-
 ## Basic Usage
 
 The implementation may vary depending on what pose and face detection model you choose to use, but the principle is still the same. This example uses Mediapipe Holistic which concisely combines them together.
@@ -158,7 +156,9 @@ Kalidokit.Face.solve(facelm,{
 
 ## Outputs
 
-Below are the resting defaults from Kalidokit.
+Below are the expected results from Kalidokit solvers.
+
+![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)
 
 ```js
 // Kalidokit.Face.solve()
