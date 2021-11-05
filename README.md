@@ -77,7 +77,7 @@ Kalidokit.Face.stabilizeBlink(
 Kalidokit.Vector();
 ```
 
-## Remixable Vtuber Template with KalidoKit
+## Remixable VRM Template with KalidoKit
 
 ![KalidoKit Template on Glitch](https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true)
 
