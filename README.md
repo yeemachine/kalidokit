@@ -6,7 +6,7 @@ As the core to Vtuber web apps, [Kalidoface](https://kalidoface.com) and [Kalido
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B75DIY1)
 
-<a href="https://glitch.com/edit/#!/remix/kalidokit-template"><img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true" alt="Kalidokit Template" width="100%"/></a>
+<a href="https://glitch.com/edit/#!/kalidokit"><img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true" alt="Kalidokit Template" width="100%"/></a>
 
 ## Install
 
