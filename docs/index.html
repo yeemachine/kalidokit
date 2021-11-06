@@ -1,85 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- HTML Meta Tags -->
+    <title>KalidoKit - Face and Body Rig Solver</title>
+    <meta
+      name="description"
+      content="Track face and body rigs just your browser webcam!"
+    />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="kit.kalidoface.com" />
+    <meta property="twitter:url" content="https://kit.kalidoface.com/" />
+    <meta name="twitter:title" content="KalidoKit - Face and Body Rig Solver" />
+    <meta
+      name="twitter:description"
+      content="Track face and body rigs just your browser webcam!"
+    />
+    <meta
+      name="twitter:image"
+      content="https://cdn.glitch.com/239c5934-4d83-4c5c-bef6-44dcdb04c8fb%2Fkalidoface-meta.jpg?v=1630110302224"
+    />
+    <meta
+      name="viewport"
+      content="viewport-fit=cover, user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://yeemachine.github.io/kalidoface-live2d-models/Icons/icon-circle.svg"
+    />
+
     <!--     Basic Three.js -->
     <script src="https://unpkg.com/three@0.133.0/build/three.js"></script>
+    <!--     GLTF Loader for Three.js -->
     <script src="https://unpkg.com/three@0.133.0/examples/js/loaders/GLTFLoader.js"></script>
+    <!--     Orbit Controls for Three.js -->
     <script src="https://unpkg.com/three@0.133.0/examples/js/controls/OrbitControls.js"></script>
-    <!--     VRM Plugin -->
+    <!--     VRM Loader for Three.js -->
     <script src="https://unpkg.com/@pixiv/three-vrm@0.6.7/lib/three-vrm.js"></script>
     <!--     Mediapipe or Tensorflow.js -->
     <script
-      src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.4.1633559476/holistic.js"
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/holistic.js"
       crossorigin="anonymous"
     ></script>
+
+    <!--     Mediapipe Drawing Tools -->
     <script
       src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
       crossorigin="anonymous"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <!--     Mediapipe Camera Tools -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
     <!--     Kalidokit Kinematic Solver -->
-    <script src="kalidokit.umd.js"></script>
-    <style>
-      @font-face {
-        font-family: "Jelly";
-        font-display: block;
-        src: url("https://yeemachine.github.io/kalidoface-live2d-models/Font/kalidoface-jelly.ttf")
-          format("truetype");
-      }
-      h1 {
-        font-family: "Jelly";
-        font-size: 36px;
-        color: white;
-        position: absolute;
-        bottom: -8px;
-        left: 16px;
-        font-weight: normal;
-        -webkit-font-feature-settings: "liga";
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-      a,a:visited,a:link{
-        text-decoration:none;
-        color:white;
-      }
-      .preview {
-        display: flex;
-        position: absolute;
-        top: 16px;
-        right: 16px;
-        transform: scale(-1, 1);
-        overflow: hidden;
-        border-radius: 8px;
-      }
-      video {
-        max-width: 400px;
-        height: auto;
-      }
-      body {
-        margin: 0;
-        background: #9c577e;
-      }
-      canvas {
-        display: block;
-      }
-      .guides {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: auto;
-        width: 100%;
-        z-index: 1;
-      }
-    </style>
+    <script src="../dist/kalidokit.umd.js"></script>
+    <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
     <div class="preview">
       <video class="input_video" width="1280px" height="720px"></video>
       <canvas class="guides"></canvas>
     </div>
+    <h1 class="notranslate">
+      <a href="https://3d.kalidoface.com">kalidoface</a>
+    </h1>
+    <nav>
+      <a>
+        <img
+          src="https://cdn.glitch.me/447b6603-7eae-4da6-957d-73ee30c8e731%2Fnpm.png?v=1635133318451"
+        />
+      </a>
+      <a>
+        <img
+          src="https://cdn.glitch.me/447b6603-7eae-4da6-957d-73ee30c8e731%2Fgithub.png?v=1635133310517"
+        />
+      </a>
+      <a>
+        <img
+          src="https://cdn.glitch.me/447b6603-7eae-4da6-957d-73ee30c8e731%2Ftwitter.png?v=1635133322561"
+        />
+      </a>
+    </nav>
     <script src="script.js"></script>
-    <h1><a href="https://3d.kalidoface.com">kalidoface</a></h1>
   </body>
 </html>
