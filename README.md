@@ -156,7 +156,7 @@ Kalidokit.Face.solve(facelm,{
 
 ## Outputs
 
-Below are the expected results from Kalidokit solvers.
+Below are the expected results from KalidoKit solvers.
 
 ```js
 // Kalidokit.Face.solve()
