@@ -12,6 +12,7 @@ h1 {
     left: 16px;
     font-weight: normal;
     -webkit-font-feature-settings: "liga";
+    font-feature-settings: "liga";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -66,7 +67,7 @@ nav {
 }
 nav img {
     width: 36px;
-    hight: auto;
+    height: auto;
     margin-left: 22px;
 }
 
