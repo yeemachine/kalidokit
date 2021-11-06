@@ -6,13 +6,7 @@ As the core to Vtuber web apps, [Kalidoface](https://kalidoface.com) and [Kalido
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/B0B75DIY1)
 
-<figure>
-  <img
-  src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true"
-  width="100%"
-  alt="The beautiful MDN logo.">
-  <figcaption>Kalidokit Glitch Template</figcaption>
-</figure>
+<a href="https://glitch.com/edit/#!/kalidokit"><img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true" alt="Kalidokit Template" width="100%"/></a>
 
 ## Install
 
@@ -87,7 +81,7 @@ Kalidokit.Vector();
 
 Quick-start your Vtuber app with this simple remixable example on Glitch. Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. This demo uses a minimal amount of easing to smooth animations, but feel free to make it your own!
 
-<a href="https://glitch.com/edit/#!/kalidokit"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
+<a href="https://glitch.com/edit/#!/kalidokit-template"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 
 ## Basic Usage
 
@@ -204,6 +198,7 @@ Below are the expected results from Kalidokit solvers.
     RightHand: {x: 0, y: 0, z: 0},
     Spine: {x: 0, y: 0, z: 0},
     Hips: {
+        worldPosition: {x: 0, y: 0, z: 0},
         position: {x: 0, y: 0, z: 0},
         rotation: {x: 0, y: 0, z: 0},
     }
@@ -235,25 +230,11 @@ Below are the expected results from Kalidokit solvers.
 }
 ```
 
-## Showcase
+## Community Showcase
 
-<figure>
-<a href="https://kalidoface.com">
-  <img
-  src="https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif"
-  alt="The beautiful MDN logo.">
-  <figcaption>Kalidoface</figcaption>
-  </a>
-</figure> <figure>
-<a href="https://3d.kalidoface.com">
-  <img
-  src="https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775"
-  alt="The beautiful MDN logo.">
-  <figcaption>Kalidoface 3D</figcaption>
-  </a>
-</figure>
+If you'd like to share a creative use of KalidoKit, we would love to hear about it! Feel free to also use our Twitter hashtag, [#kalidokit](https://twitter.com/search?q=%23kalidokit).
 
-If you'd like to share a project using Kalidokit, we'd love to feature it!
+[![Kalidoface virtual webcam](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif)](https://kalidoface.com) [![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)](https://3d.kalidoface.com)
 
 ## Open to Contributions
 

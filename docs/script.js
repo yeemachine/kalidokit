@@ -169,9 +169,9 @@ const animateVRM = (vrm, results) => {
         rigPosition(
             "Hips",
             {
-                x: -riggedPose.Hips.position.x, // Reverse direction
-                y: riggedPose.Hips.position.y + 1, // Add a bit of height
-                z: -riggedPose.Hips.position.z, // Reverse direction
+                x: -riggedPose.Hips.worldPosition.x, // Reverse direction
+                y: riggedPose.Hips.worldPosition.y + 1, // Add a bit of height
+                z: -riggedPose.Hips.worldPosition.z, // Reverse direction
             },
             1,
             0.07
