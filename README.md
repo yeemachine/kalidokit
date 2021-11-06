@@ -27,7 +27,7 @@ import { Face, Pose, Hand } from "kalidokit";
 #### Via CDN
 
 ```js
-<script src="https://cdn.jsdelivr.net/npm/kalidokit@0.1.0/dist/kalidokit.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kalidokit@1.0/dist/kalidokit.umd.js"></script>
 ```
 
 ## Methods

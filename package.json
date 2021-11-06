@@ -1,6 +1,6 @@
 {
     "name": "kalidokit",
-    "version": "0.1.0",
+    "version": "1.0.0",
     "repository": "github:yeemachine/kalidokit",
     "main": "src/main.js",
     "scripts": {
