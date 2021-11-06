@@ -90,17 +90,13 @@ The implementation may vary depending on what pose and face detection model you 
 ```js
 import Kalidokit from 'kalidokit'
 import '@mediapipe/holistic/holistic';
+import '@mediapipe/camera_utils/camera_utils';
 
-let holistic
-
-// Init Mediapipe Holistic Model
-async function initHolistic() {
-
-  holistic = new Holistic({locateFile: (file) => {
+let holistic = new Holistic({locateFile: (file) => {
     return `https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.4.1633559476/${file}`;
-  }});
+}});
 
-  holistic.onResults(results=>{
+holistic.onResults(results=>{
     // do something with prediction results
     // landmark names may change depending on TFJS/Mediapipe model version
     let facelm = results.faceLandmarks;
@@ -115,19 +111,17 @@ async function initHolistic() {
     let leftHandRig = Kalidokit.Hand.solve(leftHandlm,"Left")
 
     };
-  });
-}
-initHolistic()
+});
 
-// Predict animation loop
-async function predict(){
-    if(holistic){
-        // send image to holistic prediction
-        await holistic.send({image: HTMLVideoElement});
-    }
-    requestAnimationFrame(predict);
-}
-predict()
+// use Mediapipe's webcam utils to send video to holistic every frame
+const camera = new Camera(HTMLVideoElement, {
+  onFrame: async () => {
+    await holistic.send({image: HTMLVideoElement});
+  },
+  width: 640,
+  height: 480
+});
+camera.start();
 ```
 
 ## Slight differences with Mediapipe and Tensorflow.js
