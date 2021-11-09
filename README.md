@@ -85,6 +85,8 @@ Quick-start your Vtuber app with this simple remixable example on Glitch. Face, 
 
 ## Basic Usage
 
+<img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit-pipeline.png?raw=true" alt="Kalidokit Template" width="100%"/>
+
 The implementation may vary depending on what pose and face detection model you choose to use, but the principle is still the same. This example uses Mediapipe Holistic which concisely combines them together.
 
 ```js
