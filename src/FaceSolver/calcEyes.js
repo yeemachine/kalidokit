@@ -88,11 +88,9 @@ export const eyeLidRatio = (
 };
 
 /**
- * Method to stabilize blink speeds
- * @param {Object} eye : object with left and right eye values
- * @param {Number} headY : head y axis rotation in radians
- * @param {Boolean} noWink : option to disable wink detection
- * @param {Number} maxRot: maximum head y axis rotation in radians
+ * Calculate pupil position [-1,1]
+ * @param {Object} lm : array of values
+ * @param {String} side : "left" or "right"
  */
 export const pupilPos = (lm, side = "left") => {
     const eyeOuterCorner = new Vector(lm[points.eye[side][0]]);
