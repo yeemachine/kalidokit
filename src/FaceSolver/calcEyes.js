@@ -89,7 +89,7 @@ export const eyeLidRatio = (
 
 /**
  * Calculate pupil position [-1,1]
- * @param {Object} lm : array of values
+ * @param {Object} lm : array of results from tfjs or mediapipe
  * @param {String} side : "left" or "right"
  */
 export const pupilPos = (lm, side = "left") => {
