@@ -1,5 +1,5 @@
 /**
- * @kalidokit v1.0.3
+ * @kalidokit v1.0.4
  * Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Eyes, Pose, and Finger tracking models.
  * 
  * @license
@@ -923,8 +923,8 @@ const points = {
     right: [265, 464, 293, 334, 296, 449, 450, 451]
   },
   pupil: {
-    right: [468, 469, 470, 471, 472],
-    left: [473, 474, 475, 476, 477]
+    left: [468, 469, 470, 471, 472],
+    right: [473, 474, 475, 476, 477]
   }
 };
 const getEyeOpen = (lm, side = "left", { high = 0.85, low = 0.55 } = {}) => {
