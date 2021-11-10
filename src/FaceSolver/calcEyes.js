@@ -10,8 +10,8 @@ const points = {
         right: [263, 362, 387, 386, 385, 373, 374, 380],
     },
     brow: {
-        left: [265, 464, 293, 334, 296, 449, 450, 451],
-        right: [35, 244, 63, 105, 66, 229, 230, 231],
+        left: [35, 244, 63, 105, 66, 229, 230, 231],
+        right: [265, 464, 293, 334, 296, 449, 450, 451],
     },
     pupil: {
         right: [473, 474, 475, 476, 477],
@@ -88,11 +88,9 @@ export const eyeLidRatio = (
 };
 
 /**
- * Method to stabilize blink speeds
- * @param {Object} eye : object with left and right eye values
- * @param {Number} headY : head y axis rotation in radians
- * @param {Boolean} noWink : option to disable wink detection
- * @param {Number} maxRot: maximum head y axis rotation in radians
+ * Calculate pupil position [-1,1]
+ * @param {Object} lm : array of results from tfjs or mediapipe
+ * @param {String} side : "left" or "right"
  */
 export const pupilPos = (lm, side = "left") => {
     const eyeOuterCorner = new Vector(lm[points.eye[side][0]]);
