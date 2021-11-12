@@ -3,6 +3,7 @@
     "version": "1.0.5",
     "repository": "github:yeemachine/kalidokit",
     "main": "src/index.js",
+    "types": "./index.d.ts",
     "scripts": {
         "dev": "vite docs --host",
         "build": "vite build",
