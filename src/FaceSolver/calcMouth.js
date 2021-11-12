@@ -1,5 +1,5 @@
 import Vector from "../utils/vector.js";
-import { remap } from "../utils/helpers.js";
+import { remap, clamp } from "../utils/helpers.js";
 
 /**
  * Calculate Mouth Shape
