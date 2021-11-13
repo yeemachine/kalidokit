@@ -4,18 +4,18 @@ declare module "kalidokit" {
     /** Vector Math class. */
     export class Vector {
       static negative(a: Vector, b: Vector): Vector;
-      static add(a: Vector, b: Vector | number, c: Vector): XYZ;
-      static subtract(a: Vector, b: Vector | number, c: Vector): XYZ;
-      static multiply(a: Vector, b: Vector | number, c: Vector): XYZ;
-      static divide(a: Vector, b: Vector | number, c: Vector): XYZ;
-      static cross(a: Vector, b: Vector | number, c: Vector): XYZ;
+      static add(a: Vector, b: Vector | number, c: Vector): Vector;
+      static subtract(a: Vector, b: Vector | number, c: Vector): Vector;
+      static multiply(a: Vector, b: Vector | number, c: Vector): Vector;
+      static divide(a: Vector, b: Vector | number, c: Vector): Vector;
+      static cross(a: Vector, b: Vector | number, c: Vector): Vector;
       static unit(a: Vector, b: Vector): Vector;
       static fromAngles(theta: number, phi: number): Vector;
       static randomDirection(): Vector;
       static min(a: Vector | XYZ, b: Vector | XYZ): Vector;
       static max(a: Vector | XYZ, b: Vector | XYZ): Vector;
       static lerp(a: Vector, b: Vector, fraction: number): Vector;
-      static lerp(a: number, b: number, fraction: number): Vector;
+      static lerp(a: number, b: number, fraction: number): number;
       static fromArray(a: XYZ | [number, number, number]): Vector;
       static angleBetween(a: Vector, b: Vector): number;
       static angleBetweenVertices(a: Vector, b: Vector | number, c: Vector): void;
@@ -163,7 +163,7 @@ declare module "kalidokit" {
     }
   
     /** Class representing hand solver. */
-    export class HandSolver {
+    export class Hand {
       /**
        * Calculates finger and wrist as euler rotations
        * @param {Array} lm : array of 3D hand vectors from tfjs or mediapipe
@@ -173,7 +173,7 @@ declare module "kalidokit" {
     }
   
     /** Class representing face solver. */
-    export class FaceSolver {
+    export class Face {
       /** expose blink stabilizer as a static method */
       static stabilizeBlink: (
         eye: any,
