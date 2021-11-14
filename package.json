@@ -16,6 +16,7 @@
         "prepare": "npm run build"
     },
     "devDependencies": {
+        "rollup-plugin-friendly-type-imports": "^1.0.1",
         "typescript": "^4.4.4",
         "vite": "2.6.0",
         "vite-plugin-banner": "0.1.3",
@@ -41,8 +42,5 @@
     ],
     "author": "yeemachine",
     "license": "MIT",
-    "year": "2020-2021",
-    "dependencies": {
-        "rollup-plugin-friendly-type-imports": "^1.0.1"
-    }
+    "year": "2020-2021"
 }
