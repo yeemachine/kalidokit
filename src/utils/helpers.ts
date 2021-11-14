@@ -1,3 +1,5 @@
+import { Vector } from "..";
+
 /**
  * Returns a clamped value between min and max values
  * @param {Number} val : transformed value
@@ -331,3 +333,7 @@ export interface IPoseSolveOptions extends ISolveOptions {
      */
     enableLegs: boolean;
 }
+
+export type XYZ = Record<"x" | "y" | "z", number>;
+
+export type LR<T = Vector> = Record<"l" | "r", T>;
