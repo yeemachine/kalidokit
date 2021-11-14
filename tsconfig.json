@@ -7,7 +7,7 @@
             "DOM"
         ],
         "module": "commonjs",
-        "outDir": "lib",
+        "outDir": "dist",
         "declaration": true,
         "strict": true,
         "noImplicitAny": true,
@@ -19,7 +19,6 @@
     "exclude": [
         "node_modules",
         "tests",
-        "lib",
         "dist"
     ],
     "include": [
