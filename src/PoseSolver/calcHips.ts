@@ -1,5 +1,5 @@
 import Vector from "../utils/vector";
-import { clamp, remap } from "../utils/helpers";
+import { clamp, remap, XYZ } from "../utils/helpers";
 
 export interface IHips {
     position: Record<"x" | "y" | "z", number>;
@@ -71,7 +71,7 @@ export const calcHips = (lm3d: Array<any>, lm2d: Array<any>) => {
  * @param {Object} hips : hip position and rotation values
  * @param {Object} spine : spine position and rotation values
  */
-export const rigHips = (hips: IHips, spine: Vector | Record<"x" | "y" | "z", number>) => {
+export const rigHips = (hips: IHips, spine: Vector | XYZ) => {
     //convert normalized values to radians
     hips.rotation!.x *= Math.PI;
     hips.rotation!.y *= Math.PI;
@@ -89,6 +89,6 @@ export const rigHips = (hips: IHips, spine: Vector | Record<"x" | "y" | "z", num
 
     return {
         Hips: hips,
-        Spine: spine,
+        Spine: spine as XYZ,
     };
 };

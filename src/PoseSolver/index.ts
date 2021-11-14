@@ -1,8 +1,23 @@
-import { IPoseSolveOptions, RestingDefault } from "../utils/helpers";
+import { Vector } from "..";
+import { IPoseSolveOptions, RestingDefault, XYZ } from "../utils/helpers";
 import { calcArms } from "./calcArms";
-import { calcHips } from "./calcHips";
+import { calcHips, IHips } from "./calcHips";
 import { calcLegs } from "./calcLegs";
 
+type TPose = {
+    RightUpperArm: Vector;
+    RightLowerArm: Vector;
+    LeftUpperArm: Vector;
+    LeftLowerArm: Vector;
+    RightHand: Vector;
+    LeftHand: Vector;
+    RightUpperLeg: Vector | XYZ;
+    RightLowerLeg: Vector | XYZ;
+    LeftUpperLeg: Vector | XYZ;
+    LeftLowerLeg: Vector | XYZ;
+    Hips: IHips;
+    Spine: Vector | XYZ;
+};
 /** Class representing pose solver. */
 export class PoseSolver {
     constructor() {}
@@ -23,7 +38,7 @@ export class PoseSolver {
         lm3d: Array<any>,
         lm2d: Array<any>,
         { runtime = "mediapipe", video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}
-    ) {
+    ): TPose | undefined {
         if (!lm3d && !lm2d) {
             console.error("Need both World Pose and Pose Landmarks");
             return;
