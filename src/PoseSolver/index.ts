@@ -17,9 +17,7 @@ export class PoseSolver {
      * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
      * @param {Array} lm2d : array of 2D pose vectors from tfjs or mediapipe
      * @param {String} runtime: set as either "tfjs" or "mediapipe"
-     * @param {HTMLVideoElement} video : video element or video selector string
-     * @param {Object} imageSize: manually set hight and width of prediction
-     * @param {Boolean} enableLegs: toggle calculation of legs
+     * @param {IPoseSolveOptions} options: options object
      */
     static solve(lm3d: Array<any>, lm2d: Array<any>, { runtime = "mediapipe", video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}) {
         if (!lm3d && !lm2d) {

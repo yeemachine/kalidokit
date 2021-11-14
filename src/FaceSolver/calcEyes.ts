@@ -90,7 +90,7 @@ export const eyeLidRatio = (
 /**
  * Calculate pupil position [-1,1]
  * @param {Object} lm : array of results from tfjs or mediapipe
- * @param {String} side : "left" or "right"
+ * @param {"left"| "right"} side : "left" or "right"
  */
 export const pupilPos = (lm: Array<any>, side: 'left' | 'right' = "left") => {
     const eyeOuterCorner = new Vector(lm[points.eye[side][0]]);
@@ -114,10 +114,22 @@ export const pupilPos = (lm: Array<any>, side: 'left' | 'right' = "left") => {
  * Method to stabilize blink speeds to fix inconsistent eye open/close timing
  * @param {Object} eye : object with left and right eye values
  * @param {Number} headY : head y axis rotation in radians
- * @param {Boolean} enableWink : option to disable wink detection
- * @param {Number} maxRot: maximum head y axis rotation in radians
+ * @param {Object} options: Options for blink stabilization
  */
-export const stabilizeBlink = (eye: Record<'r' |'l', number>, headY: number, { enableWink = true, maxRot = 0.5 } = {}) => {
+export const stabilizeBlink = (eye: Record<'r' |'l', number>, headY: number, { enableWink = true, maxRot = 0.5 }: {
+    /**
+     * Enable wink detection
+     * @default true
+     * @type {Boolean}
+     */
+    enableWink?: boolean,
+    /**
+     * Maximum rotation of head to trigger wink
+     * @default 0.5
+     * @type {Number}
+     */
+    maxRot?: number
+} = {}) => {
     eye.r = clamp(eye.r, 0, 1);
     eye.l = clamp(eye.l, 0, 1);
     //difference between each eye
@@ -158,7 +170,20 @@ export const stabilizeBlink = (eye: Record<'r' |'l', number>, headY: number, { e
  * Calculate Eyes
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcEyes = (lm: Array<any>, { high = 0.85, low = 0.55 } = {}) => {
+export const calcEyes = (lm: Array<any>, { high = 0.85, low = 0.55 }: {
+    /**
+     * Upper bound for eye open ratio
+     * @default 0.85
+     * @type {Number}
+    */
+    high?: number,
+    /**
+     * Lower bound for eye open ratio
+     * @default 0.55
+     * @type {Number}
+     **/
+    low?: number
+} = {}) => {
     //return early if no iris tracking
     if (lm.length !== 478) {
         return {

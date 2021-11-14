@@ -14,10 +14,7 @@ export class FaceSolver {
      * Combines head, eye, pupil, and eyebrow calcs into one method
      * @param {Array} lm : array of results from tfjs or mediapipe
      * @param {String} runtime: set as either "tfjs" or "mediapipe"
-     * @param {HTMLVideoElement} video : video element or video selector string
-     * @param {Object} imageSize: manually set hight and width of prediction
-     * @param {Boolean} smoothBlink: toggle smooth blink
-     * @param {Array} blinkSettings: remaps high and low values to 0 to 1
+     * @param {IFaceSolveOptions} options: options for face solver
      */
     static solve(
         lm: Array<any>,
