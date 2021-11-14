@@ -3,7 +3,8 @@ export default class Vector {
     public x: number;
     public y: number;
     public z: number;
-    constructor(a: number[] | Record<'x' | 'y' | 'z', number> | number | Vector , b?: number, c?: number) {
+
+    constructor(a?: number[] | Record<'x' | 'y' | 'z', number> | number | Vector , b?: number, c?: number) {
         if (Array.isArray(a)) {
             this.x = a[0] ?? 0;
             this.y = a[1] ?? 0;
@@ -24,70 +25,152 @@ export default class Vector {
     }
 
     // Methods //
+    /**
+     * Returns the negative of this vector.
+     */
     negative() {
         return new Vector(-this.x, -this.y, -this.z);
     }
+    /**
+     * Add a vector or number to this vector.
+     * @param {Vector | number} a: Vector or number to add
+     * @returns {Vector} New vector
+     */
     add(v: Vector | number) {
         if (v instanceof Vector) return new Vector(this.x + v.x, this.y + v.y, this.z + v.z);
         else return new Vector(this.x + v, this.y + v, this.z + v);
     }
+    /**
+     * Substracts a vector or number from this vector.
+     * @param {Vector | number} a: Vector or number to subtract
+     * @returns {Vector} New vector
+     */
     subtract(v: Vector | number) {
         if (v instanceof Vector) return new Vector(this.x - v.x, this.y - v.y, this.z - v.z);
         else return new Vector(this.x - v, this.y - v, this.z - v);
     }
+    /**
+     * Multiplies a vector or a number to a vector.
+     * @param {Vector | number} a: Vector or number to multiply
+     * @param {Vector} b: Vector to multiply
+     */
     multiply(v: Vector | number) {
         if (v instanceof Vector) return new Vector(this.x * v.x, this.y * v.y, this.z * v.z);
         else return new Vector(this.x * v, this.y * v, this.z * v);
     }
+    /**
+     * Divide this vector by a vector or a number.
+     * @param {Vector | number} a: Vector or number to divide
+     * @returns {Vector} New vector
+     */ 
     divide(v: Vector | number) {
         if (v instanceof Vector) return new Vector(this.x / v.x, this.y / v.y, this.z / v.z);
         else return new Vector(this.x / v, this.y / v, this.z / v);
     }
+    /**
+     * Check if the given vector is equal to this vector.
+     * @param {Vector} v: Vector to compare
+     * @returns {boolean} True if equal
+     */
     equals(v: Vector) {
         return this.x == v.x && this.y == v.y && this.z == v.z;
     }
+    /**
+     * Returns the dot product of this vector and another vector.
+     * @param {Vector} v: Vector to dot
+     * @returns {number} Dot product
+     */
     dot(v: Vector) {
         return this.x * v.x + this.y * v.y + this.z * v.z;
     }
+    /**
+      * Cross product of two vectors.
+      * @param {Vector} a: Vector to cross
+      * @param {Vector} b: Vector to cross
+     */
     cross(v: Vector) {
         return new Vector(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
     }
+    /**
+     * Get the length of the Vector
+     * @returns {number} Length
+     */
     length() {
         return Math.sqrt(this.dot(this));
     }
-    distance(v: Vector, d = 3) {
+    /**
+     * Find the distance between this and another vector.
+     * @param {Vector} v: Vector to find distance to
+     * @param {2 | 3} d: 2D or 3D distance 
+     * @returns {number} Distance 
+     */
+    distance(v: Vector, d: 2 | 3 = 3) {
         //2D distance
         if (d === 2) return Math.sqrt(Math.pow(this.x - v.x, 2) + Math.pow(this.y - v.y, 2));
         //3D distance
         else return Math.sqrt(Math.pow(this.x - v.x, 2) + Math.pow(this.y - v.y, 2) + Math.pow(this.z - v.z, 2));
     }
+    /**
+     * Lerp between this vector and another vector.
+     * @param {Vector} v: Vector to lerp to
+     * @param {number} fraction: Fraction to lerp
+     * @returns {Vector} 
+     */
     lerp(v: Vector, fraction: number) {
         return v.subtract(this).multiply(fraction).add(this);
     }
+    /**
+     * Returns the unit vector of this vector.
+     * @returns {Vector} Unit vector
+     */
     unit() {
         return this.divide(this.length());
     }
+
     min() {
         return Math.min(Math.min(this.x, this.y), this.z);
     }
     max() {
         return Math.max(Math.max(this.x, this.y), this.z);
     }
+    /**
+     * To Angles
+     * @returns {{ theta: number, phi: number }} 
+     */
     toAngles() {
         return {
             theta: Math.atan2(this.z, this.x),
             phi: Math.asin(this.y / this.length()),
         };
     }
+
     angleTo(a: Vector) {
         return Math.acos(this.dot(a) / (this.length() * a.length()));
     }
+
+    /**
+     * Array representation of the vector.
+     * @param {number} n: Array length
+     * @returns {number[]} Array
+     * @example
+     * new Vector(1, 2, 3).toArray(); // [1, 2, 3]
+     */
     toArray(n: number) {
         return [this.x, this.y, this.z].slice(0, n || 3);
     }
+    /**
+     * Clone the vector.
+     * @returns {Vector} New vector
+     */
     clone() {
         return new Vector(this.x, this.y, this.z);
     }
+    /**
+     * Init this Vector with explicit values
+     * @param {number} x: X value
+     * @param {number} y: Y value
+     * @param {number} z: Z value
+     */
     init(x: number, y: number, z: number) {
         this.x = x;
         this.y = y;
@@ -96,13 +179,14 @@ export default class Vector {
     }
 
     // static methods //
-    static negative(a: Vector, b: Vector) {
+    static negative(a: Vector, b: Vector = new Vector()) {
         b.x = -a.x;
         b.y = -a.y;
         b.z = -a.z;
         return b;
     }
-    static add(a: Vector, b: Vector | number, c: Vector) {
+
+    static add(a: Vector, b: Vector | number, c: Vector = new Vector()) {
         if (b instanceof Vector) {
             c.x = a.x + b.x;
             c.y = a.y + b.y;
@@ -114,7 +198,7 @@ export default class Vector {
         }
         return c;
     }
-    static subtract(a: Vector, b: Vector | number, c: Vector) {
+    static subtract(a: Vector, b: Vector | number, c: Vector = new Vector()) {
         if (b instanceof Vector) {
             c.x = a.x - b.x;
             c.y = a.y - b.y;
@@ -126,7 +210,7 @@ export default class Vector {
         }
         return c;
     }
-    static multiply(a: Vector, b: Vector | number, c: Vector) {
+    static multiply(a: Vector, b: Vector | number, c: Vector = new Vector()) {
         if (b instanceof Vector) {
             c.x = a.x * b.x;
             c.y = a.y * b.y;
@@ -138,7 +222,7 @@ export default class Vector {
         }
         return c;
     }
-    static divide(a: Vector, b: Vector | number, c: Vector) {
+    static divide(a: Vector, b: Vector | number, c: Vector = new Vector()) {
         if (b instanceof Vector) {
             c.x = a.x / b.x;
             c.y = a.y / b.y;
@@ -150,7 +234,7 @@ export default class Vector {
         }
         return c;
     }
-    static cross(a: Vector, b: Vector, c: Vector) {
+    static cross(a: Vector, b: Vector, c: Vector = new Vector()) {
         c.x = a.y * b.z - a.z * b.y;
         c.y = a.z * b.x - a.x * b.z;
         c.z = a.x * b.y - a.y * b.x;
@@ -163,6 +247,12 @@ export default class Vector {
         b.z = a.z / length;
         return b;
     }
+    /**
+     * Create new vector from angles
+     * @param {number} theta: Theta angle
+     * @param {number} phi: Phi angle
+     * @returns {Vector} New vector
+     */
     static fromAngles(theta: number, phi: number) {
         return new Vector(Math.cos(theta) * Math.cos(phi), Math.sin(phi), Math.sin(theta) * Math.cos(phi));
     }
@@ -175,6 +265,12 @@ export default class Vector {
     static max(a: Vector, b: Vector) {
         return new Vector(Math.max(a.x, b.x), Math.max(a.y, b.y), Math.max(a.z, b.z));
     }
+    /**
+     * Lerp between two vectors
+     * @param {Vector} a: Vector a
+     * @param {Vector} b: Vector b
+     * @param {number} fraction: Fraction
+     */
     static lerp<T extends number | Vector>(a: T, b: T, fraction: number): T {
         if (b instanceof Vector) {
             return b.subtract(a).multiply(fraction).add(a) as unknown as T
@@ -182,15 +278,32 @@ export default class Vector {
             return (b as number - (a as number)) * fraction + (a as unknown as number) as unknown as T
         }
     }
-    static fromArray(a: Array<number> | Vector) {
+    /**
+     * Create a new vector from an Array
+     * @param {number[]} array: Array
+     * @returns {Vector} New vector
+     */
+    static fromArray(a: Array<number> | Record<'x' | 'y' | 'z', number>) {
         if (Array.isArray(a)) {
             return new Vector(a[0], a[1], a[2]);
         }
         return new Vector(a.x, a.y, a.z);
     }
+    /**
+     * Angle between two vectors
+     * @param {Vector} a: Vector a
+     * @param {Vector} b: Vector b
+     * @returns 
+     */
     static angleBetween(a: Vector, b: Vector) {
         return a.angleTo(b);
     }
+    /**
+     * Angle between two vertices
+     * @param a 
+     * @param b 
+     * @param c 
+     */
     static angleBetweenVertices(a: Vector, b: Vector, c: Vector) {
         let ab = a.subtract(b);
         let bc = c.subtract(b);
@@ -226,7 +339,12 @@ export default class Vector {
         var theta = Math.atan2(dy, dx);
         return theta;
     }
-    //find 3D rotation of 2 points
+    /**
+     * Find 3D rotation between two vectors
+     * @param {Vector} a: First vector
+     * @param {Vector} b: Second vector
+     * @param {boolean} normalize: Normalize the result
+     */
     static findRotation(a: Vector, b: Vector, normalize = true) {
         if (normalize) {
             return new Vector(
@@ -242,7 +360,13 @@ export default class Vector {
             );
         }
     }
-    /** find roll pitch yaw of plane formed by 3 points*/
+    /** 
+     * Find roll pitch yaw of plane formed by 3 points
+     * @param {Vector} a: Vector
+     * @param {Vector} b: Vector
+     * @param {Vector} c: Vector
+     * @return {Vector} Vector of roll pitch yaw
+    */
     static rollPitchYaw(a: Vector, b: Vector, c?: Vector) {
         if (!c) {
             return new Vector(
@@ -265,19 +389,22 @@ export default class Vector {
 
         return new Vector(Vector.normalizeAngle(alpha), Vector.normalizeAngle(beta), Vector.normalizeAngle(gamma));
     }
-    //find 2D angle between 3 points in space
-    static angleBetween3DCoords(a: Vector | number, b: Vector | number, c: Vector | number) {
+    /**
+     * Find angle between 3D Coordinates
+     * @param {Vector | number} a: 
+    */
+    static angleBetween3DCoords(a: Vector | Record<'x'|'y'|'z', number>, b: Vector | Record<'x'|'y'|'z', number>, c: Vector | Record<'x'|'y'|'z', number>) {
         if (!(a instanceof Vector)) {
             a = new Vector(a);
             b = new Vector(b);
             c = new Vector(c);
         }
         // Calculate vector between points 1 and 2
-        const v1 = a.subtract(b);
+        const v1 = (a as Vector).subtract(b as Vector);
 
         // Calculate vector between points 2 and 3
 
-        const v2 = (c as Vector).subtract(b);
+        const v2 = (c as Vector).subtract(b as Vector);
 
         // The dot product of vectors v1 & v2 is a function of the cosine of the
         // angle between them (it's scaled by the product of their magnitudes).
