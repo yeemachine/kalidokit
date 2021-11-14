@@ -2,13 +2,18 @@
     "name": "kalidokit",
     "version": "1.0.5",
     "repository": "github:yeemachine/kalidokit",
-    "main": "src/index.js",
-    "types": "./index.d.ts",
+    "main": "dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
     "scripts": {
-        "dev": "vite docs --host",
-        "build": "npm run build:lib && vite build",
+        "dev": "vite docs",
+        "prebuild": "rm -rf dist lib",
+        "build": "vite build && npm run build:lib",
         "build:lib": "tsc -p .",
-        "serve": "vite"
+        "serve": "vite",
+        "prepare": "npm run build"
     },
     "devDependencies": {
         "typescript": "^4.4.4",
@@ -36,5 +41,8 @@
     ],
     "author": "yeemachine",
     "license": "MIT",
-    "year": "2020-2021"
+    "year": "2020-2021",
+    "dependencies": {
+        "rollup-plugin-friendly-type-imports": "^1.0.1"
+    }
 }
