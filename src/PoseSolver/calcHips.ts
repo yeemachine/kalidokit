@@ -1,28 +1,29 @@
-import Vector from "../utils/vector.js";
-import { clamp, remap } from "../utils/helpers.js";
+import Vector from "../utils/vector";
+import { clamp, remap } from "../utils/helpers";
 
+
+export interface IHips { position: Record<'x' | 'y' | 'z', number>, rotation?: Vector, worldPosition?: Record<'x' | 'y' | 'z', number> }
 /**
  * Calculates Hip rotation and world position
  * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
  * @param {Array} lm2d : array of 2D pose vectors from tfjs or mediapipe
  */
-export const calcHips = (lm3d, lm2d) => {
+export const calcHips = (lm3d: Array<any>, lm2d: Array<any>) => {
     //Find 2D normalized Hip and Shoulder Joint Positions/Distances
     let hipLeft2d = Vector.fromArray(lm2d[23]);
     let hipRight2d = Vector.fromArray(lm2d[24]);
     let shoulderLeft2d = Vector.fromArray(lm2d[11]);
     let shoulderRight2d = Vector.fromArray(lm2d[12]);
-    let hipCenter2d = hipLeft2d.lerp(hipRight2d);
-    let shoulderCenter2d = shoulderLeft2d.lerp(shoulderRight2d);
+    let hipCenter2d = hipLeft2d.lerp(hipRight2d, 1);
+    let shoulderCenter2d = shoulderLeft2d.lerp(shoulderRight2d, 1);
     let spineLength = hipCenter2d.distance(shoulderCenter2d);
 
-    let hips = {
+    let hips: IHips = {
         position: {
             x: clamp(-1 * (hipCenter2d.x - 0.65), -1, 1), //subtract .65 to bring closer to 0,0 center
             y: 0,
             z: clamp(spineLength - 1, -2, 0),
-        },
-        rotation: null,
+        }
     };
     hips.rotation = Vector.rollPitchYaw(lm3d[23], lm3d[24]);
     //fix -PI, PI jumping
@@ -67,11 +68,11 @@ export const calcHips = (lm3d, lm2d) => {
  * @param {Object} hips : hip position and rotation values
  * @param {Object} spine : spine position and rotation values
  */
-export const rigHips = (hips, spine) => {
+export const rigHips = (hips: IHips, spine: Vector | Record<'x' | 'y' | 'z', number>) => {
     //convert normalized values to radians
-    hips.rotation.x *= Math.PI;
-    hips.rotation.y *= Math.PI;
-    hips.rotation.z *= Math.PI;
+    hips.rotation!.x *= Math.PI;
+    hips.rotation!.y *= Math.PI;
+    hips.rotation!.z *= Math.PI;
 
     hips.worldPosition = {
         x: hips.position.x * (0.5 + 1.8 * -hips.position.z),

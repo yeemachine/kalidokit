@@ -1,10 +1,10 @@
-import Vector from "../utils/vector.js";
+import Vector from "../utils/vector";
 
 /**
  * Calculate stable plane (triangle) from 4 face landmarks
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const createEulerPlane = (lm) => {
+export const createEulerPlane = (lm: Array<any>) => {
     //create face detection square bounds
     let p1 = new Vector(lm[21]); //top left
     let p2 = new Vector(lm[251]); //top right
@@ -21,7 +21,7 @@ export const createEulerPlane = (lm) => {
  * Calculate roll, pitch, yaw, centerpoint, and rough dimentions of face plane
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcHead = (lm) => {
+export const calcHead = (lm: Array<any>) => {
     // find 3 vectors that form a plane to represent the head
     const plane = createEulerPlane(lm).vector;
     // calculate roll pitch and yaw from vectors

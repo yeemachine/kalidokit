@@ -1,5 +1,5 @@
-import Vector from "../utils/vector.js";
-import { clamp, remap } from "../utils/helpers.js";
+import Vector from "../utils/vector";
+import { clamp, remap } from "../utils/helpers";
 
 /**
  * Landmark points labeled for eye, brow, and pupils
@@ -26,7 +26,7 @@ const points = {
  * @param {Number} high : ratio at which eye is considered open
  * @param {Number} low : ratio at which eye is comsidered closed
  */
-export const getEyeOpen = (lm, side = "left", { high = 0.85, low = 0.55 } = {}) => {
+export const getEyeOpen = (lm: Array<any>, side: 'left' | 'right' = "left", { high = 0.85, low = 0.55 } = {}) => {
     let eyePoints = points.eye[side];
     let eyeDistance = eyeLidRatio(
         lm[eyePoints[0]],
@@ -56,14 +56,14 @@ export const getEyeOpen = (lm, side = "left", { high = 0.85, low = 0.55 } = {}) 
  * Calculate eyelid distance ratios based on landmarks on the face
  */
 export const eyeLidRatio = (
-    eyeOuterCorner,
-    eyeInnerCorner,
-    eyeOuterUpperLid,
-    eyeMidUpperLid,
-    eyeInnerUpperLid,
-    eyeOuterLowerLid,
-    eyeMidLowerLid,
-    eyeInnerLowerLid
+    eyeOuterCorner: number | Vector,
+    eyeInnerCorner: number | Vector,
+    eyeOuterUpperLid: number | Vector,
+    eyeMidUpperLid: number | Vector,
+    eyeInnerUpperLid: number | Vector,
+    eyeOuterLowerLid: number | Vector,
+    eyeMidLowerLid: number | Vector,
+    eyeInnerLowerLid: number | Vector
 ) => {
     eyeOuterCorner = new Vector(eyeOuterCorner);
     eyeInnerCorner = new Vector(eyeInnerCorner);
@@ -92,7 +92,7 @@ export const eyeLidRatio = (
  * @param {Object} lm : array of results from tfjs or mediapipe
  * @param {String} side : "left" or "right"
  */
-export const pupilPos = (lm, side = "left") => {
+export const pupilPos = (lm: Array<any>, side: 'left' | 'right' = "left") => {
     const eyeOuterCorner = new Vector(lm[points.eye[side][0]]);
     const eyeInnerCorner = new Vector(lm[points.eye[side][1]]);
     const eyeWidth = eyeOuterCorner.distance(eyeInnerCorner, 2);
@@ -117,7 +117,7 @@ export const pupilPos = (lm, side = "left") => {
  * @param {Boolean} enableWink : option to disable wink detection
  * @param {Number} maxRot: maximum head y axis rotation in radians
  */
-export const stabilizeBlink = (eye, headY, { enableWink = true, maxRot = 0.5 } = {}) => {
+export const stabilizeBlink = (eye: Record<'r' |'l', number>, headY: number, { enableWink = true, maxRot = 0.5 } = {}) => {
     eye.r = clamp(eye.r, 0, 1);
     eye.l = clamp(eye.l, 0, 1);
     //difference between each eye
@@ -158,7 +158,7 @@ export const stabilizeBlink = (eye, headY, { enableWink = true, maxRot = 0.5 } =
  * Calculate Eyes
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcEyes = (lm, { high = 0.85, low = 0.55 } = {}) => {
+export const calcEyes = (lm: Array<any>, { high = 0.85, low = 0.55 } = {}) => {
     //return early if no iris tracking
     if (lm.length !== 478) {
         return {
@@ -180,7 +180,7 @@ export const calcEyes = (lm, { high = 0.85, low = 0.55 } = {}) => {
  * Calculate pupil location normalized to eye bounds
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcPupils = (lm) => {
+export const calcPupils = (lm: Array<any>) => {
     //pupil x:[-1,1],y:[-1,1]
     if (lm.length !== 478) {
         return { x: 0, y: 0 };
@@ -201,7 +201,7 @@ export const calcPupils = (lm) => {
  * @param {Array} lm : array of results from tfjs or mediapipe
  * @param {String} side : designate "left" or "right"
  */
-export const getBrowRaise = (lm, side = "left") => {
+export const getBrowRaise = (lm: Array<any>, side: 'left' | 'right' = "left") => {
     let browPoints = points.brow[side];
     let browDistance = eyeLidRatio(
         lm[browPoints[0]],
@@ -226,7 +226,7 @@ export const getBrowRaise = (lm, side = "left") => {
  * Take the average of left and right eyebrow raise values
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcBrow = (lm) => {
+export const calcBrow = (lm: Array<any>) => {
     if (lm.length !== 478) {
         return 0;
     } else {

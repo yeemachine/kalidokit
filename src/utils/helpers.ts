@@ -4,7 +4,7 @@
  * @param {Number} min : minimum value
  * @param {Number} max : maximum value
  */
-export const clamp = (val, min, max) => {
+export const clamp = (val: number, min: number, max: number) => {
     return Math.max(Math.min(val, max), min);
 };
 
@@ -14,7 +14,7 @@ export const clamp = (val, min, max) => {
  * @param {Number} min : minimum value
  * @param {Number} max : maximum value
  */
-export const remap = (val, min, max) => {
+export const remap = (val: number, min: number, max: number) => {
     //returns min to max -> 0 to 1
     return (clamp(val, min, max) - min) / (max - min);
 };
@@ -289,3 +289,18 @@ export const RestingDefault = {
         },
     },
 };
+
+export interface ISolveOptions {
+    runtime: "tfjs" | "mediapipe"
+    video: null | HTMLVideoElement | string, 
+    imageSize: null | { width: number, height: number }
+}
+
+export interface IFaceSolveOptions extends ISolveOptions {
+    smoothBlink: boolean, 
+    blinkSettings: Array<number>,
+}
+
+export interface IPoseSolveOptions extends ISolveOptions {
+    enableLegs: boolean
+}

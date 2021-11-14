@@ -1,6 +1,7 @@
-import { calcHead } from "./calcHead.js";
-import { calcEyes, stabilizeBlink, calcPupils, calcBrow } from "./calcEyes.js";
-import { calcMouth } from "./calcMouth.js";
+import { calcHead } from "./calcHead";
+import { calcEyes, stabilizeBlink, calcPupils, calcBrow } from "./calcEyes";
+import { calcMouth } from "./calcMouth";
+import { IFaceSolveOptions } from "../utils/helpers";
 
 /** Class representing face solver. */
 export class FaceSolver {
@@ -19,8 +20,8 @@ export class FaceSolver {
      * @param {Array} blinkSettings: remaps high and low values to 0 to 1
      */
     static solve(
-        lm,
-        { runtime = "tfjs", video = null, imageSize = null, smoothBlink = false, blinkSettings = [] } = {}
+        lm: Array<any>,
+        { runtime = "tfjs", video = null, imageSize = null, smoothBlink = false, blinkSettings = [] }: Partial<IFaceSolveOptions> = {}
     ) {
         if (!lm) {
             console.error("Need Face Landmarks");
@@ -29,11 +30,7 @@ export class FaceSolver {
 
         // set image size based on video
         if (video) {
-            let videoEl = video;
-            // if video is string, find element via css selector
-            if (typeof video === "string") {
-                videoEl = document.querySelector(video);
-            }
+            const videoEl = (typeof video === "string" ? document.querySelector(video) : video) as HTMLVideoElement
             imageSize = {
                 width: videoEl.videoWidth,
                 height: videoEl.videoHeight,
@@ -41,11 +38,11 @@ export class FaceSolver {
         }
 
         //if runtime is mediapipe, we need the image dimentions for accurate calculations
-        if (runtime === "mediapipe" && imageSize) {
+        if ((runtime === "mediapipe") && imageSize) {
             lm.forEach((e) => {
-                e.x *= imageSize.width;
-                e.y *= imageSize.height;
-                e.z *= imageSize.width;
+                e.x *= imageSize!.width;
+                e.y *= imageSize!.height;
+                e.z *= imageSize!.width;
             });
         }
 
@@ -66,7 +63,7 @@ export class FaceSolver {
         }
 
         let getPupils = calcPupils(lm);
-        let getBrow = calcBrow(lm, getHead.y);
+        let getBrow = calcBrow(lm);
 
         return {
             head: getHead,
