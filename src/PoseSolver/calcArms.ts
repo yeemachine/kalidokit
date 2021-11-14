@@ -67,7 +67,7 @@ export const calcArms = (lm: Array<any>) => {
  * @param {Object} Hand : normalized rotation values
  * @param {String} side : "Left" or "Right"
  */
-export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: 'Left' | 'Right' = "Right") => {
+export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: "Left" | "Right" = "Right") => {
     // Invert modifier based on left vs right side
     const invert = side === "Right" ? 1 : -1;
 

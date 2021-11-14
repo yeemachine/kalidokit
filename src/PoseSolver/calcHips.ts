@@ -1,8 +1,11 @@
 import Vector from "../utils/vector";
 import { clamp, remap } from "../utils/helpers";
 
-
-export interface IHips { position: Record<'x' | 'y' | 'z', number>, rotation?: Vector, worldPosition?: Record<'x' | 'y' | 'z', number> }
+export interface IHips {
+    position: Record<"x" | "y" | "z", number>;
+    rotation?: Vector;
+    worldPosition?: Record<"x" | "y" | "z", number>;
+}
 /**
  * Calculates Hip rotation and world position
  * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
@@ -23,7 +26,7 @@ export const calcHips = (lm3d: Array<any>, lm2d: Array<any>) => {
             x: clamp(-1 * (hipCenter2d.x - 0.65), -1, 1), //subtract .65 to bring closer to 0,0 center
             y: 0,
             z: clamp(spineLength - 1, -2, 0),
-        }
+        },
     };
     hips.rotation = Vector.rollPitchYaw(lm3d[23], lm3d[24]);
     //fix -PI, PI jumping
@@ -68,7 +71,7 @@ export const calcHips = (lm3d: Array<any>, lm2d: Array<any>) => {
  * @param {Object} hips : hip position and rotation values
  * @param {Object} spine : spine position and rotation values
  */
-export const rigHips = (hips: IHips, spine: Vector | Record<'x' | 'y' | 'z', number>) => {
+export const rigHips = (hips: IHips, spine: Vector | Record<"x" | "y" | "z", number>) => {
     //convert normalized values to radians
     hips.rotation!.x *= Math.PI;
     hips.rotation!.y *= Math.PI;

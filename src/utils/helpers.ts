@@ -296,18 +296,18 @@ export interface ISolveOptions {
      * @default "mediapipe"
      * @type {"tfjs" | "mediapipe"}
      */
-    runtime: "tfjs" | "mediapipe"
+    runtime: "tfjs" | "mediapipe";
     /**
      * HTML Video element or selector for the video element.
      * @type {HTMLElement | string}
      */
-    video: null | HTMLVideoElement | string, 
+    video: null | HTMLVideoElement | string;
     /**
-     * Set Manual Size 
+     * Set Manual Size
      * @type {{ width: number, height: number }}
      * @default null
      */
-    imageSize: null | { width: number, height: number }
+    imageSize: null | { width: number; height: number };
 }
 
 export interface IFaceSolveOptions extends ISolveOptions {
@@ -316,11 +316,11 @@ export interface IFaceSolveOptions extends ISolveOptions {
      * @type {boolean}
      * @default false
      */
-    smoothBlink: boolean, 
+    smoothBlink: boolean;
     /**
      * Blink settings
-    */
-    blinkSettings: Array<number>,
+     */
+    blinkSettings: Array<number>;
 }
 
 export interface IPoseSolveOptions extends ISolveOptions {
@@ -329,5 +329,5 @@ export interface IPoseSolveOptions extends ISolveOptions {
      * @type {boolean}
      * @default true
      */
-    enableLegs: boolean
+    enableLegs: boolean;
 }

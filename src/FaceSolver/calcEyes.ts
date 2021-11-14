@@ -26,7 +26,7 @@ const points = {
  * @param {Number} high : ratio at which eye is considered open
  * @param {Number} low : ratio at which eye is comsidered closed
  */
-export const getEyeOpen = (lm: Array<any>, side: 'left' | 'right' = "left", { high = 0.85, low = 0.55 } = {}) => {
+export const getEyeOpen = (lm: Array<any>, side: "left" | "right" = "left", { high = 0.85, low = 0.55 } = {}) => {
     let eyePoints = points.eye[side];
     let eyeDistance = eyeLidRatio(
         lm[eyePoints[0]],
@@ -92,7 +92,7 @@ export const eyeLidRatio = (
  * @param {Object} lm : array of results from tfjs or mediapipe
  * @param {"left"| "right"} side : "left" or "right"
  */
-export const pupilPos = (lm: Array<any>, side: 'left' | 'right' = "left") => {
+export const pupilPos = (lm: Array<any>, side: "left" | "right" = "left") => {
     const eyeOuterCorner = new Vector(lm[points.eye[side][0]]);
     const eyeInnerCorner = new Vector(lm[points.eye[side][1]]);
     const eyeWidth = eyeOuterCorner.distance(eyeInnerCorner, 2);
@@ -116,20 +116,27 @@ export const pupilPos = (lm: Array<any>, side: 'left' | 'right' = "left") => {
  * @param {Number} headY : head y axis rotation in radians
  * @param {Object} options: Options for blink stabilization
  */
-export const stabilizeBlink = (eye: Record<'r' |'l', number>, headY: number, { enableWink = true, maxRot = 0.5 }: {
-    /**
-     * Enable wink detection
-     * @default true
-     * @type {Boolean}
-     */
-    enableWink?: boolean,
-    /**
-     * Maximum rotation of head to trigger wink
-     * @default 0.5
-     * @type {Number}
-     */
-    maxRot?: number
-} = {}) => {
+export const stabilizeBlink = (
+    eye: Record<"r" | "l", number>,
+    headY: number,
+    {
+        enableWink = true,
+        maxRot = 0.5,
+    }: {
+        /**
+         * Enable wink detection
+         * @default true
+         * @type {Boolean}
+         */
+        enableWink?: boolean;
+        /**
+         * Maximum rotation of head to trigger wink
+         * @default 0.5
+         * @type {Number}
+         */
+        maxRot?: number;
+    } = {}
+) => {
     eye.r = clamp(eye.r, 0, 1);
     eye.l = clamp(eye.l, 0, 1);
     //difference between each eye
@@ -170,20 +177,26 @@ export const stabilizeBlink = (eye: Record<'r' |'l', number>, headY: number, { e
  * Calculate Eyes
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcEyes = (lm: Array<any>, { high = 0.85, low = 0.55 }: {
-    /**
-     * Upper bound for eye open ratio
-     * @default 0.85
-     * @type {Number}
-    */
-    high?: number,
-    /**
-     * Lower bound for eye open ratio
-     * @default 0.55
-     * @type {Number}
-     **/
-    low?: number
-} = {}) => {
+export const calcEyes = (
+    lm: Array<any>,
+    {
+        high = 0.85,
+        low = 0.55,
+    }: {
+        /**
+         * Upper bound for eye open ratio
+         * @default 0.85
+         * @type {Number}
+         */
+        high?: number;
+        /**
+         * Lower bound for eye open ratio
+         * @default 0.55
+         * @type {Number}
+         **/
+        low?: number;
+    } = {}
+) => {
     //return early if no iris tracking
     if (lm.length !== 478) {
         return {
@@ -226,7 +239,7 @@ export const calcPupils = (lm: Array<any>) => {
  * @param {Array} lm : array of results from tfjs or mediapipe
  * @param {String} side : designate "left" or "right"
  */
-export const getBrowRaise = (lm: Array<any>, side: 'left' | 'right' = "left") => {
+export const getBrowRaise = (lm: Array<any>, side: "left" | "right" = "left") => {
     let browPoints = points.brow[side];
     let browDistance = eyeLidRatio(
         lm[browPoints[0]],

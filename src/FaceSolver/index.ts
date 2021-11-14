@@ -18,7 +18,13 @@ export class FaceSolver {
      */
     static solve(
         lm: Array<any>,
-        { runtime = "tfjs", video = null, imageSize = null, smoothBlink = false, blinkSettings = [] }: Partial<IFaceSolveOptions> = {}
+        {
+            runtime = "tfjs",
+            video = null,
+            imageSize = null,
+            smoothBlink = false,
+            blinkSettings = [],
+        }: Partial<IFaceSolveOptions> = {}
     ) {
         if (!lm) {
             console.error("Need Face Landmarks");
@@ -27,7 +33,7 @@ export class FaceSolver {
 
         // set image size based on video
         if (video) {
-            const videoEl = (typeof video === "string" ? document.querySelector(video) : video) as HTMLVideoElement
+            const videoEl = (typeof video === "string" ? document.querySelector(video) : video) as HTMLVideoElement;
             imageSize = {
                 width: videoEl.videoWidth,
                 height: videoEl.videoHeight,
@@ -35,7 +41,7 @@ export class FaceSolver {
         }
 
         //if runtime is mediapipe, we need the image dimentions for accurate calculations
-        if ((runtime === "mediapipe") && imageSize) {
+        if (runtime === "mediapipe" && imageSize) {
             lm.forEach((e) => {
                 e.x *= imageSize!.width;
                 e.y *= imageSize!.height;

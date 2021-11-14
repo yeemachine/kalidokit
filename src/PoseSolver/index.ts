@@ -19,7 +19,11 @@ export class PoseSolver {
      * @param {String} runtime: set as either "tfjs" or "mediapipe"
      * @param {IPoseSolveOptions} options: options object
      */
-    static solve(lm3d: Array<any>, lm2d: Array<any>, { runtime = "mediapipe", video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}) {
+    static solve(
+        lm3d: Array<any>,
+        lm2d: Array<any>,
+        { runtime = "mediapipe", video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}
+    ) {
         if (!lm3d && !lm2d) {
             console.error("Need both World Pose and Pose Landmarks");
             return;
@@ -27,7 +31,7 @@ export class PoseSolver {
 
         // format and normalize values given by tfjs output
         if (video) {
-            const videoEl = (typeof video === "string" ? document.querySelector(video) : video) as HTMLVideoElement
+            const videoEl = (typeof video === "string" ? document.querySelector(video) : video) as HTMLVideoElement;
 
             imageSize = {
                 width: videoEl.videoWidth,

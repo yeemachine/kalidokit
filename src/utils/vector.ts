@@ -4,19 +4,19 @@ export default class Vector {
     public y: number;
     public z: number;
 
-    constructor(a?: number[] | Record<'x' | 'y' | 'z', number> | number | Vector , b?: number, c?: number) {
+    constructor(a?: number[] | Record<"x" | "y" | "z", number> | number | Vector, b?: number, c?: number) {
         if (Array.isArray(a)) {
             this.x = a[0] ?? 0;
             this.y = a[1] ?? 0;
             this.z = a[2] ?? 0;
-            return
+            return;
         }
 
-        if (!!a && typeof a === 'object') {
+        if (!!a && typeof a === "object") {
             this.x = a.x ?? 0;
             this.y = a.y ?? 0;
             this.z = a.z ?? 0;
-            return
+            return;
         }
 
         this.x = a ?? 0;
@@ -62,7 +62,7 @@ export default class Vector {
      * Divide this vector by a vector or a number.
      * @param {Vector | number} a: Vector or number to divide
      * @returns {Vector} New vector
-     */ 
+     */
     divide(v: Vector | number) {
         if (v instanceof Vector) return new Vector(this.x / v.x, this.y / v.y, this.z / v.z);
         else return new Vector(this.x / v, this.y / v, this.z / v);
@@ -84,9 +84,9 @@ export default class Vector {
         return this.x * v.x + this.y * v.y + this.z * v.z;
     }
     /**
-      * Cross product of two vectors.
-      * @param {Vector} a: Vector to cross
-      * @param {Vector} b: Vector to cross
+     * Cross product of two vectors.
+     * @param {Vector} a: Vector to cross
+     * @param {Vector} b: Vector to cross
      */
     cross(v: Vector) {
         return new Vector(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);
@@ -101,8 +101,8 @@ export default class Vector {
     /**
      * Find the distance between this and another vector.
      * @param {Vector} v: Vector to find distance to
-     * @param {2 | 3} d: 2D or 3D distance 
-     * @returns {number} Distance 
+     * @param {2 | 3} d: 2D or 3D distance
+     * @returns {number} Distance
      */
     distance(v: Vector, d: 2 | 3 = 3) {
         //2D distance
@@ -114,7 +114,7 @@ export default class Vector {
      * Lerp between this vector and another vector.
      * @param {Vector} v: Vector to lerp to
      * @param {number} fraction: Fraction to lerp
-     * @returns {Vector} 
+     * @returns {Vector}
      */
     lerp(v: Vector, fraction: number) {
         return v.subtract(this).multiply(fraction).add(this);
@@ -135,7 +135,7 @@ export default class Vector {
     }
     /**
      * To Angles
-     * @returns {{ theta: number, phi: number }} 
+     * @returns {{ theta: number, phi: number }}
      */
     toAngles() {
         return {
@@ -273,9 +273,9 @@ export default class Vector {
      */
     static lerp<T extends number | Vector>(a: T, b: T, fraction: number): T {
         if (b instanceof Vector) {
-            return b.subtract(a).multiply(fraction).add(a) as unknown as T
+            return b.subtract(a).multiply(fraction).add(a) as unknown as T;
         } else {
-            return (b as number - (a as number)) * fraction + (a as unknown as number) as unknown as T
+            return (((b as number) - (a as number)) * fraction + (a as unknown as number)) as unknown as T;
         }
     }
     /**
@@ -283,7 +283,7 @@ export default class Vector {
      * @param {number[]} array: Array
      * @returns {Vector} New vector
      */
-    static fromArray(a: Array<number> | Record<'x' | 'y' | 'z', number>) {
+    static fromArray(a: Array<number> | Record<"x" | "y" | "z", number>) {
         if (Array.isArray(a)) {
             return new Vector(a[0], a[1], a[2]);
         }
@@ -293,16 +293,16 @@ export default class Vector {
      * Angle between two vectors
      * @param {Vector} a: Vector a
      * @param {Vector} b: Vector b
-     * @returns 
+     * @returns
      */
     static angleBetween(a: Vector, b: Vector) {
         return a.angleTo(b);
     }
     /**
      * Angle between two vertices
-     * @param a 
-     * @param b 
-     * @param c 
+     * @param a
+     * @param b
+     * @param c
      */
     static angleBetweenVertices(a: Vector, b: Vector, c: Vector) {
         let ab = a.subtract(b);
@@ -360,13 +360,13 @@ export default class Vector {
             );
         }
     }
-    /** 
+    /**
      * Find roll pitch yaw of plane formed by 3 points
      * @param {Vector} a: Vector
      * @param {Vector} b: Vector
      * @param {Vector} c: Vector
      * @return {Vector} Vector of roll pitch yaw
-    */
+     */
     static rollPitchYaw(a: Vector, b: Vector, c?: Vector) {
         if (!c) {
             return new Vector(
@@ -391,9 +391,13 @@ export default class Vector {
     }
     /**
      * Find angle between 3D Coordinates
-     * @param {Vector | number} a: 
-    */
-    static angleBetween3DCoords(a: Vector | Record<'x'|'y'|'z', number>, b: Vector | Record<'x'|'y'|'z', number>, c: Vector | Record<'x'|'y'|'z', number>) {
+     * @param {Vector | number} a:
+     */
+    static angleBetween3DCoords(
+        a: Vector | Record<"x" | "y" | "z", number>,
+        b: Vector | Record<"x" | "y" | "z", number>,
+        c: Vector | Record<"x" | "y" | "z", number>
+    ) {
         if (!(a instanceof Vector)) {
             a = new Vector(a);
             b = new Vector(b);
