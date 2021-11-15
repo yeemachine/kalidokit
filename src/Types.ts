@@ -73,6 +73,8 @@ export type HandKeys<S extends "Right" | "Left"> = `${S}${
     | "RingIntermediate"
     | "RingDistal"
     | "IndexProximal"
+    | "LeftIndexIntermediate"
+    | "LeftIndexDistal"
     | "MiddleProximal"
     | "MiddleIntermediate"
     | "MiddleDistal"
