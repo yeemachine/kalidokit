@@ -1,7 +1,7 @@
 import { calcHead } from "./calcHead";
 import { calcEyes, stabilizeBlink, calcPupils, calcBrow } from "./calcEyes";
 import { calcMouth } from "./calcMouth";
-import { IFaceSolveOptions } from "../utils/helpers";
+import { IFaceSolveOptions } from "../Types";
 
 /** Class representing face solver. */
 export class FaceSolver {

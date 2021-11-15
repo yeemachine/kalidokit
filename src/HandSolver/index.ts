@@ -1,23 +1,7 @@
 import Vector from "../utils/vector";
-import { clamp, XYZ } from "../utils/helpers";
+import { clamp } from "../utils/helpers";
+import { THand, THandUnsafe } from "../Types";
 
-type HandKeys<S extends "Right" | "Left"> = `${S}${
-    | "Wrist"
-    | "RingProximal"
-    | "RingIntermediate"
-    | "RingDistal"
-    | "IndexProximal"
-    | "MiddleProximal"
-    | "MiddleIntermediate"
-    | "MiddleDistal"
-    | "ThumbProximal"
-    | "ThumbIntermediate"
-    | "ThumbDistal"
-    | "LittleProximal"
-    | "LittleIntermediate"
-    | "LittleDistal"}`;
-type THand<S extends "Right" | "Left"> = Record<HandKeys<S>, XYZ>;
-type THandUnsafe<S extends "Right" | "Left"> = Record<HandKeys<S> | string, XYZ>;
 /** Class representing hand solver. */
 export class HandSolver {
     constructor() {}

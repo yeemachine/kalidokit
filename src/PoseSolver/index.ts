@@ -1,23 +1,10 @@
-import { Vector } from "..";
-import { IPoseSolveOptions, RestingDefault, XYZ } from "../utils/helpers";
+import { IPoseSolveOptions, TPose } from "../Types";
+import { RestingDefault } from "../utils/helpers";
 import { calcArms } from "./calcArms";
-import { calcHips, IHips } from "./calcHips";
+import { calcHips } from "./calcHips";
 import { calcLegs } from "./calcLegs";
 
-type TPose = {
-    RightUpperArm: Vector;
-    RightLowerArm: Vector;
-    LeftUpperArm: Vector;
-    LeftLowerArm: Vector;
-    RightHand: Vector;
-    LeftHand: Vector;
-    RightUpperLeg: Vector | XYZ;
-    RightLowerLeg: Vector | XYZ;
-    LeftUpperLeg: Vector | XYZ;
-    LeftLowerLeg: Vector | XYZ;
-    Hips: IHips;
-    Spine: Vector | XYZ;
-};
+
 /** Class representing pose solver. */
 export class PoseSolver {
     constructor() {}

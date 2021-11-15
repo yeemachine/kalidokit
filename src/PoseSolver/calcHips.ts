@@ -1,11 +1,7 @@
 import Vector from "../utils/vector";
-import { clamp, remap, XYZ } from "../utils/helpers";
+import { clamp, remap } from "../utils/helpers";
+import { IHips, XYZ } from "../Types";
 
-export interface IHips {
-    position: Record<"x" | "y" | "z", number>;
-    rotation?: Vector;
-    worldPosition?: Record<"x" | "y" | "z", number>;
-}
 /**
  * Calculates Hip rotation and world position
  * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe

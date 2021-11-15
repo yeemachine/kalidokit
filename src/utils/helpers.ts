@@ -1,5 +1,3 @@
-import { Vector } from "..";
-
 /**
  * Returns a clamped value between min and max values
  * @param {Number} val : transformed value
@@ -291,49 +289,3 @@ export const RestingDefault = {
         },
     },
 };
-
-export interface ISolveOptions {
-    /**
-     * Runtime for the solver.
-     * @default "mediapipe"
-     * @type {"tfjs" | "mediapipe"}
-     */
-    runtime: "tfjs" | "mediapipe";
-    /**
-     * HTML Video element or selector for the video element.
-     * @type {HTMLElement | string}
-     */
-    video: null | HTMLVideoElement | string;
-    /**
-     * Set Manual Size
-     * @type {{ width: number, height: number }}
-     * @default null
-     */
-    imageSize: null | { width: number; height: number };
-}
-
-export interface IFaceSolveOptions extends ISolveOptions {
-    /**
-     * Smooth Blink Toggle
-     * @type {boolean}
-     * @default false
-     */
-    smoothBlink: boolean;
-    /**
-     * Blink settings
-     */
-    blinkSettings: Array<number>;
-}
-
-export interface IPoseSolveOptions extends ISolveOptions {
-    /**
-     * Toggle Calculation of legs
-     * @type {boolean}
-     * @default true
-     */
-    enableLegs: boolean;
-}
-
-export type XYZ = Record<"x" | "y" | "z", number>;
-
-export type LR<T = Vector> = Record<"l" | "r", T>;
