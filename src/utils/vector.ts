@@ -1,3 +1,5 @@
+import { XYZ } from "../Types";
+
 /** Vector Math class. */
 export default class Vector {
     public x: number;
@@ -283,7 +285,7 @@ export default class Vector {
      * @param {number[]} array: Array
      * @returns {Vector} New vector
      */
-    static fromArray(a: Array<number> | Record<"x" | "y" | "z", number>) {
+    static fromArray(a: Array<number> | XYZ) {
         if (Array.isArray(a)) {
             return new Vector(a[0], a[1], a[2]);
         }
@@ -345,7 +347,7 @@ export default class Vector {
      * @param {Vector} b: Second vector
      * @param {boolean} normalize: Normalize the result
      */
-    static findRotation(a: Vector, b: Vector, normalize = true) {
+    static findRotation(a: Vector | XYZ, b: Vector | XYZ, normalize = true) {
         if (normalize) {
             return new Vector(
                 Vector.normalizeRadians(Vector.find2DAngle(a.z, a.x, b.z, b.x)),
@@ -365,9 +367,8 @@ export default class Vector {
      * @param {Vector} a: Vector
      * @param {Vector} b: Vector
      * @param {Vector} c: Vector
-     * @return {Vector} Vector of roll pitch yaw
      */
-    static rollPitchYaw(a: Vector, b: Vector, c?: Vector) {
+    static rollPitchYaw(a: Vector | XYZ, b: Vector | XYZ, c?: Vector) {
         if (!c) {
             return new Vector(
                 Vector.normalizeAngle(Vector.find2DAngle(a.z, a.y, b.z, b.y)),
@@ -375,8 +376,8 @@ export default class Vector {
                 Vector.normalizeAngle(Vector.find2DAngle(a.x, a.y, b.x, b.y))
             );
         }
-        let qb = b.subtract(a);
-        let qc = c.subtract(a);
+        let qb = (b as Vector).subtract(a as Vector);
+        let qc = c.subtract(a as Vector);
         let n = qb.cross(qc);
 
         let unitZ = n.unit();
