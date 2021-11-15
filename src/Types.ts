@@ -1,4 +1,4 @@
-import Vector from './utils/vector'
+import Vector from "./utils/vector";
 
 export interface ISolveOptions {
     /**
@@ -46,7 +46,6 @@ export type XYZ = Record<"x" | "y" | "z", number>;
 
 export type LR<T = Vector> = Record<"l" | "r", T>;
 
-
 export interface IHips {
     position: Record<"x" | "y" | "z", number>;
     rotation?: Vector;
@@ -66,8 +65,7 @@ export type TPose = {
     LeftLowerLeg: Vector | XYZ;
     Hips: IHips;
     Spine: Vector | XYZ;
-}
-
+};
 
 export type HandKeys<S extends "Right" | "Left"> = `${S}${
     | "Wrist"
@@ -86,4 +84,3 @@ export type HandKeys<S extends "Right" | "Left"> = `${S}${
     | "LittleDistal"}`;
 export type THand<S extends "Right" | "Left"> = Record<HandKeys<S>, XYZ>;
 export type THandUnsafe<S extends "Right" | "Left"> = Record<HandKeys<S> | string, XYZ>;
-

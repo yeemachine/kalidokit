@@ -4,7 +4,6 @@ import { calcArms } from "./calcArms";
 import { calcHips } from "./calcHips";
 import { calcLegs } from "./calcLegs";
 
-
 /** Class representing pose solver. */
 export class PoseSolver {
     constructor() {}
