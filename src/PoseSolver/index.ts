@@ -1,4 +1,4 @@
-import { IPoseSolveOptions, TPose } from "../Types";
+import { TFVectorPose, IPoseSolveOptions, TPose } from "../Types";
 import { RestingDefault } from "../utils/helpers";
 import { calcArms } from "./calcArms";
 import { calcHips } from "./calcHips";
@@ -21,8 +21,8 @@ export class PoseSolver {
      * @param {IPoseSolveOptions} options: options object
      */
     static solve(
-        lm3d: Array<any>,
-        lm2d: Array<any>,
+        lm3d: TFVectorPose,
+        lm2d: Omit<TFVectorPose, "z">,
         { runtime = "mediapipe", video = null, imageSize = null, enableLegs = true }: Partial<IPoseSolveOptions> = {}
     ): TPose | undefined {
         if (!lm3d && !lm2d) {
@@ -56,11 +56,11 @@ export class PoseSolver {
         let Legs = enableLegs ? calcLegs(lm3d) : null;
 
         //DETECT OFFSCREEN AND RESET VALUES TO DEFAULTS
-        let rightHandOffscreen = lm3d[15].y > -0.1 || lm3d[15].visibility < 0.23 || 0.995 < lm2d[15].y;
-        let leftHandOffscreen = lm3d[16].y > -0.1 || lm3d[16].visibility < 0.23 || 0.995 < lm2d[16].y;
+        let rightHandOffscreen = lm3d[15].y > -0.1 || lm3d[15].visibility! < 0.23 || 0.995 < lm2d[15].y;
+        let leftHandOffscreen = lm3d[16].y > -0.1 || lm3d[16].visibility! < 0.23 || 0.995 < lm2d[16].y;
 
-        let leftFootOffscreen = lm3d[23].visibility < 0.63 || Hips.Hips.position.z > -0.4;
-        let rightFootOffscreen = lm3d[24].visibility < 0.63 || Hips.Hips.position.z > -0.4;
+        let leftFootOffscreen = lm3d[23]?.visibility! < 0.63 || Hips.Hips.position.z > -0.4;
+        let rightFootOffscreen = lm3d[24]?.visibility! < 0.63 || Hips.Hips.position.z > -0.4;
 
         Arms.UpperArm.l = Arms.UpperArm.l.multiply(leftHandOffscreen ? 0 : 1);
         Arms.UpperArm.l.z = leftHandOffscreen ? RestingDefault.Pose.LeftUpperArm.z : Arms.UpperArm.l.z; //.55 is Hands down Default position

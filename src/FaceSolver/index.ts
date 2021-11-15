@@ -1,7 +1,7 @@
 import { calcHead } from "./calcHead";
 import { calcEyes, stabilizeBlink, calcPupils, calcBrow } from "./calcEyes";
 import { calcMouth } from "./calcMouth";
-import { IFaceSolveOptions } from "../Types";
+import { Results, IFaceSolveOptions } from "../Types";
 
 /** Class representing face solver. */
 export class FaceSolver {
@@ -12,12 +12,12 @@ export class FaceSolver {
 
     /**
      * Combines head, eye, pupil, and eyebrow calcs into one method
-     * @param {Array} lm : array of results from tfjs or mediapipe
+     * @param {Results} lm : array of results from tfjs or mediapipe
      * @param {String} runtime: set as either "tfjs" or "mediapipe"
      * @param {IFaceSolveOptions} options: options for face solver
      */
     static solve(
-        lm: Array<any>,
+        lm: Results,
         {
             runtime = "tfjs",
             video = null,

@@ -84,3 +84,19 @@ export type HandKeys<S extends "Right" | "Left"> = `${S}${
     | "LittleDistal"}`;
 export type THand<S extends "Right" | "Left"> = Record<HandKeys<S>, XYZ>;
 export type THandUnsafe<S extends "Right" | "Left"> = Record<HandKeys<S> | string, XYZ>;
+
+/**
+ * TFJS 3D Pose Vector Type
+ */
+export type TFVectorPose = Array<{
+    x: number;
+    y: number;
+    z: number;
+    score?: number;
+    visibility?: number;
+}>;
+
+/**
+ * Array of results from TFJS or MediaPipe
+ */
+export type Results = Array<XYZ>;

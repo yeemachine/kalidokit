@@ -1,13 +1,13 @@
 import Vector from "../utils/vector";
 import { clamp, remap } from "../utils/helpers";
-import { IHips, XYZ } from "../Types";
+import { IHips, XYZ, TFVectorPose } from "../Types";
 
 /**
  * Calculates Hip rotation and world position
  * @param {Array} lm3d : array of 3D pose vectors from tfjs or mediapipe
  * @param {Array} lm2d : array of 2D pose vectors from tfjs or mediapipe
  */
-export const calcHips = (lm3d: Array<any>, lm2d: Array<any>) => {
+export const calcHips = (lm3d: TFVectorPose, lm2d: Omit<TFVectorPose, "z">) => {
     //Find 2D normalized Hip and Shoulder Joint Positions/Distances
     let hipLeft2d = Vector.fromArray(lm2d[23]);
     let hipRight2d = Vector.fromArray(lm2d[24]);

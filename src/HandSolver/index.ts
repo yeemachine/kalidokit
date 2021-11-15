@@ -1,6 +1,6 @@
 import Vector from "../utils/vector";
 import { clamp } from "../utils/helpers";
-import { THand, THandUnsafe } from "../Types";
+import { Results, THand, THandUnsafe } from "../Types";
 
 /** Class representing hand solver. */
 export class HandSolver {
@@ -10,7 +10,7 @@ export class HandSolver {
      * @param {Array} lm : array of 3D hand vectors from tfjs or mediapipe
      * @param {String} side: "Left" or "Right"
      */
-    static solve(lm: Array<any>, side: "Left" | "Right" = "Right"): THand<typeof side> | undefined {
+    static solve(lm: Results, side: "Left" | "Right" = "Right"): THand<typeof side> | undefined {
         if (!lm) {
             console.error("Need Hand Landmarks");
             return;

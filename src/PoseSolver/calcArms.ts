@@ -1,11 +1,12 @@
 import Vector from "../utils/vector";
 import { clamp } from "../utils/helpers";
+import { Results } from "../Types";
 
 /**
  * Calculates arm rotation as euler angles
  * @param {Array} lm : array of 3D pose vectors from tfjs or mediapipe
  */
-export const calcArms = (lm: Array<any>) => {
+export const calcArms = (lm: Results) => {
     //Pure Rotation Calculations
     let UpperArm = {
         r: Vector.findRotation(lm[11], lm[13]),
