@@ -1,12 +1,13 @@
-import Vector from "../utils/vector.js";
-import { clamp } from "../utils/helpers.js";
+import Vector from "../utils/vector";
+import { clamp } from "../utils/helpers";
+import { Results } from "../Types";
 
 /**
  * Calculates arm rotation as euler angles
  * TODO: Make angles more accurate in all rotation axis
- * @param {Array} lm : array of 3D pose vectors from tfjs or mediapipe
+ * @param {Results} lm : array of 3D pose vectors from tfjs or mediapipe
  */
-export const calcLegs = (lm) => {
+export const calcLegs = (lm: Results) => {
     // LEGS WIP //
     let UpperLeg = {
         r: Vector.findRotation(lm[23], lm[25]),
@@ -57,7 +58,7 @@ export const calcLegs = (lm) => {
  * @param {Object} LowerLeg : normalized rotation values
  * @param {String} side : "Left" or "Right"
  */
-export const rigLeg = (UpperLeg, LowerLeg, side = "right") => {
+export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side = "right") => {
     let invert = side === "Right" ? 1 : -1;
     UpperLeg.z = UpperLeg.z * -2.3 * invert;
     UpperLeg.x = clamp(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);

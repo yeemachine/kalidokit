@@ -1,11 +1,12 @@
-import Vector from "../utils/vector.js";
-import { remap, clamp } from "../utils/helpers.js";
+import Vector from "../utils/vector";
+import { remap, clamp } from "../utils/helpers";
+import { Results } from "../Types";
 
 /**
  * Calculate Mouth Shape
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcMouth = (lm) => {
+export const calcMouth = (lm: Results) => {
     // eye keypoints
     const eyeInnerCornerL = new Vector(lm[133]);
     const eyeInnerCornerR = new Vector(lm[362]);

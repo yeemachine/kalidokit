@@ -1,11 +1,12 @@
-import Vector from "../utils/vector.js";
-import { clamp } from "../utils/helpers.js";
+import Vector from "../utils/vector";
+import { clamp } from "../utils/helpers";
+import { Results } from "../Types";
 
 /**
  * Calculates arm rotation as euler angles
  * @param {Array} lm : array of 3D pose vectors from tfjs or mediapipe
  */
-export const calcArms = (lm) => {
+export const calcArms = (lm: Results) => {
     //Pure Rotation Calculations
     let UpperArm = {
         r: Vector.findRotation(lm[11], lm[13]),
@@ -67,7 +68,7 @@ export const calcArms = (lm) => {
  * @param {Object} Hand : normalized rotation values
  * @param {String} side : "Left" or "Right"
  */
-export const rigArm = (UpperArm, LowerArm, Hand, side = "right") => {
+export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: "Left" | "Right" = "Right") => {
     // Invert modifier based on left vs right side
     const invert = side === "Right" ? 1 : -1;
 
