@@ -64,6 +64,6 @@ export const rigLeg = (UpperLeg, LowerLeg, side = "Right") => {
     LowerLeg.x = LowerLeg.x * -2.14 * 1.3;
     return {
         UpperLeg: UpperLeg,
-        LowerLeg: UpperLeg,
+        LowerLeg: LowerLeg,
     };
 };
