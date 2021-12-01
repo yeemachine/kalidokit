@@ -1,5 +1,6 @@
-import Vector from "../utils/vector.js";
-import { clamp } from "../utils/helpers.js";
+import Vector from "../utils/vector";
+import { clamp } from "../utils/helpers";
+import { Results, THand, THandUnsafe } from "../Types";
 
 /** Class representing hand solver. */
 export class HandSolver {
@@ -9,7 +10,7 @@ export class HandSolver {
      * @param {Array} lm : array of 3D hand vectors from tfjs or mediapipe
      * @param {String} side: "Left" or "Right"
      */
-    static solve(lm, side = "Right") {
+    static solve(lm: Results, side: "Left" | "Right" = "Right"): THand<typeof side> | undefined {
         if (!lm) {
             console.error("Need Hand Landmarks");
             return;
@@ -23,7 +24,7 @@ export class HandSolver {
         handRotation.y = handRotation.z;
         handRotation.y -= side === "Left" ? 0.4 : 0.4;
 
-        let hand = {};
+        let hand: Record<string, unknown> = {};
         hand[side + "Wrist"] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
         hand[side + "RingProximal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[0], lm[13], lm[14]) };
         hand[side + "RingIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[13], lm[14], lm[15]) };
@@ -41,9 +42,9 @@ export class HandSolver {
         hand[side + "LittleIntermediate"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[17], lm[18], lm[19]) };
         hand[side + "LittleDistal"] = { x: 0, y: 0, z: Vector.angleBetween3DCoords(lm[18], lm[19], lm[20]) };
 
-        hand = rigFingers(hand, side);
+        hand = rigFingers(hand as THand<typeof side>, side);
 
-        return hand;
+        return hand as THand<typeof side>;
     }
 }
 
@@ -52,7 +53,7 @@ export class HandSolver {
  * @param {Object} hand : object of labeled joint with normalized rotation values
  * @param {String} side : "Left" or "Right"
  */
-const rigFingers = (hand, side = "Right") => {
+const rigFingers = (hand: THandUnsafe<typeof side>, side: "Right" | "Left" = "Right"): THand<typeof side> => {
     // Invert modifier based on left vs right side
     const invert = side === "Right" ? 1 : -1;
     let digits = ["Ring", "Index", "Little", "Thumb", "Middle"];
@@ -113,5 +114,5 @@ const rigFingers = (hand, side = "Right") => {
             }
         });
     });
-    return hand;
+    return hand as THand<typeof side>;
 };

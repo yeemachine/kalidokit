@@ -2,11 +2,11 @@ const path = require("path");
 const { defineConfig } = require("vite");
 import Banner from "vite-plugin-banner";
 import pkg from "./package.json";
-
+import friendlyTypeImports from 'rollup-plugin-friendly-type-imports';
 module.exports = defineConfig({
     build: {
         lib: {
-            entry: path.resolve(__dirname, "src/index.js"),
+            entry: path.resolve(__dirname, "src/index.ts"),
             name: "Kalidokit",
             fileName: (format) => `kalidokit.${format}.js`,
         },
@@ -26,5 +26,6 @@ module.exports = defineConfig({
         Banner(
             `/**\n * @${pkg.name} v${pkg.version}\n * ${pkg.description}\n * \n * @license\n * Copyright (c) ${pkg.year} ${pkg.author}\n * SPDX-License-Idntifier: ${pkg.license} \n * ${pkg.homepage}\n */`
         ),
+        friendlyTypeImports()
     ],
 });

@@ -1,5 +1,6 @@
-import Vector from "../utils/vector.js";
-import { clamp, remap } from "../utils/helpers.js";
+import Vector from "../utils/vector";
+import { clamp, remap } from "../utils/helpers";
+import { Results, XYZ } from "../Types";
 
 /**
  * Landmark points labeled for eye, brow, and pupils
@@ -26,7 +27,7 @@ const points = {
  * @param {Number} high : ratio at which eye is considered open
  * @param {Number} low : ratio at which eye is comsidered closed
  */
-export const getEyeOpen = (lm, side = "left", { high = 0.85, low = 0.55 } = {}) => {
+export const getEyeOpen = (lm: Results, side: "left" | "right" = "left", { high = 0.85, low = 0.55 } = {}) => {
     let eyePoints = points.eye[side];
     let eyeDistance = eyeLidRatio(
         lm[eyePoints[0]],
@@ -56,14 +57,14 @@ export const getEyeOpen = (lm, side = "left", { high = 0.85, low = 0.55 } = {}) 
  * Calculate eyelid distance ratios based on landmarks on the face
  */
 export const eyeLidRatio = (
-    eyeOuterCorner,
-    eyeInnerCorner,
-    eyeOuterUpperLid,
-    eyeMidUpperLid,
-    eyeInnerUpperLid,
-    eyeOuterLowerLid,
-    eyeMidLowerLid,
-    eyeInnerLowerLid
+    eyeOuterCorner: XYZ | Vector | number[],
+    eyeInnerCorner: XYZ | Vector | number[],
+    eyeOuterUpperLid: XYZ | Vector | number[],
+    eyeMidUpperLid: XYZ | Vector | number[],
+    eyeInnerUpperLid: XYZ | Vector | number[],
+    eyeOuterLowerLid: XYZ | Vector | number[],
+    eyeMidLowerLid: XYZ | Vector | number[],
+    eyeInnerLowerLid: XYZ | Vector | number[]
 ) => {
     eyeOuterCorner = new Vector(eyeOuterCorner);
     eyeInnerCorner = new Vector(eyeInnerCorner);
@@ -77,10 +78,10 @@ export const eyeLidRatio = (
     eyeInnerLowerLid = new Vector(eyeInnerLowerLid);
 
     //use 2D Distances instead of 3D for less jitter
-    const eyeWidth = eyeOuterCorner.distance(eyeInnerCorner, 2);
-    const eyeOuterLidDistance = eyeOuterUpperLid.distance(eyeOuterLowerLid, 2);
-    const eyeMidLidDistance = eyeMidUpperLid.distance(eyeMidLowerLid, 2);
-    const eyeInnerLidDistance = eyeInnerUpperLid.distance(eyeInnerLowerLid, 2);
+    const eyeWidth = (eyeOuterCorner as Vector).distance(eyeInnerCorner as Vector, 2);
+    const eyeOuterLidDistance = (eyeOuterUpperLid as Vector).distance(eyeOuterLowerLid as Vector, 2);
+    const eyeMidLidDistance = (eyeMidUpperLid as Vector).distance(eyeMidLowerLid as Vector, 2);
+    const eyeInnerLidDistance = (eyeInnerUpperLid as Vector).distance(eyeInnerLowerLid as Vector, 2);
     const eyeLidAvg = (eyeOuterLidDistance + eyeMidLidDistance + eyeInnerLidDistance) / 3;
     const ratio = eyeLidAvg / eyeWidth;
 
@@ -89,10 +90,10 @@ export const eyeLidRatio = (
 
 /**
  * Calculate pupil position [-1,1]
- * @param {Object} lm : array of results from tfjs or mediapipe
- * @param {String} side : "left" or "right"
+ * @param {Results} lm : array of results from tfjs or mediapipe
+ * @param {"left"| "right"} side : "left" or "right"
  */
-export const pupilPos = (lm, side = "left") => {
+export const pupilPos = (lm: Results, side: "left" | "right" = "left") => {
     const eyeOuterCorner = new Vector(lm[points.eye[side][0]]);
     const eyeInnerCorner = new Vector(lm[points.eye[side][1]]);
     const eyeWidth = eyeOuterCorner.distance(eyeInnerCorner, 2);
@@ -114,10 +115,29 @@ export const pupilPos = (lm, side = "left") => {
  * Method to stabilize blink speeds to fix inconsistent eye open/close timing
  * @param {Object} eye : object with left and right eye values
  * @param {Number} headY : head y axis rotation in radians
- * @param {Boolean} enableWink : option to disable wink detection
- * @param {Number} maxRot: maximum head y axis rotation in radians
+ * @param {Object} options: Options for blink stabilization
  */
-export const stabilizeBlink = (eye, headY, { enableWink = true, maxRot = 0.5 } = {}) => {
+export const stabilizeBlink = (
+    eye: Record<"r" | "l", number>,
+    headY: number,
+    {
+        enableWink = true,
+        maxRot = 0.5,
+    }: {
+        /**
+         * Enable wink detection
+         * @default true
+         * @type {Boolean}
+         */
+        enableWink?: boolean;
+        /**
+         * Maximum rotation of head to trigger wink
+         * @default 0.5
+         * @type {Number}
+         */
+        maxRot?: number;
+    } = {}
+) => {
     eye.r = clamp(eye.r, 0, 1);
     eye.l = clamp(eye.l, 0, 1);
     //difference between each eye
@@ -158,7 +178,26 @@ export const stabilizeBlink = (eye, headY, { enableWink = true, maxRot = 0.5 } =
  * Calculate Eyes
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcEyes = (lm, { high = 0.85, low = 0.55 } = {}) => {
+export const calcEyes = (
+    lm: Results,
+    {
+        high = 0.85,
+        low = 0.55,
+    }: {
+        /**
+         * Upper bound for eye open ratio
+         * @default 0.85
+         * @type {Number}
+         */
+        high?: number;
+        /**
+         * Lower bound for eye open ratio
+         * @default 0.55
+         * @type {Number}
+         **/
+        low?: number;
+    } = {}
+) => {
     //return early if no iris tracking
     if (lm.length !== 478) {
         return {
@@ -180,7 +219,7 @@ export const calcEyes = (lm, { high = 0.85, low = 0.55 } = {}) => {
  * Calculate pupil location normalized to eye bounds
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcPupils = (lm) => {
+export const calcPupils = (lm: Results) => {
     //pupil x:[-1,1],y:[-1,1]
     if (lm.length !== 478) {
         return { x: 0, y: 0 };
@@ -198,10 +237,10 @@ export const calcPupils = (lm) => {
 
 /**
  * Calculate brow raise
- * @param {Array} lm : array of results from tfjs or mediapipe
+ * @param {Results} lm : array of results from tfjs or mediapipe
  * @param {String} side : designate "left" or "right"
  */
-export const getBrowRaise = (lm, side = "left") => {
+export const getBrowRaise = (lm: Results, side: "left" | "right" = "left") => {
     let browPoints = points.brow[side];
     let browDistance = eyeLidRatio(
         lm[browPoints[0]],
@@ -226,7 +265,7 @@ export const getBrowRaise = (lm, side = "left") => {
  * Take the average of left and right eyebrow raise values
  * @param {Array} lm : array of results from tfjs or mediapipe
  */
-export const calcBrow = (lm) => {
+export const calcBrow = (lm: Results) => {
     if (lm.length !== 478) {
         return 0;
     } else {

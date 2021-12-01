@@ -2,21 +2,33 @@
     "name": "kalidokit",
     "version": "1.0.5",
     "repository": "github:yeemachine/kalidokit",
-    "main": "src/index.js",
-    "types": "./index.d.ts",
+    "main": "dist/index.js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
     "scripts": {
-        "dev": "vite docs --host",
-        "build": "vite build",
-        "serve": "vite docs"
+        "dev": "vite docs",
+        "prebuild": "rm -rf dist lib",
+        "build": "vite build && npm run build:lib",
+        "build:lib": "tsc -p .",
+        "serve": "vite",
+        "prepare": "npm run build",
+        "fmt": "prettier --write 'src/**/*.ts'"
     },
     "devDependencies": {
+        "prettier": "^2.4.1",
+        "rollup-plugin-friendly-type-imports": "^1.0.1",
+        "typescript": "^4.4.4",
         "vite": "2.6.0",
-        "vite-plugin-banner": "0.1.3"
+        "vite-plugin-banner": "0.1.3",
+        "vite-plugin-ts": "^1.1.8"
     },
     "prettier": {
         "tabWidth": 4,
         "trailingComma": "es5",
-        "printWidth": 120
+        "printWidth": 120,
+        "singleQuote": false
     },
     "description": "Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Eyes, Pose, and Finger tracking models.",
     "bugs": {

@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "lib": [
+            "ESNext",
+            "ESNext.Array",
+            "DOM"
+        ],
+        "module": "commonjs",
+        "outDir": "dist",
+        "declaration": true,
+        "strict": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true,
+        "strictBindCallApply": true
+    },
+    "exclude": [
+        "node_modules",
+        "tests",
+        "dist"
+    ],
+    "include": [
+        "src/**/*"
+    ]
+}
