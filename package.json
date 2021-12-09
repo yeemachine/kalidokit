@@ -1,8 +1,8 @@
 {
     "name": "kalidokit",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "repository": "github:yeemachine/kalidokit",
-    "main": "dist/index.js",
+    "main": "dist/kalidokit.es.js",
     "types": "./dist/index.d.ts",
     "files": [
         "dist"
@@ -15,6 +15,13 @@
         "serve": "vite",
         "prepare": "npm run build",
         "fmt": "prettier --write 'src/**/*.ts'"
+    },
+    "dependencies": {
+        "@mediapipe/camera_utils": "^0.3.1632432234",
+        "@mediapipe/drawing_utils": "^0.3.1620248257",
+        "@mediapipe/holistic": "^0.5.1635989137",
+        "@pixiv/three-vrm": "^0.6.7",
+        "three": "^0.133.0"
     },
     "devDependencies": {
         "prettier": "^2.4.1",

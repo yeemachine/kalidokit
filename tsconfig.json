@@ -14,7 +14,7 @@
         "noImplicitReturns": true,
         "strictFunctionTypes": true,
         "strictPropertyInitialization": true,
-        "strictBindCallApply": true
+        "strictBindCallApply": true,
     },
     "exclude": [
         "node_modules",
