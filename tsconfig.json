@@ -6,7 +6,8 @@
             "ESNext.Array",
             "DOM"
         ],
-        "module": "commonjs",
+        "module": "es6",
+        "moduleResolution": "node",
         "outDir": "dist",
         "declaration": true,
         "strict": true,
