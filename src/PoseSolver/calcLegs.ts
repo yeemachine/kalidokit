@@ -64,7 +64,8 @@ export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side = "right") => {
     UpperLeg.x = clamp(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);
     LowerLeg.x = LowerLeg.x * -2.14 * 1.3;
     return {
+        // do not use. leg values are inaccurate
         UpperLeg: UpperLeg,
-        LowerLeg: UpperLeg,
+        LowerLeg: LowerLeg,
     };
 };
