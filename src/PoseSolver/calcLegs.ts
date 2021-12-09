@@ -58,13 +58,13 @@ export const calcLegs = (lm: Results) => {
  * @param {Object} LowerLeg : normalized rotation values
  * @param {String} side : "Left" or "Right"
  */
-export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side = "right") => {
+export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side = "Right") => {
     let invert = side === "Right" ? 1 : -1;
     UpperLeg.z = UpperLeg.z * -2.3 * invert;
     UpperLeg.x = clamp(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);
     LowerLeg.x = LowerLeg.x * -2.14 * 1.3;
     return {
         UpperLeg: UpperLeg,
-        LowerLeg: UpperLeg,
+        LowerLeg: LowerLeg,
     };
 };
