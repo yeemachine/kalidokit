@@ -87,6 +87,39 @@ export type HandKeys<S extends "Right" | "Left"> = `${S}${
 export type THand<S extends "Right" | "Left"> = Record<HandKeys<S>, XYZ>;
 export type THandUnsafe<S extends "Right" | "Left"> = Record<HandKeys<S> | string, XYZ>;
 
+export type TFace = {
+    head: {
+        x: number;
+        y: number;
+        z: number;
+        width: number;
+        height: number;
+        position: Vector | XYZ;
+        normalized: Vector | XYZ;
+        degrees: Vector | XYZ;
+    };
+    eye: {
+        l: number;
+        r: number;
+    };
+    brow: number;
+    pupil: {
+        x: number;
+        y: number;
+    };
+    mouth: {
+        x: number;
+        y: number;
+        shape: {
+            A: number;
+            E: number;
+            I: number;
+            O: number;
+            U: number;
+        };
+    }
+};
+
 /**
  * TFJS 3D Pose Vector Type
  */
