@@ -1,6 +1,11 @@
-# KalidoKit - Face, Pose, and Hand Tracking Kinematics
+<img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit-logo.png?raw=true" alt="Kalidokit Template" width="200ps" style="margin-bottom:10px"/>
 
-<img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit-logo.png?raw=true" alt="Kalidokit Template" width="200ps"/>
+[![NPM Package][npm]][npm-url]
+[![NPM Bundle Size][minimized-size]][npm-url]
+[![jsDelivr hits (npm)][js-delivr]][js-delivr-url]
+[![Website][website]][website-url]
+
+## Face, Pose, and Hand Tracking Calculator
 
 Kalidokit is a blendshape and kinematics solver for Mediapipe/Tensorflow.js face, eyes, pose, and hand tracking models, compatible with [Facemesh](https://github.com/tensorflow/tfjs-models/tree/master/face-landmarks-detection), [Blazepose](https://github.com/tensorflow/tfjs-models/tree/master/pose-detection), [Handpose](https://google.github.io/mediapipe/solutions/hands.html), and [Holistic](https://google.github.io/mediapipe/solutions/holistic.html). It takes predicted 3D landmarks and calculates simple euler rotations and blendshape face values.
 
@@ -29,7 +34,7 @@ import { Face, Pose, Hand } from "kalidokit";
 #### Via CDN
 
 ```js
-<script src="https://cdn.jsdelivr.net/npm/kalidokit@1.0/dist/kalidokit.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/kalidokit@1.1/dist/kalidokit.umd.js"></script>
 ```
 
 ## Methods
@@ -245,6 +250,16 @@ If you'd like to share a creative use of KalidoKit, we would love to hear about 
 
 [![Kalidoface virtual webcam](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif)](https://kalidoface.com) [![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)](https://3d.kalidoface.com)
 
-## Open to Contributions
+## Roadmap
 
-The current library is a work in progress and contributions to improve it are very welcome. Our goal is to make character face and pose animation even more accessible to creatives regardless of skill level!
+The current library is a work in progress and contributions to improve it are very welcome. Some plans include: better face blendshapes, leg tracking support, and more efficient calculations. The goal is to make character face and pose animation even more accessible to creatives regardless of skill level!
+
+[npm]: https://img.shields.io/npm/v/kalidokit
+[npm-url]: https://www.npmjs.com/package/kalidokit
+[minimized-size]: https://img.shields.io/bundlephobia/min/kalidokit
+[js-delivr]: https://img.shields.io/jsdelivr/npm/hw/kalidokit
+[js-delivr-url]: https://www.jsdelivr.com/package/npm/kalidokit
+[website]: https://img.shields.io/website?down_color=lightgrey&down_message=offline&up_color=brightgreen&up_message=online&url=https%3A%2F%2Fkalidoface.com
+[website-url]: https://kalidoface.com
+[npm-downloads]: https://img.shields.io/npm/dw/kalidokit
+[npmtrends-url]: https://www.npmtrends.com/kalidokit
