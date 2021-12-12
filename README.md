@@ -2,6 +2,7 @@
 
 [![NPM Package][npm]][npm-url]
 [![NPM Bundle Size][minimized-size]][npm-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
 [![jsDelivr hits (npm)][js-delivr]][js-delivr-url]
 [![Website][website]][website-url]
 
