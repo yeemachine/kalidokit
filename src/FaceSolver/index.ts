@@ -1,7 +1,7 @@
 import { calcHead } from "./calcHead";
 import { calcEyes, stabilizeBlink, calcPupils, calcBrow } from "./calcEyes";
 import { calcMouth } from "./calcMouth";
-import { Results, IFaceSolveOptions } from "../Types";
+import { Results, IFaceSolveOptions, TFace } from "../Types";
 
 /** Class representing face solver. */
 export class FaceSolver {
@@ -25,7 +25,7 @@ export class FaceSolver {
             smoothBlink = false,
             blinkSettings = [],
         }: Partial<IFaceSolveOptions> = {}
-    ) {
+    ): TFace | undefined {
         if (!lm) {
             console.error("Need Face Landmarks");
             return;
