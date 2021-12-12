@@ -87,9 +87,9 @@ Quick-start your Vtuber app with this simple remixable example on Glitch. Face, 
 
 <a href="https://glitch.com/edit/#!/kalidokit"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 
-### Module Example
+### Local Server Example
 
-If you clone this project, the `docs` folder also includes a sample template that uses JS modules. If you are interested in contributing, you can test any changes by building the KalidoKit library first and then running a dev server to preview the tests.
+If you clone this project, the `docs` folder also includes a sample template that uses JS modules. If you are interested in contributing to KalidoKit, now you can test any changes by building the KalidoKit library first and then staging the dev server to preview your work.
 
 ```
 npm run build
