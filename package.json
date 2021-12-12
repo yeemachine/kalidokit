@@ -37,7 +37,7 @@
         "printWidth": 120,
         "singleQuote": false
     },
-    "description": "Blendshape and kinematics solver for Mediapipe/Tensorflow.js Face, Eyes, Pose, and Finger tracking models.",
+    "description": "Blendshape and kinematics calculator for Mediapipe/Tensorflow.js Face, Eyes, Pose, and Finger tracking models.",
     "bugs": {
         "url": "https://github.com/yeemachine/kalidokit/issues"
     },
