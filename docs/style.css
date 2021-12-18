@@ -34,16 +34,21 @@ a:link:hover {
 }
 .preview {
     display: flex;
+    flex-direction: column;
     position: absolute;
     bottom: 16px;
     right: 16px;
-    transform: scale(-1, 1);
     overflow: hidden;
     border-radius: 8px;
+    background: #222;
 }
 video {
-    max-width: 300px;
+    max-width: 400px;
     height: auto;
+    transform: scale(-1, 1);
+}
+.preview canvas {
+    transform: scale(-1, 1);
 }
 body {
     margin: 0;
@@ -69,6 +74,37 @@ nav img {
     width: 36px;
     height: auto;
     margin-left: 22px;
+}
+section {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 32px 0 16px 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    color: white;
+    z-index: 2;
+    /* border-radius: 40px; */
+}
+p {
+    color: white;
+    padding: 8px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue",
+        sans-serif;
+    margin: 0;
+}
+.preview a {
+    border-radius: 24px;
+}
+.preview a:hover {
+    background: #ffffff20;
+}
+a.current {
+    background: #13a3f3;
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 600px) {

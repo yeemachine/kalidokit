@@ -3,6 +3,7 @@ const { defineConfig } = require("vite");
 import Banner from "vite-plugin-banner";
 import pkg from "./package.json";
 import friendlyTypeImports from "rollup-plugin-friendly-type-imports";
+import { resolve } from "path";
 module.exports = defineConfig({
     base: "./",
     build: {
@@ -15,7 +16,7 @@ module.exports = defineConfig({
             // make sure to externalize deps that shouldn't be bundled
             // into your library
             exports: "named",
-            external: [],
+            external: ["style.css"],
             output: {
                 // Provide global variables to use in the UMD build
                 // for externalized deps
