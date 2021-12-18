@@ -1,2 +1,4 @@
 node_modules
-dist
+dist/*
+!dist/kalidokit.es.js
+!dist/kalidokit.umd.js
