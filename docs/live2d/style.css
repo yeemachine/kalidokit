@@ -1,0 +1,91 @@
+@font-face {
+    font-family: "Jelly";
+    font-display: block;
+    src: url("https://yeemachine.github.io/kalidoface-live2d-models/Font/kalidoface-jelly.ttf")
+      format("truetype");
+  }
+  h1 {
+    font-family: "Jelly";
+    font-size: 32px;
+    color: white;
+    position: absolute;
+    top: -12px;
+    left: 16px;
+    font-weight: normal;
+    -webkit-font-feature-settings: "liga";
+    font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  h1:hover {
+    color: #13A3F3;
+  }
+  a,
+  a:visited,
+  a:link {
+    text-decoration: none;
+    color: #222;
+    display: flex;
+  }
+  a:hover,
+  a:visited:hover,
+  a:link:hover {
+    color: #13A3F3;
+    cursor: pointer;
+  }
+  .preview {
+    display: flex;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    transform: scale(-1, 1);
+    overflow: hidden;
+    border-radius: 8px;
+  }
+  video {
+    max-width: 300px;
+    height: auto;
+  }
+  body {
+    margin: 0;
+  }
+  canvas {
+    display: block;
+  }
+  .guides {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+    z-index: 1;
+  }
+  nav {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    display: flex;
+  }
+  nav img {
+    width: 36px;
+    height: auto;
+    margin-left: 22px;
+  }
+  p {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    display: inline;
+  }
+  #full {
+    display: inline;
+  }
+  
+  @media only screen and (max-width: 600px) {
+    video {
+      max-width: 160px;
+    }
+  }
+  
