@@ -1,11 +1,6 @@
-import * as Kalidokit from "../dist";
-import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { VRM, VRMSchema, VRMUtils } from "@pixiv/three-vrm";
-
-console.log(Kalidokit);
+import * as Kalidokit from "../dist/kalidokit.es";
 //Import Helper Functions from Kalidokit
+const remap = Kalidokit.Utils.remap;
 const clamp = Kalidokit.Utils.clamp;
 const lerp = Kalidokit.Vector.lerp;
 
@@ -23,7 +18,7 @@ const orbitCamera = new THREE.PerspectiveCamera(35, window.innerWidth / window.i
 orbitCamera.position.set(0.0, 1.4, 0.7);
 
 // controls
-const orbitControls = new OrbitControls(orbitCamera, renderer.domElement);
+const orbitControls = new THREE.OrbitControls(orbitCamera, renderer.domElement);
 orbitControls.screenSpacePanning = true;
 orbitControls.target.set(0.0, 1.4, 0.0);
 orbitControls.update();
@@ -53,16 +48,16 @@ animate();
 /* VRM CHARACTER SETUP */
 
 // Import Character VRM
-const loader = new GLTFLoader();
+const loader = new THREE.GLTFLoader();
 loader.crossOrigin = "anonymous";
 // Import model from URL, add your own model here
 loader.load(
     "https://cdn.glitch.com/29e07830-2317-4b15-a044-135e73c7f840%2FAshtra.vrm?v=1630342336981",
 
     (gltf) => {
-        VRMUtils.removeUnnecessaryJoints(gltf.scene);
+        THREE.VRMUtils.removeUnnecessaryJoints(gltf.scene);
 
-        VRM.from(gltf).then((vrm) => {
+        THREE.VRM.from(gltf).then((vrm) => {
             scene.add(vrm.scene);
             currentVrm = vrm;
             currentVrm.scene.rotation.y = Math.PI; // Rotate model 180deg to face camera
@@ -79,7 +74,7 @@ const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAm
     if (!currentVrm) {
         return;
     }
-    const Part = currentVrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName[name]);
+    const Part = currentVrm.humanoid.getBoneNode(THREE.VRMSchema.HumanoidBoneName[name]);
     if (!Part) {
         return;
     }
@@ -94,7 +89,7 @@ const rigPosition = (name, position = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAm
     if (!currentVrm) {
         return;
     }
-    const Part = currentVrm.humanoid.getBoneNode(VRMSchema.HumanoidBoneName[name]);
+    const Part = currentVrm.humanoid.getBoneNode(THREE.VRMSchema.HumanoidBoneName[name]);
     if (!Part) {
         return;
     }
@@ -111,7 +106,7 @@ const rigFace = (riggedFace) => {
 
     // Blendshapes and Preset Name Schema
     const Blendshape = currentVrm.blendShapeProxy;
-    const PresetName = VRMSchema.BlendShapePresetName;
+    const PresetName = THREE.VRMSchema.BlendShapePresetName;
 
     // Simple example without winking. Interpolate based on old blendshape, then stabilize blink with `Kalidokit` helper function.
     // for VRM, 1 is closed, 0 is open.
@@ -175,9 +170,9 @@ const animateVRM = (vrm, results) => {
         rigPosition(
             "Hips",
             {
-                x: -riggedPose.Hips.worldPosition.x, // Reverse direction
-                y: riggedPose.Hips.worldPosition.y + 1, // Add a bit of height
-                z: -riggedPose.Hips.worldPosition.z, // Reverse direction
+                x: -riggedPose.Hips.position.x, // Reverse direction
+                y: riggedPose.Hips.position.y + 1, // Add a bit of height
+                z: -riggedPose.Hips.position.z, // Reverse direction
             },
             1,
             0.07
