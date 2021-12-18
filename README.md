@@ -87,17 +87,17 @@ Kalidokit.Vector();
 
 ## VRM and Live2D Sample Code
 
-Quick-start your Vtuber app with these simple remixable examples on Glitch.
+Quick-start your Vtuber app with these simple remixable examples.
 
 ### VRM Glitch Template
 
-Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. This [demo](https://glitch.com/edit/#!/kalidokit) uses a minimal amount of easing to smooth animations, but feel free to make it your own!
+Face, full-body, and hand tracking in under 350 lines of javascript. This demo uses Mediapipe Holistic for body tracking, Three.js + Three-VRM for rendering models, and KalidoKit for the kinematic calculations. This [demo](https://glitch.com/edit/#!/kalidokit) uses a minimal amount of easing to smooth animations, but feel free to make it your own! VRM model from [Vroid Hub](https://hub.vroid.com/en/characters/6617701103638326208/models/8892157442595230149).
 
 <a href="https://glitch.com/edit/#!/kalidokit"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 
 ### Live2D Glitch Template
 
-This demo uses Mediapipe FaceMesh for face tracking, Pixi.js + pixi-live2d-display for rendering models, and KalidoKit for the kinematic calculations. This [demo](https://glitch.com/edit/#!/kalidokit) also uses a minimal amount of easing to smooth animations!
+This demo uses Mediapipe FaceMesh for face tracking, Pixi.js + pixi-live2d-display for rendering models, and KalidoKit for the kinematic calculations. This [demo](https://glitch.com/edit/#!/kalidokit) uses an official sample Live2D model, [Hiyori](https://www.live2d.com/en/download/sample-data/).
 
 <a href="https://glitch.com/edit/#!/kalidokit"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 
