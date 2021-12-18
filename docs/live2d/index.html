@@ -56,12 +56,16 @@
     <!--     Kalidokit Kinematic Solver -->
     <script src="https://cdn.jsdelivr.net/npm/kalidokit@1.1/dist/kalidokit.umd.js"></script>
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
     <div class="preview">
       <video class="input_video" width="1280px" height="720px"></video>
       <canvas class="guides"></canvas>
+      <section>
+        <a class="current" href="/live2d/"><p>Live2D</p></a>
+        <a href="/"><p>VRM</p></a>  
+      </section>
     </div>
     <h1 class="notranslate">
       <a href="https://3d.kalidoface.com">kalidoface</a>
@@ -84,9 +88,9 @@
       </a>
     </nav>
     <canvas id="live2d"></canvas>
-    <p>
-      Full Vtuber app at
-      <a id="full" href="https://kalidoface.com">Kalidoface.com</a>
+    <p class="linkOut">
+      Visit
+      <a id="full" href="https://kalidoface.com">the full Vtuber App</a>!
     </p>
     <script type="module" src="script.js"></script>
   </body>
