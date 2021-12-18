@@ -31,9 +31,16 @@
       href="https://yeemachine.github.io/kalidoface-live2d-models/Icons/icon-circle.svg"
     />
 
+    <!--     Live2D SDK  -->
+    <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/dylanNew/live2d/webgl/Live2D/lib/live2d.min.js"></script>
+    <!--     PixiJS Renderer -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+    <!--     PixiJS Live2D Plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/pixi-live2d-display/dist/index.min.js"></script>
     <!--     Mediapipe or Tensorflow.js -->
     <script
-      src="https://cdn.jsdelivr.net/npm/@mediapipe/holistic@0.5.1635989137/holistic.js"
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"
       crossorigin="anonymous"
     ></script>
 
@@ -47,6 +54,8 @@
       src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
       crossorigin="anonymous"
     ></script>
+    <!--     Kalidokit Kinematic Solver -->
+    <script src="https://cdn.jsdelivr.net/npm/kalidokit@1.1/dist/kalidokit.umd.js"></script>
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
@@ -78,6 +87,6 @@
         />
       </a>
     </nav>
-    <script src="../script.js" type="module" defer></script>
+    <script src="./script.js" type="module" defer></script>
   </body>
 </html>
