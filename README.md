@@ -97,9 +97,9 @@ Face, full-body, and hand tracking in under 350 lines of javascript. This demo u
 
 ### Live2D Glitch Template
 
-This demo uses Mediapipe FaceMesh for face tracking, Pixi.js + pixi-live2d-display for rendering models, and KalidoKit for the kinematic calculations. This [demo](https://glitch.com/edit/#!/kalidokit) uses an official sample Live2D model, [Hiyori](https://www.live2d.com/en/download/sample-data/).
+This demo uses Mediapipe FaceMesh for face tracking, Pixi.js + pixi-live2d-display for rendering models, and KalidoKit for the kinematic calculations. This [demo](https://glitch.com/edit/#!/kalidokit-live2d) uses an official sample Live2D model, [Hiyori](https://www.live2d.com/en/download/sample-data/).
 
-<a href="https://glitch.com/edit/#!/kalidokit"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
+<a href="https://glitch.com/edit/#!/kalidokit-live2d"><img alt="Remix on Glitch" src="https://cdn.gomix.com/f3620a78-0ad3-4f81-a271-c8a4faa20f86%2Fremix-button.svg"></a>
 
 ### Local VRM and Live2D Examples
 
