@@ -17,13 +17,6 @@
         "fmt": "prettier --write 'src/**/*.ts'",
         "test": "npm run build && npm run dev"
     },
-    "dependencies": {
-        "@mediapipe/camera_utils": "^0.3.1632432234",
-        "@mediapipe/drawing_utils": "^0.3.1620248257",
-        "@mediapipe/holistic": "^0.5.1635989137",
-        "@pixiv/three-vrm": "^0.6.7",
-        "three": "^0.133.0"
-    },
     "devDependencies": {
         "prettier": "^2.4.1",
         "rollup-plugin-friendly-type-imports": "^1.0.1",
