@@ -16,7 +16,7 @@ module.exports = defineConfig({
             // make sure to externalize deps that shouldn't be bundled
             // into your library
             exports: "named",
-            external: ["style.css"],
+            external: [],
             output: {
                 // Provide global variables to use in the UMD build
                 // for externalized deps
