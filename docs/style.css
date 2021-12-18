@@ -24,7 +24,7 @@ a:visited,
 a:link {
     text-decoration: none;
     color: #222;
-    display: flex;
+    display: inline-block;
 }
 a:hover,
 a:visited:hover,
@@ -98,6 +98,7 @@ p {
 }
 .preview a {
     border-radius: 24px;
+    margin: 0 4px;
 }
 .preview a:hover {
     background: #ffffff20;
@@ -105,6 +106,15 @@ p {
 a.current {
     background: #13a3f3;
     pointer-events: none;
+}
+
+.linkOut {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    display: inline;
+    color: black;
+    padding: 0;
 }
 
 @media only screen and (max-width: 600px) {
