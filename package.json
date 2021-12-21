@@ -9,7 +9,7 @@
     ],
     "scripts": {
         "dev": "vite docs",
-        "prebuild": "rm -rf dist lib",
+        "prebuild": "rimraf dist",
         "build": "vite build && npm run build:lib",
         "build:lib": "tsc -p .",
         "serve": "vite",
@@ -19,6 +19,7 @@
     },
     "devDependencies": {
         "prettier": "^2.4.1",
+        "rimraf": "^3.0.2",
         "rollup-plugin-friendly-type-imports": "^1.0.1",
         "typescript": "^4.4.4",
         "vite": "2.6.0",
