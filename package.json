@@ -9,7 +9,7 @@
     ],
     "scripts": {
         "dev": "vite docs",
-        "prebuild": "rimraf dist lib",
+        "prebuild": "rimraf dist",
         "build": "vite build && npm run build:lib",
         "build:lib": "tsc -p .",
         "serve": "vite",
