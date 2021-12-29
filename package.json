@@ -18,6 +18,7 @@
         "test": "npm run build && npm run dev"
     },
     "devDependencies": {
+        "@types/node": "^17.0.5",
         "prettier": "^2.4.1",
         "rimraf": "^3.0.2",
         "rollup-plugin-friendly-type-imports": "^1.0.1",
