@@ -3,6 +3,7 @@
 [![NPM Package][npm]][npm-url]
 [![NPM Bundle Size][minimized-size]][npm-url]
 [![jsDelivr hits (npm)][js-delivr]][js-delivr-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
 [![Website][website]][website-url]
 [![Discord Shield][discord]][discord-url]
 
@@ -255,7 +256,7 @@ Below are the expected results from KalidoKit solvers.
 
 ## Community Showcase
 
-If you'd like to share a creative use of KalidoKit, please reach out or send a pull request! Feel free to also use our Twitter hashtag, [#kalidokit](https://twitter.com/search?q=%23kalidokit).
+If you'd like to share a creative use of KalidoKit, please reach out or send a pull request! Feel free to also use our Twitter hashtag, [#kalidokit](https://twitter.com/search?q=%23kalidokit). Kalidoface also now has a [Discord server][discord-url]! Come and join us!
 
 [![Kalidoface virtual webcam](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif)](https://kalidoface.com) [![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)](https://3d.kalidoface.com)
 
@@ -274,5 +275,3 @@ The current library is a work in progress and contributions to improve it are ve
 [npmtrends-url]: https://www.npmtrends.com/kalidokit
 [discord]: https://discordapp.com/api/guilds/869435838746984468/widget.png?style=shield
 [discord-url]: https://discord.gg/H8RJvNwx
-
-<!-- [![NPM Downloads][npm-downloads]][npmtrends-url] -->
