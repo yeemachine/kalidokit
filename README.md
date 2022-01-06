@@ -254,15 +254,15 @@ Below are the expected results from KalidoKit solvers.
 }
 ```
 
-## Community Showcase
+## Community Showcase + Contributing
 
-If you'd like to share a creative use of KalidoKit, please reach out or send a pull request! Feel free to also use our Twitter hashtag, [#kalidokit](https://twitter.com/search?q=%23kalidokit). Kalidoface/KalidoKit also now has a [Discord server][discord-url]! Come and join us!
+If you'd like to share a creative use of KalidoKit, please reach out or send a pull request! Feel free to also use our Twitter hashtag, [#kalidokit](https://twitter.com/search?q=%23kalidokit).
 
-[![Kalidoface virtual webcam](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif)](https://kalidoface.com) [![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)](https://3d.kalidoface.com)
-
-## Contributing
+Kalidoface/KalidoKit also now has a [Discord server][discord-url]! Come and join us!
 
 The current library is a work in progress and contributions to improve it are very welcome! Some plans include: better facial blendshapes, full leg tracking, and improved efficiency.
+
+[![Kalidoface virtual webcam](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif)](https://kalidoface.com) [![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)](https://3d.kalidoface.com)
 
 [npm]: https://img.shields.io/npm/v/kalidokit
 [npm-url]: https://www.npmjs.com/package/kalidokit
