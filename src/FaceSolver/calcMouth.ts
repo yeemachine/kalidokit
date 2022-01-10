@@ -47,11 +47,11 @@ export const calcMouth = (lm: Results) => {
     // const fixFacemesh = runtime === "tfjs" ? 1.3 : 0;
 
     // let ratioI = remap(mouthXY, 1.3 + fixFacemesh * 0.8, 2.6 + fixFacemesh) * remap(mouthY, 0, 1);
-    let ratioI = clamp(remap(mouthX, 0, 1) * 2 * remap(mouthY, 0.2, 0.7), 0, 1);
-    let ratioA = mouthY * 0.4 + mouthY * (1 - ratioI) * 0.6;
-    let ratioU = mouthY * remap(1 - ratioI, 0, 0.3) * 0.1;
-    let ratioE = remap(ratioU, 0.2, 1) * (1 - ratioI) * 0.3;
-    let ratioO = (1 - ratioI) * remap(mouthY, 0.3, 1) * 0.4;
+    const ratioI = clamp(remap(mouthX, 0, 1) * 2 * remap(mouthY, 0.2, 0.7), 0, 1);
+    const ratioA = mouthY * 0.4 + mouthY * (1 - ratioI) * 0.6;
+    const ratioU = mouthY * remap(1 - ratioI, 0, 0.3) * 0.1;
+    const ratioE = remap(ratioU, 0.2, 1) * (1 - ratioI) * 0.3;
+    const ratioO = (1 - ratioI) * remap(mouthY, 0.3, 1) * 0.4;
 
     return {
         x: ratioX || 0,

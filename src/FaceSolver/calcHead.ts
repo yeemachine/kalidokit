@@ -7,11 +7,11 @@ import Vector from "../utils/vector";
  */
 export const createEulerPlane = (lm: Results) => {
     //create face detection square bounds
-    let p1 = new Vector(lm[21]); //top left
-    let p2 = new Vector(lm[251]); //top right
-    let p3 = new Vector(lm[397]); //bottom right
-    let p4 = new Vector(lm[172]); //bottom left
-    let p3mid = p3.lerp(p4, 0.5); // bottom midpoint
+    const p1 = new Vector(lm[21]); //top left
+    const p2 = new Vector(lm[251]); //top right
+    const p3 = new Vector(lm[397]); //bottom right
+    const p4 = new Vector(lm[172]); //bottom left
+    const p3mid = p3.lerp(p4, 0.5); // bottom midpoint
     return {
         vector: [p1, p2, p3mid],
         points: [p1, p2, p3, p4],
@@ -26,12 +26,12 @@ export const calcHead = (lm: Results) => {
     // find 3 vectors that form a plane to represent the head
     const plane = createEulerPlane(lm).vector;
     // calculate roll pitch and yaw from vectors
-    let rotate = Vector.rollPitchYaw(plane[0], plane[1], plane[2]);
+    const rotate = Vector.rollPitchYaw(plane[0], plane[1], plane[2]);
     // find the center of the face detection box
-    let midPoint = plane[0].lerp(plane[1], 0.5);
+    const midPoint = plane[0].lerp(plane[1], 0.5);
     // find the dimensions roughly of the face detection box
-    let width = plane[0].distance(plane[1]);
-    let height = midPoint.distance(plane[2]);
+    const width = plane[0].distance(plane[1]);
+    const height = midPoint.distance(plane[2]);
     //flip
     rotate.x *= -1;
     rotate.z *= -1;

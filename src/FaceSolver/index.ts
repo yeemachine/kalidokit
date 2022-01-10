@@ -5,8 +5,6 @@ import { Results, IFaceSolveOptions, TFace } from "../Types";
 
 /** Class representing face solver. */
 export class FaceSolver {
-    constructor() {}
-
     /** expose blink stabilizer as a static method */
     static stabilizeBlink = stabilizeBlink;
 
@@ -42,15 +40,15 @@ export class FaceSolver {
 
         //if runtime is mediapipe, we need the image dimentions for accurate calculations
         if (runtime === "mediapipe" && imageSize) {
-            lm.forEach((e) => {
-                e.x *= imageSize!.width;
-                e.y *= imageSize!.height;
-                e.z *= imageSize!.width;
-            });
+            for (const e of lm) {
+                e.x *= imageSize.width;
+                e.y *= imageSize.height;
+                e.z *= imageSize.width;
+            }
         }
 
-        let getHead = calcHead(lm);
-        let getMouth = calcMouth(lm);
+        const getHead = calcHead(lm);
+        const getMouth = calcMouth(lm);
 
         //set high and low remapping values based on the runtime (tfjs vs mediapipe) of the results
         blinkSettings = blinkSettings.length > 0 ? blinkSettings : runtime === "tfjs" ? [0.55, 0.85] : [0.35, 0.5];
@@ -65,8 +63,8 @@ export class FaceSolver {
             getEye = stabilizeBlink(getEye, getHead.y);
         }
 
-        let getPupils = calcPupils(lm);
-        let getBrow = calcBrow(lm);
+        const getPupils = calcPupils(lm);
+        const getBrow = calcBrow(lm);
 
         return {
             head: getHead,

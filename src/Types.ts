@@ -117,7 +117,7 @@ export type TFace = {
             O: number;
             U: number;
         };
-    }
+    };
 };
 
 /**

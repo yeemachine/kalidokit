@@ -28,8 +28,8 @@ const points = {
  * @param {Number} low : ratio at which eye is comsidered closed
  */
 export const getEyeOpen = (lm: Results, side: "left" | "right" = "left", { high = 0.85, low = 0.55 } = {}) => {
-    let eyePoints = points.eye[side];
-    let eyeDistance = eyeLidRatio(
+    const eyePoints = points.eye[side];
+    const eyeDistance = eyeLidRatio(
         lm[eyePoints[0]],
         lm[eyePoints[1]],
         lm[eyePoints[2]],
@@ -40,11 +40,11 @@ export const getEyeOpen = (lm: Results, side: "left" | "right" = "left", { high 
         lm[eyePoints[7]]
     );
     // human eye width to height ratio is roughly .3
-    let maxRatio = 0.285;
+    const maxRatio = 0.285;
     // compare ratio against max ratio
-    let ratio = clamp(eyeDistance / maxRatio, 0, 2);
+    const ratio = clamp(eyeDistance / maxRatio, 0, 2);
     // remap eye open and close ratios to increase sensitivity
-    let eyeOpenRatio = remap(ratio, low, high);
+    const eyeOpenRatio = remap(ratio, low, high);
     return {
         // remapped ratio
         norm: eyeOpenRatio,
@@ -241,8 +241,8 @@ export const calcPupils = (lm: Results) => {
  * @param {String} side : designate "left" or "right"
  */
 export const getBrowRaise = (lm: Results, side: "left" | "right" = "left") => {
-    let browPoints = points.brow[side];
-    let browDistance = eyeLidRatio(
+    const browPoints = points.brow[side];
+    const browDistance = eyeLidRatio(
         lm[browPoints[0]],
         lm[browPoints[1]],
         lm[browPoints[2]],
@@ -253,11 +253,11 @@ export const getBrowRaise = (lm: Results, side: "left" | "right" = "left") => {
         lm[browPoints[7]]
     );
 
-    let maxBrowRatio = 1.15;
-    let browHigh = 0.125;
-    let browLow = 0.07;
-    let browRatio = browDistance / maxBrowRatio - 1;
-    let browRaiseRatio = (clamp(browRatio, browLow, browHigh) - browLow) / (browHigh - browLow);
+    const maxBrowRatio = 1.15;
+    const browHigh = 0.125;
+    const browLow = 0.07;
+    const browRatio = browDistance / maxBrowRatio - 1;
+    const browRaiseRatio = (clamp(browRatio, browLow, browHigh) - browLow) / (browHigh - browLow);
     return browRaiseRatio;
 };
 

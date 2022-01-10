@@ -6,7 +6,6 @@ import { calcLegs } from "./calcLegs";
 
 /** Class representing pose solver. */
 export class PoseSolver {
-    constructor() {}
     /** expose arm rotation calculator as a static method */
     static calcArms = calcArms;
     /** expose hips position and rotation calculator as a static method */
@@ -40,27 +39,27 @@ export class PoseSolver {
             };
         }
         if (runtime === "tfjs" && imageSize) {
-            lm3d.forEach((e, i) => {
+            for (const e of lm3d) {
                 e.visibility = e.score;
-            });
-            lm2d.forEach((e, i) => {
-                e.x /= imageSize!.width;
-                e.y /= imageSize!.height;
+            }
+            for (const e of lm2d) {
+                e.x /= imageSize.width;
+                e.y /= imageSize.height;
                 e.z = 0;
                 e.visibility = e.score;
-            });
+            }
         }
 
-        let Arms = calcArms(lm3d);
-        let Hips = calcHips(lm3d, lm2d);
-        let Legs = enableLegs ? calcLegs(lm3d) : null;
+        const Arms = calcArms(lm3d);
+        const Hips = calcHips(lm3d, lm2d);
+        const Legs = enableLegs ? calcLegs(lm3d) : null;
 
         //DETECT OFFSCREEN AND RESET VALUES TO DEFAULTS
-        let rightHandOffscreen = lm3d[15].y > -0.1 || lm3d[15].visibility! < 0.23 || 0.995 < lm2d[15].y;
-        let leftHandOffscreen = lm3d[16].y > -0.1 || lm3d[16].visibility! < 0.23 || 0.995 < lm2d[16].y;
+        const rightHandOffscreen = lm3d[15].y > -0.1 || (lm3d[15].visibility ?? 0) < 0.23 || 0.995 < lm2d[15].y;
+        const leftHandOffscreen = lm3d[16].y > -0.1 || (lm3d[16].visibility ?? 0) < 0.23 || 0.995 < lm2d[16].y;
 
-        let leftFootOffscreen = lm3d[23]?.visibility! < 0.63 || Hips.Hips.position.z > -0.4;
-        let rightFootOffscreen = lm3d[24]?.visibility! < 0.63 || Hips.Hips.position.z > -0.4;
+        const leftFootOffscreen = (lm3d[23]?.visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
+        const rightFootOffscreen = (lm3d[24]?.visibility ?? 0) < 0.63 || Hips.Hips.position.z > -0.4;
 
         Arms.UpperArm.l = Arms.UpperArm.l.multiply(leftHandOffscreen ? 0 : 1);
         Arms.UpperArm.l.z = leftHandOffscreen ? RestingDefault.Pose.LeftUpperArm.z : Arms.UpperArm.l.z; //.55 is Hands down Default position
