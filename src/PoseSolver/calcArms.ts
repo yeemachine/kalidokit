@@ -8,14 +8,14 @@ import { Results } from "../Types";
  */
 export const calcArms = (lm: Results) => {
     //Pure Rotation Calculations
-    let UpperArm = {
+    const UpperArm = {
         r: Vector.findRotation(lm[11], lm[13]),
         l: Vector.findRotation(lm[12], lm[14]),
     };
     UpperArm.r.y = Vector.angleBetween3DCoords(lm[12], lm[11], lm[13]);
     UpperArm.l.y = Vector.angleBetween3DCoords(lm[11], lm[12], lm[14]);
 
-    let LowerArm = {
+    const LowerArm = {
         r: Vector.findRotation(lm[13], lm[15]),
         l: Vector.findRotation(lm[14], lm[16]),
     };
@@ -23,7 +23,7 @@ export const calcArms = (lm: Results) => {
     LowerArm.l.y = Vector.angleBetween3DCoords(lm[12], lm[14], lm[16]);
     LowerArm.r.z = clamp(LowerArm.r.z, -2.14, 0);
     LowerArm.l.z = clamp(LowerArm.l.z, -2.14, 0);
-    let Hand = {
+    const Hand = {
         r: Vector.findRotation(
             Vector.fromArray(lm[15]),
             Vector.lerp(Vector.fromArray(lm[17]), Vector.fromArray(lm[19]), 0.5)
@@ -35,8 +35,8 @@ export const calcArms = (lm: Results) => {
     };
 
     //Modify Rotations slightly for more natural movement
-    let rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, "Right");
-    let leftArmRig = rigArm(UpperArm.l, LowerArm.l, Hand.l, "Left");
+    const rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, "Right");
+    const leftArmRig = rigArm(UpperArm.l, LowerArm.l, Hand.l, "Left");
 
     return {
         //Scaled

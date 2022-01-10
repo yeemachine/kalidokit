@@ -9,15 +9,19 @@
     ],
     "scripts": {
         "dev": "vite docs",
-        "prebuild": "rimraf dist",
+        "prebuild": "npm run lint && npm run fmt && rimraf dist",
         "build": "vite build && npm run build:lib",
         "build:lib": "tsc -p .",
         "serve": "vite",
         "prepare": "npm run build",
         "fmt": "prettier --write 'src/**/*.ts'",
-        "test": "npm run build && npm run dev"
+        "test": "npm run build && npm run dev",
+        "lint": "eslint \"src/**/*.ts\" --fix"
     },
     "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.9.0",
+        "@typescript-eslint/parser": "^5.9.0",
+        "eslint": "^8.6.0",
         "prettier": "^2.4.1",
         "rimraf": "^3.0.2",
         "rollup-plugin-friendly-type-imports": "^1.0.1",

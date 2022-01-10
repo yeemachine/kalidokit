@@ -9,7 +9,7 @@ import { Results } from "../Types";
  */
 export const calcLegs = (lm: Results) => {
     // LEGS WIP //
-    let UpperLeg = {
+    const UpperLeg = {
         r: Vector.findRotation(lm[23], lm[25]),
         l: Vector.findRotation(lm[24], lm[26]),
     };
@@ -19,7 +19,7 @@ export const calcLegs = (lm: Results) => {
     UpperLeg.l.z = clamp(UpperLeg.l.z - 0.5, -0.5, 0);
     UpperLeg.l.y = 0; //Y Axis is not correct
 
-    let LowerLeg = {
+    const LowerLeg = {
         r: Vector.findRotation(lm[25], lm[27]),
         l: Vector.findRotation(lm[26], lm[28]),
     };
@@ -31,8 +31,8 @@ export const calcLegs = (lm: Results) => {
     LowerLeg.l.z = 0; // Z Axis not correct
 
     //Modify Rotations slightly for more natural movement
-    let rightLegRig = rigLeg(UpperLeg.r, LowerLeg.r, "Right");
-    let leftLegRig = rigLeg(UpperLeg.l, LowerLeg.l, "Left");
+    const rightLegRig = rigLeg(UpperLeg.r, LowerLeg.r, "Right");
+    const leftLegRig = rigLeg(UpperLeg.l, LowerLeg.l, "Left");
 
     return {
         //Scaled
@@ -59,7 +59,7 @@ export const calcLegs = (lm: Results) => {
  * @param {String} side : "Left" or "Right"
  */
 export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side = "Right") => {
-    let invert = side === "Right" ? 1 : -1;
+    const invert = side === "Right" ? 1 : -1;
     UpperLeg.z = UpperLeg.z * -2.3 * invert;
     UpperLeg.x = clamp(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);
     LowerLeg.x = LowerLeg.x * -2.14 * 1.3;

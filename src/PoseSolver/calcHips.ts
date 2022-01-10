@@ -9,15 +9,15 @@ import { IHips, XYZ, TFVectorPose } from "../Types";
  */
 export const calcHips = (lm3d: TFVectorPose, lm2d: Omit<TFVectorPose, "z">) => {
     //Find 2D normalized Hip and Shoulder Joint Positions/Distances
-    let hipLeft2d = Vector.fromArray(lm2d[23]);
-    let hipRight2d = Vector.fromArray(lm2d[24]);
-    let shoulderLeft2d = Vector.fromArray(lm2d[11]);
-    let shoulderRight2d = Vector.fromArray(lm2d[12]);
-    let hipCenter2d = hipLeft2d.lerp(hipRight2d, 1);
-    let shoulderCenter2d = shoulderLeft2d.lerp(shoulderRight2d, 1);
-    let spineLength = hipCenter2d.distance(shoulderCenter2d);
+    const hipLeft2d = Vector.fromArray(lm2d[23]);
+    const hipRight2d = Vector.fromArray(lm2d[24]);
+    const shoulderLeft2d = Vector.fromArray(lm2d[11]);
+    const shoulderRight2d = Vector.fromArray(lm2d[12]);
+    const hipCenter2d = hipLeft2d.lerp(hipRight2d, 1);
+    const shoulderCenter2d = shoulderLeft2d.lerp(shoulderRight2d, 1);
+    const spineLength = hipCenter2d.distance(shoulderCenter2d);
 
-    let hips: IHips = {
+    const hips: IHips = {
         position: {
             x: clamp(-1 * (hipCenter2d.x - 0.65), -1, 1), //subtract .65 to bring closer to 0,0 center
             y: 0,
@@ -37,11 +37,11 @@ export const calcHips = (lm3d: TFVectorPose, lm2d: Omit<TFVectorPose, "z">) => {
     if (hips.rotation.z < 0) {
         hips.rotation.z = -1 - hips.rotation.z;
     }
-    let turnAroundAmountHips = remap(Math.abs(hips.rotation.y), 0.2, 0.4);
+    const turnAroundAmountHips = remap(Math.abs(hips.rotation.y), 0.2, 0.4);
     hips.rotation.z *= 1 - turnAroundAmountHips;
     hips.rotation.x = 0; //temp fix for inaccurate X axis
 
-    let spine = Vector.rollPitchYaw(lm3d[11], lm3d[12]);
+    const spine = Vector.rollPitchYaw(lm3d[11], lm3d[12]);
     //fix -PI, PI jumping
     if (spine.y > 0.5) {
         spine.y -= 2;
@@ -55,7 +55,7 @@ export const calcHips = (lm3d: TFVectorPose, lm2d: Omit<TFVectorPose, "z">) => {
         spine.z = -1 - spine.z;
     }
     //fix weird large numbers when 2 shoulder points get too close
-    let turnAroundAmount = remap(Math.abs(spine.y), 0.2, 0.4);
+    const turnAroundAmount = remap(Math.abs(spine.y), 0.2, 0.4);
     spine.z *= 1 - turnAroundAmount;
     spine.x = 0; //temp fix for inaccurate X axis
 
@@ -69,9 +69,11 @@ export const calcHips = (lm3d: TFVectorPose, lm2d: Omit<TFVectorPose, "z">) => {
  */
 export const rigHips = (hips: IHips, spine: Vector | XYZ) => {
     //convert normalized values to radians
-    hips.rotation!.x *= Math.PI;
-    hips.rotation!.y *= Math.PI;
-    hips.rotation!.z *= Math.PI;
+    if (hips.rotation) {
+        hips.rotation.x *= Math.PI;
+        hips.rotation.y *= Math.PI;
+        hips.rotation.z *= Math.PI;
+    }
 
     hips.worldPosition = {
         x: hips.position.x * (0.5 + 1.8 * -hips.position.z),
