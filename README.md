@@ -2,9 +2,10 @@
 
 [![NPM Package][npm]][npm-url]
 [![NPM Bundle Size][minimized-size]][npm-url]
-[![NPM Downloads][npm-downloads]][npmtrends-url]
 [![jsDelivr hits (npm)][js-delivr]][js-delivr-url]
+[![NPM Downloads][npm-downloads]][npmtrends-url]
 [![Website][website]][website-url]
+[![Discord Shield][discord]][discord-url]
 
 ## Face, Pose, and Hand Tracking Calculator
 
@@ -253,15 +254,15 @@ Below are the expected results from KalidoKit solvers.
 }
 ```
 
-## Community Showcase
+## Community Showcase + Contributing
 
 If you'd like to share a creative use of KalidoKit, please reach out or send a pull request! Feel free to also use our Twitter hashtag, [#kalidokit](https://twitter.com/search?q=%23kalidokit).
 
-[![Kalidoface virtual webcam](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif)](https://kalidoface.com) [![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)](https://3d.kalidoface.com)
-
-## Contributing
+Kalidoface/KalidoKit also now has a [Discord server][discord-url]! Come and join us!
 
 The current library is a work in progress and contributions to improve it are very welcome! Some plans include: better facial blendshapes, full leg tracking, and improved efficiency.
+
+[![Kalidoface virtual webcam](https://raw.githubusercontent.com/yeemachine/kalidoface-live2d-models/main/promo/TW-Promo-short.gif)](https://kalidoface.com) [![Kalidoface Pose Demo](https://cdn.glitch.me/29e07830-2317-4b15-a044-135e73c7f840%2Fkalidoface-pose-dance.gif?v=1633453098775)](https://3d.kalidoface.com)
 
 [npm]: https://img.shields.io/npm/v/kalidokit
 [npm-url]: https://www.npmjs.com/package/kalidokit
@@ -272,3 +273,5 @@ The current library is a work in progress and contributions to improve it are ve
 [website-url]: https://kalidoface.com
 [npm-downloads]: https://img.shields.io/npm/dw/kalidokit
 [npmtrends-url]: https://www.npmtrends.com/kalidokit
+[discord]: https://discordapp.com/api/guilds/869435838746984468/widget.png?style=shield
+[discord-url]: https://discord.gg/H8RJvNwx
