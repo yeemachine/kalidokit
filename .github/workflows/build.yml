@@ -24,4 +24,4 @@ jobs:
         cache: 'npm'
     - run: npm i -g npm@latest
     - run: npm ci
-    - run: npm build
+    - run: npm run build
