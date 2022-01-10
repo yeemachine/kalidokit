@@ -1,6 +1,6 @@
 {
     "name": "kalidokit",
-    "version": "1.1.2",
+    "version": "1.1.4",
     "repository": "github:yeemachine/kalidokit",
     "main": "dist/index.js",
     "types": "./dist/index.d.ts",
