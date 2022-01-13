@@ -274,4 +274,4 @@ The current library is a work in progress and contributions to improve it are ve
 [npm-downloads]: https://img.shields.io/npm/dw/kalidokit
 [npmtrends-url]: https://www.npmtrends.com/kalidokit
 [discord]: https://discordapp.com/api/guilds/869435838746984468/widget.png?style=shield
-[discord-url]: https://discord.gg/H8RJvNwx
+[discord-url]: https://discord.gg/XMqdfzVZ2E
