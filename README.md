@@ -108,6 +108,7 @@ This demo uses Mediapipe FaceMesh for face tracking, Pixi.js + pixi-live2d-displ
 Interested in contributing? If you clone this project, the `docs` folder includes both VRM and Live2D KalidoKit templates. Run the `test` script to build the library and start up the dev server. The VRM demo will be hosted on `localhost:3000` and Live2D on `localhost:3000/live2d/`.
 
 ```
+npm install
 npm run test
 ```
 
