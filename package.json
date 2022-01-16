@@ -14,7 +14,7 @@
         "build:lib": "tsc -p .",
         "serve": "vite",
         "prepare": "npm run build",
-        "fmt": "prettier --write 'src/**/*.ts'",
+        "fmt": "prettier --write \"src/**/*.ts\"",
         "test": "npm run build && npm run dev",
         "lint": "eslint \"src/**/*.ts\" --fix"
     },
