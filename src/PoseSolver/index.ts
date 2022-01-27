@@ -73,7 +73,7 @@ export class PoseSolver {
         Arms.Hand.r = Arms.Hand.r.multiply(rightHandOffscreen ? 0 : 1);
 
         //skip calculations if disable legs
-        if (enableLegs && Legs) {
+        if (Legs) {
             Legs.UpperLeg.l = Legs.UpperLeg.l.multiply(rightFootOffscreen ? 0 : 1);
             Legs.UpperLeg.r = Legs.UpperLeg.r.multiply(leftFootOffscreen ? 0 : 1);
             Legs.LowerLeg.l = Legs.LowerLeg.l.multiply(rightFootOffscreen ? 0 : 1);
