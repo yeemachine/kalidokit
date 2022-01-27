@@ -298,17 +298,6 @@ export default class Vector {
     static angleBetween(a: Vector, b: Vector) {
         return a.angleTo(b);
     }
-    /**
-     * Angle between two vertices
-     * @param a
-     * @param b
-     * @param c
-     */
-    static angleBetweenVertices(a: Vector, b: Vector, c: Vector) {
-        const ab = a.subtract(b);
-        const bc = c.subtract(b);
-        return ab.angleTo(bc);
-    }
     static distance(a: Vector, b: Vector, d: number) {
         if (d === 2) return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
         else return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2) + Math.pow(a.z - b.z, 2));
