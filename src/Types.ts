@@ -1,5 +1,6 @@
 import Vector from "./utils/vector";
 
+import { RIGHT, LEFT } from "./constants";
 export interface ISolveOptions {
     /**
      * Runtime for the solver.
@@ -42,6 +43,11 @@ export interface IPoseSolveOptions extends ISolveOptions {
     enableLegs: boolean;
 }
 
+/**
+ * The left or the right side
+ */
+export type Side = typeof RIGHT | typeof LEFT;
+
 export type XYZ = Record<"x" | "y" | "z", number>;
 
 export type LR<T = Vector> = Record<"l" | "r", T>;
@@ -67,7 +73,7 @@ export type TPose = {
     Spine: Vector | XYZ;
 };
 
-export type HandKeys<S extends "Right" | "Left"> = `${S}${
+export type HandKeys<S extends Side> = `${S}${
     | "Wrist"
     | "RingProximal"
     | "RingIntermediate"
@@ -84,8 +90,8 @@ export type HandKeys<S extends "Right" | "Left"> = `${S}${
     | "LittleProximal"
     | "LittleIntermediate"
     | "LittleDistal"}`;
-export type THand<S extends "Right" | "Left"> = Record<HandKeys<S>, XYZ>;
-export type THandUnsafe<S extends "Right" | "Left"> = Record<HandKeys<S> | string, XYZ>;
+export type THand<S extends Side> = Record<HandKeys<S>, XYZ>;
+export type THandUnsafe<S extends Side> = Record<HandKeys<S> | string, XYZ>;
 
 export type TFace = {
     head: {

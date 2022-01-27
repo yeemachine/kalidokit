@@ -1,6 +1,7 @@
 import Vector from "../utils/vector";
 import { clamp } from "../utils/helpers";
-import { Results } from "../Types";
+import { Results, Side } from "../Types";
+import { RIGHT, LEFT } from "./../constants";
 
 /**
  * Calculates arm rotation as euler angles
@@ -35,8 +36,8 @@ export const calcArms = (lm: Results) => {
     };
 
     //Modify Rotations slightly for more natural movement
-    const rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, "Right");
-    const leftArmRig = rigArm(UpperArm.l, LowerArm.l, Hand.l, "Left");
+    const rightArmRig = rigArm(UpperArm.r, LowerArm.r, Hand.r, RIGHT);
+    const leftArmRig = rigArm(UpperArm.l, LowerArm.l, Hand.l, LEFT);
 
     return {
         //Scaled
@@ -66,11 +67,11 @@ export const calcArms = (lm: Results) => {
  * @param {Object} UpperArm : normalized rotation values
  * @param {Object} LowerArm : normalized rotation values
  * @param {Object} Hand : normalized rotation values
- * @param {String} side : "Left" or "Right"
+ * @param {Side} side : left or right
  */
-export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: "Left" | "Right" = "Right") => {
+export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: Side = RIGHT) => {
     // Invert modifier based on left vs right side
-    const invert = side === "Right" ? 1 : -1;
+    const invert = side === RIGHT ? 1 : -1;
 
     UpperArm.z *= -2.3 * invert;
     //Modify UpperArm rotationY  by LowerArm X and Z rotations

@@ -1,27 +1,28 @@
 import Vector from "../utils/vector";
 import { clamp } from "../utils/helpers";
-import { Results, THand, THandUnsafe } from "../Types";
+import { Results, THand, THandUnsafe, Side } from "../Types";
+import { RIGHT, LEFT } from "./../constants";
 
 /** Class representing hand solver. */
 export class HandSolver {
     /**
      * Calculates finger and wrist as euler rotations
      * @param {Array} lm : array of 3D hand vectors from tfjs or mediapipe
-     * @param {String} side: "Left" or "Right"
+     * @param {Side} side: left or right
      */
-    static solve(lm: Results, side: "Left" | "Right" = "Right"): THand<typeof side> | undefined {
+    static solve(lm: Results, side: Side = RIGHT): THand<typeof side> | undefined {
         if (!lm) {
             console.error("Need Hand Landmarks");
             return;
         }
         const palm = [
             new Vector(lm[0]),
-            new Vector(lm[side === "Right" ? 17 : 5]),
-            new Vector(lm[side === "Right" ? 5 : 17]),
+            new Vector(lm[side === RIGHT ? 17 : 5]),
+            new Vector(lm[side === RIGHT ? 5 : 17]),
         ];
         const handRotation = Vector.rollPitchYaw(palm[0], palm[1], palm[2]);
         handRotation.y = handRotation.z;
-        handRotation.y -= side === "Left" ? 0.4 : 0.4;
+        handRotation.y -= side === LEFT ? 0.4 : 0.4;
 
         let hand: Record<string, unknown> = {};
         hand[side + "Wrist"] = { x: handRotation.x, y: handRotation.y, z: handRotation.z };
@@ -50,19 +51,19 @@ export class HandSolver {
 /**
  * Converts normalized rotation values into radians clamped by human limits
  * @param {Object} hand : object of labeled joint with normalized rotation values
- * @param {String} side : "Left" or "Right"
+ * @param {Side} side : left or right
  */
-const rigFingers = (hand: THandUnsafe<typeof side>, side: "Right" | "Left" = "Right"): THand<typeof side> => {
+const rigFingers = (hand: THandUnsafe<typeof side>, side: Side = RIGHT): THand<typeof side> => {
     // Invert modifier based on left vs right side
-    const invert = side === "Right" ? 1 : -1;
+    const invert = side === RIGHT ? 1 : -1;
     const digits = ["Ring", "Index", "Little", "Thumb", "Middle"];
     const segments = ["Proximal", "Intermediate", "Distal"];
 
     hand[side + "Wrist"].x = clamp(hand[side + "Wrist"].x * 2 * invert, -0.3, 0.3); // twist
     hand[side + "Wrist"].y = clamp(
         hand[side + "Wrist"].y * 2.3,
-        side === "Right" ? -1.2 : -0.6,
-        side === "Right" ? 0.6 : 1.6
+        side === RIGHT ? -1.2 : -0.6,
+        side === RIGHT ? 0.6 : 1.6
     );
     hand[side + "Wrist"].z = hand[side + "Wrist"].z * -2.3 * invert; //left right
 
@@ -86,14 +87,14 @@ const rigFingers = (hand: THandUnsafe<typeof side>, side: "Right" | "Left" = "Ri
                 if (j === "Proximal") {
                     newThumb.z = clamp(
                         startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert,
-                        side === "Right" ? -0.6 : -0.3,
-                        side === "Right" ? 0.3 : 0.6
+                        side === RIGHT ? -0.6 : -0.3,
+                        side === RIGHT ? 0.3 : 0.6
                     );
                     newThumb.x = clamp(startPos.x + trackedFinger.z * -Math.PI * dampener.x, -0.6, 0.3);
                     newThumb.y = clamp(
                         startPos.y + trackedFinger.z * -Math.PI * dampener.y * invert,
-                        side === "Right" ? -1 : -0.3,
-                        side === "Right" ? 0.3 : 1
+                        side === RIGHT ? -1 : -0.3,
+                        side === RIGHT ? 0.3 : 1
                     );
                 } else {
                     newThumb.z = clamp(startPos.z + trackedFinger.z * -Math.PI * dampener.z * invert, -2, 2);
@@ -107,8 +108,8 @@ const rigFingers = (hand: THandUnsafe<typeof side>, side: "Right" | "Left" = "Ri
                 //will document human limits later
                 trackedFinger.z = clamp(
                     trackedFinger.z * -Math.PI * invert,
-                    side === "Right" ? -Math.PI : 0,
-                    side === "Right" ? 0 : Math.PI
+                    side === RIGHT ? -PI : 0,
+                    side === RIGHT ? 0 : PI
                 );
             }
         });

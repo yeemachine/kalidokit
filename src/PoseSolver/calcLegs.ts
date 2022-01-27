@@ -1,6 +1,7 @@
 import Vector from "../utils/vector";
 import { clamp } from "../utils/helpers";
-import { Results } from "../Types";
+import { Results, Side } from "../Types";
+import { RIGHT, LEFT } from "./../constants";
 
 /**
  * Calculates arm rotation as euler angles
@@ -56,13 +57,13 @@ export const calcLegs = (lm: Results) => {
  * Converts normalized rotation values into radians clamped by human limits
  * @param {Object} UpperLeg : normalized rotation values
  * @param {Object} LowerLeg : normalized rotation values
- * @param {String} side : "Left" or "Right"
+ * @param {Side} side : left or right
  */
-export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side = "Right") => {
-    const invert = side === "Right" ? 1 : -1;
     UpperLeg.z = UpperLeg.z * -2.3 * invert;
     UpperLeg.x = clamp(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);
     LowerLeg.x = LowerLeg.x * -2.14 * 1.3;
+export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side: Side = RIGHT) => {
+    const invert = side === RIGHT ? 1 : -1;
     return {
         // do not use. leg values are inaccurate
         UpperLeg: UpperLeg,
