@@ -79,7 +79,12 @@ const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAm
         return;
     }
 
-    let euler = new THREE.Euler(rotation.x * dampener, rotation.y * dampener, rotation.z * dampener);
+    let euler = new THREE.Euler(
+        rotation.x * dampener, 
+        rotation.y * dampener, 
+        rotation.z * dampener, 
+        rotation.rotationOrder || "XYZ",
+        );
     let quaternion = new THREE.Quaternion().setFromEuler(euler);
     Part.quaternion.slerp(quaternion, lerpAmount); // interpolate
 };
