@@ -1,4 +1,4 @@
-import { XYZ } from "../Types";
+import { XYZ, AxisMap, EulerRotation } from "../Types";
 import { PI, TWO_PI } from "./../constants";
 
 /** Vector Math class. */
@@ -137,15 +137,20 @@ export default class Vector {
     }
     /**
      * To Angles
+     * @param {AxisMap} [axisMap = {x: "x", y: "y", z: "z"}]
      * @returns {{ theta: number, phi: number }}
      */
-    toAngles() {
+    toSphericalCoords(axisMap: AxisMap = { x: "x", y: "y", z: "z" }) {
         return {
-            theta: Math.atan2(this.z, this.x),
-            phi: Math.asin(this.y / this.length()),
+            theta: Math.atan2(this[axisMap.y], this[axisMap.x]),
+            phi: Math.acos(this[axisMap.z] / this.length()),
         };
     }
-
+    /**
+     * Returns the angle between this vector and vector a in radians.
+     * @param {Vector} a: Vector
+     * @returns {number}
+     */
     angleTo(a: Vector) {
         return Math.acos(this.dot(a) / (this.length() * a.length()));
     }
@@ -408,5 +413,62 @@ export default class Vector {
 
         // return single angle Normalized to 1
         return Vector.normalizeRadians(angle);
+    }
+    /**
+     * Get normalized, spherical coordinates for the vector bc, relative to vector ab
+     * @param {Vector | number} a: Vector or Number
+     * @param {Vector | number} b: Vector or Number
+     * @param {Vector | number} c: Vector or Number
+     * @param {AxisMap} axisMap: Mapped axis to get the right spherical coords
+     */
+    static getRelativeSphericalCoords(a: Vector | XYZ, b: Vector | XYZ, c: Vector | XYZ, axisMap: AxisMap) {
+        if (!(a instanceof Vector)) {
+            a = new Vector(a);
+            b = new Vector(b);
+            c = new Vector(c);
+        }
+
+        // Calculate vector between points 1 and 2
+        const v1 = (b as Vector).subtract(a as Vector);
+
+        // Calculate vector between points 2 and 3
+        const v2 = (c as Vector).subtract(b as Vector);
+
+        const v1norm = v1.unit();
+        const v2norm = v2.unit();
+
+        const { theta: theta1, phi: phi1 } = v1norm.toSphericalCoords(axisMap);
+        const { theta: theta2, phi: phi2 } = v2norm.toSphericalCoords(axisMap);
+
+        const theta = theta1 - theta2;
+        const phi = phi1 - phi2;
+
+        return {
+            theta: Vector.normalizeAngle(theta),
+            phi: Vector.normalizeAngle(phi),
+        };
+    }
+    /**
+     * Get normalized, spherical coordinates for the vector bc
+     * @param {Vector | number} a: Vector or Number
+     * @param {Vector | number} b: Vector or Number
+     * @param {AxisMap} axisMap: Mapped axis to get the right spherical coords
+     */
+    static getSphericalCoords(a: Vector | XYZ, b: Vector | XYZ, axisMap: AxisMap = { x: "x", y: "y", z: "z" }) {
+        if (!(a instanceof Vector)) {
+            a = new Vector(a);
+            b = new Vector(b);
+        }
+
+        // Calculate vector between points 1 and 2
+        const v1 = (b as Vector).subtract(a as Vector);
+
+        const v1norm = v1.unit();
+        const { theta, phi } = v1norm.toSphericalCoords(axisMap);
+
+        return {
+            theta: Vector.normalizeAngle(-theta),
+            phi: Vector.normalizeAngle(PI / 2 - phi),
+        };
     }
 }

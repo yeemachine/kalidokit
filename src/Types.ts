@@ -1,5 +1,5 @@
 import Vector from "./utils/vector";
-
+import Euler from "./utils/euler";
 import { RIGHT, LEFT } from "./constants";
 export interface ISolveOptions {
     /**
@@ -51,6 +51,12 @@ export type Side = typeof RIGHT | typeof LEFT;
 export type XYZ = Record<"x" | "y" | "z", number>;
 
 export type LR<T = Vector> = Record<"l" | "r", T>;
+export type RotationOrder = "XYZ" | "YZX" | "ZXY" | "XZY" | "YXZ" | "ZYX";
+
+export type EulerRotation = XYZ & { rotationOrder?: RotationOrder };
+
+export type AxisMap = Record<"x" | "y" | "z", "x" | "y" | "z">;
+
 
 export interface IHips {
     position: XYZ;
@@ -59,16 +65,16 @@ export interface IHips {
 }
 
 export type TPose = {
-    RightUpperArm: Vector;
-    RightLowerArm: Vector;
-    LeftUpperArm: Vector;
-    LeftLowerArm: Vector;
+    RightUpperArm: Euler;
+    RightLowerArm: Euler;
+    LeftUpperArm: Euler;
+    LeftLowerArm: Euler;
     RightHand: Vector;
     LeftHand: Vector;
-    RightUpperLeg: Vector | XYZ;
-    RightLowerLeg: Vector | XYZ;
-    LeftUpperLeg: Vector | XYZ;
-    LeftLowerLeg: Vector | XYZ;
+    RightUpperLeg: Euler | XYZ;
+    RightLowerLeg: Euler | XYZ;
+    LeftUpperLeg: Euler | XYZ;
+    LeftLowerLeg: Euler | XYZ;
     Hips: IHips;
     Spine: Vector | XYZ;
 };
