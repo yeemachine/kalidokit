@@ -129,7 +129,6 @@ export default class Vector {
     unit() {
         return this.divide(this.length());
     }
-
     min() {
         return Math.min(Math.min(this.x, this.y), this.z);
     }
@@ -150,7 +149,6 @@ export default class Vector {
     angleTo(a: Vector) {
         return Math.acos(this.dot(a) / (this.length() * a.length()));
     }
-
     /**
      * Array representation of the vector.
      * @param {number} n: Array length
@@ -188,7 +186,6 @@ export default class Vector {
         b.z = -a.z;
         return b;
     }
-
     static add(a: Vector, b: Vector | number, c: Vector = new Vector()) {
         if (b instanceof Vector) {
             c.x = a.x + b.x;
@@ -407,12 +404,10 @@ export default class Vector {
         const v1 = (a as Vector).subtract(b as Vector);
 
         // Calculate vector between points 2 and 3
-
         const v2 = (c as Vector).subtract(b as Vector);
 
         // The dot product of vectors v1 & v2 is a function of the cosine of the
         // angle between them (it's scaled by the product of their magnitudes).
-
         const v1norm = v1.unit();
         const v2norm = v2.unit();
 
