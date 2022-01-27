@@ -1,4 +1,5 @@
 import { XYZ } from "../Types";
+import { PI, TWO_PI } from "./../constants";
 
 /** Vector Math class. */
 export default class Vector {
@@ -259,7 +260,7 @@ export default class Vector {
         return new Vector(Math.cos(theta) * Math.cos(phi), Math.sin(phi), Math.sin(theta) * Math.cos(phi));
     }
     static randomDirection() {
-        return Vector.fromAngles(Math.random() * Math.PI * 2, Math.asin(Math.random() * 2 - 1));
+        return Vector.fromAngles(Math.random() * TWO_PI, Math.asin(Math.random() * 2 - 1));
     }
     static min(a: Vector, b: Vector) {
         return new Vector(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.min(a.z, b.z));
@@ -316,25 +317,24 @@ export default class Vector {
         else return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2) + Math.pow(a.z - b.z, 2));
     }
     static toDegrees(a: number) {
-        return a * (180 / Math.PI);
+        return a * (180 / PI);
     }
     static normalizeAngle(radians: number) {
-        const TWO_PI = Math.PI * 2;
         let angle = radians % TWO_PI;
-        angle = angle > Math.PI ? angle - TWO_PI : angle < -Math.PI ? TWO_PI + angle : angle;
+        angle = angle > PI ? angle - TWO_PI : angle < -PI ? TWO_PI + angle : angle;
         //returns normalized values to -1,1
-        return angle / Math.PI;
+        return angle / PI;
     }
     static normalizeRadians(radians: number) {
-        if (radians >= Math.PI / 2) {
-            radians -= 2 * Math.PI;
+        if (radians >= PI / 2) {
+            radians -= TWO_PI;
         }
-        if (radians <= -Math.PI / 2) {
-            radians += 2 * Math.PI;
-            radians = Math.PI - radians;
+        if (radians <= -PI / 2) {
+            radians += TWO_PI;
+            radians = PI - radians;
         }
         //returns normalized values to -1,1
-        return radians / Math.PI;
+        return radians / PI;
     }
     static find2DAngle(cx: number, cy: number, ex: number, ey: number) {
         const dy = ey - cy;

@@ -1,6 +1,7 @@
 import Vector from "../utils/vector";
 import { clamp, remap } from "../utils/helpers";
 import { IHips, XYZ, TFVectorPose } from "../Types";
+import { PI } from "./../constants";
 
 /**
  * Calculates Hip rotation and world position
@@ -81,9 +82,9 @@ export const rigHips = (hips: IHips, spine: Vector | XYZ) => {
         z: hips.position.z * (0.1 + hips.position.z * -2),
     };
 
-    spine.x *= Math.PI;
-    spine.y *= Math.PI;
-    spine.z *= Math.PI;
+    spine.x *= PI;
+    spine.y *= PI;
+    spine.z *= PI;
 
     return {
         Hips: hips,

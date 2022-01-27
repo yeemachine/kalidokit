@@ -2,6 +2,7 @@ import Vector from "../utils/vector";
 import { clamp } from "../utils/helpers";
 import { Results, Side } from "../Types";
 import { RIGHT, LEFT } from "./../constants";
+import { PI } from "./../constants";
 
 /**
  * Calculates arm rotation as euler angles
@@ -75,7 +76,7 @@ export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: S
 
     UpperArm.z *= -2.3 * invert;
     //Modify UpperArm rotationY  by LowerArm X and Z rotations
-    UpperArm.y *= Math.PI * invert;
+    UpperArm.y *= PI * invert;
     UpperArm.y -= Math.max(LowerArm.x);
     UpperArm.y -= -invert * Math.max(LowerArm.z, 0);
     UpperArm.x -= 0.3 * invert;
@@ -85,7 +86,7 @@ export const rigArm = (UpperArm: Vector, LowerArm: Vector, Hand: Vector, side: S
     LowerArm.x *= 2.14 * invert;
 
     //Clamp values to human limits
-    UpperArm.x = clamp(UpperArm.x, -0.5, Math.PI);
+    UpperArm.x = clamp(UpperArm.x, -0.5, PI);
     LowerArm.x = clamp(LowerArm.x, -0.3, 0.3);
 
     Hand.y = clamp(Hand.z * 2, -0.6, 0.6); //side to side
