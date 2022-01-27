@@ -7,7 +7,7 @@ export default class Vector {
     public y: number;
     public z: number;
 
-    constructor(a?: number[] | Record<"x" | "y" | "z", number> | number | Vector, b?: number, c?: number) {
+    constructor(a?: number[] | XYZ | number | Vector | EulerRotation, b?: number, c?: number) {
         if (Array.isArray(a)) {
             this.x = a[0] ?? 0;
             this.y = a[1] ?? 0;
@@ -393,13 +393,11 @@ export default class Vector {
     }
     /**
      * Find angle between 3D Coordinates
-     * @param {Vector | number} a:
+     * @param {Vector | number} a: Vector or Number
+     * @param {Vector | number} b: Vector or Number
+     * @param {Vector | number} c: Vector or Number
      */
-    static angleBetween3DCoords(
-        a: Vector | Record<"x" | "y" | "z", number>,
-        b: Vector | Record<"x" | "y" | "z", number>,
-        c: Vector | Record<"x" | "y" | "z", number>
-    ) {
+    static angleBetween3DCoords(a: Vector | XYZ, b: Vector | XYZ, c: Vector | XYZ) {
         if (!(a instanceof Vector)) {
             a = new Vector(a);
             b = new Vector(b);

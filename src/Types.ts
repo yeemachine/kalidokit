@@ -53,9 +53,9 @@ export type XYZ = Record<"x" | "y" | "z", number>;
 export type LR<T = Vector> = Record<"l" | "r", T>;
 
 export interface IHips {
-    position: Record<"x" | "y" | "z", number>;
+    position: XYZ;
     rotation?: Vector;
-    worldPosition?: Record<"x" | "y" | "z", number>;
+    worldPosition?: XYZ;
 }
 
 export type TPose = {
