@@ -19,7 +19,7 @@ export const remap = (val: number, min: number, max: number) => {
     return (clamp(val, min, max) - min) / (max - min);
 };
 
-/** A set of default pose values to serve as "rest" values */
+/** A set of default pose values in radians to serve as "rest" values */
 export const RestingDefault = {
     Face: {
         eye: {
