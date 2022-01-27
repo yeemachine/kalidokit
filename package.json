@@ -18,15 +18,21 @@
         "prepare": "npm run build",
         "fmt": "prettier --write \"src/**/*.ts\"",
         "test": "npm run build && npm run dev",
-        "lint": "eslint \"src/**/*.ts\" --fix"
+        "lint": "eslint \"src/**/*.ts\" --fix",
+        "jest": "jest",
+        "jest:watch": "jest -o --watch "
     },
     "devDependencies": {
+        "@types/jest": "^27.0.3",
+        "@types/lodash.clonedeep": "^4.5.6",
         "@typescript-eslint/eslint-plugin": "^5.9.0",
         "@typescript-eslint/parser": "^5.9.0",
+        "lodash.clonedeep": "^4.5.0",
         "eslint": "^8.6.0",
         "prettier": "^2.4.1",
         "rimraf": "^3.0.2",
         "rollup-plugin-friendly-type-imports": "^1.0.1",
+        "ts-jest": "^27.1.1",
         "tsc-watch": "^4.5.0",
         "typescript": "^4.4.4",
         "vite": "2.6.0",
