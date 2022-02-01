@@ -28,16 +28,6 @@ export const calcLegs = (lm: Results) => {
         y: "z",
         z: "x",
     });
-    const rightFootSphericalCoords = Vector.getRelativeSphericalCoords(lm[23], lm[25], lm[27], {
-        x: "y",
-        y: "z",
-        z: "x",
-    });
-    const leftFootSphericalCoords = Vector.getRelativeSphericalCoords(lm[24], lm[26], lm[28], {
-        x: "y",
-        y: "z",
-        z: "x",
-    });
     const hipRotation = Vector.findRotation(lm[23], lm[24]);
 
     const UpperLeg = {
