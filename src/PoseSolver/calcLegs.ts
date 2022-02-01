@@ -86,7 +86,7 @@ export const calcLegs = (lm: Results) => {
  */
 export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side: Side = RIGHT) => {
     const invert = side === RIGHT ? 1 : -1;
-    
+
     const rigedUpperLeg = new Euler({
         x: clamp(UpperLeg.x, 0, 0.5) * PI,
         y: clamp(UpperLeg.y, -0.25, 0.25) * PI,

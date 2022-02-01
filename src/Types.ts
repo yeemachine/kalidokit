@@ -57,7 +57,6 @@ export type EulerRotation = XYZ & { rotationOrder?: RotationOrder };
 
 export type AxisMap = Record<"x" | "y" | "z", "x" | "y" | "z">;
 
-
 export interface IHips {
     position: XYZ;
     rotation?: Vector;
