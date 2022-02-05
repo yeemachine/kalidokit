@@ -80,11 +80,11 @@ const rigRotation = (name, rotation = { x: 0, y: 0, z: 0 }, dampener = 1, lerpAm
     }
 
     let euler = new THREE.Euler(
-        rotation.x * dampener, 
-        rotation.y * dampener, 
-        rotation.z * dampener, 
-        rotation.rotationOrder || "XYZ",
-        );
+        rotation.x * dampener,
+        rotation.y * dampener,
+        rotation.z * dampener,
+        rotation.rotationOrder || "XYZ"
+    );
     let quaternion = new THREE.Quaternion().setFromEuler(euler);
     Part.quaternion.slerp(quaternion, lerpAmount); // interpolate
 };
@@ -175,7 +175,7 @@ const animateVRM = (vrm, results) => {
         rigPosition(
             "Hips",
             {
-                x: -riggedPose.Hips.position.x + 0.2, // Reverse direction
+                x: riggedPose.Hips.position.x, // Reverse direction
                 y: riggedPose.Hips.position.y + 1, // Add a bit of height
                 z: -riggedPose.Hips.position.z, // Reverse direction
             },
