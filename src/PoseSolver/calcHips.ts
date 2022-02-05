@@ -32,7 +32,6 @@ export const calcHips = (lm3d: TFVectorPose, lm2d: Omit<TFVectorPose, "z">) => {
         y: 0,
         z: hips.position.z * Math.pow(hips.position.z * -3, 3),
     };
-    console.log(hips.worldPosition);
 
     hips.rotation = Vector.rollPitchYaw(lm3d[23], lm3d[24]);
     //fix -PI, PI jumping
