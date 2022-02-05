@@ -1,5 +1,6 @@
 import { Results } from "../Types";
 import Vector from "../utils/vector";
+import { PI } from "./../constants";
 
 /**
  * Calculate stable plane (triangle) from 4 face landmarks
@@ -38,9 +39,9 @@ export const calcHead = (lm: Results) => {
 
     return {
         //defaults to radians for rotation around x,y,z axis
-        y: rotate.y * Math.PI, //left right
-        x: rotate.x * Math.PI, //up down
-        z: rotate.z * Math.PI, //side to side
+        y: rotate.y * PI, //left right
+        x: rotate.x * PI, //up down
+        z: rotate.z * PI, //side to side
         width: width,
         height: height,
         //center of face detection square

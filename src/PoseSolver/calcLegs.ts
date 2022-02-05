@@ -1,38 +1,64 @@
 import Vector from "../utils/vector";
+import Euler from "../utils/euler";
 import { clamp } from "../utils/helpers";
-import { Results } from "../Types";
+import { Results, Side } from "../Types";
+import { RIGHT, LEFT } from "./../constants";
+import { PI } from "./../constants";
+
+export const offsets = {
+    upperLeg: {
+        z: 0.1,
+    },
+};
 
 /**
- * Calculates arm rotation as euler angles
- * TODO: Make angles more accurate in all rotation axis
+ * Calculates leg rotation angles
  * @param {Results} lm : array of 3D pose vectors from tfjs or mediapipe
  */
 export const calcLegs = (lm: Results) => {
-    // LEGS WIP //
+    const rightUpperLegSphericalCoords = Vector.getSphericalCoords(lm[23], lm[25], { x: "y", y: "z", z: "x" });
+    const leftUpperLegSphericalCoords = Vector.getSphericalCoords(lm[24], lm[26], { x: "y", y: "z", z: "x" });
+    const rightLowerLegSphericalCoords = Vector.getRelativeSphericalCoords(lm[23], lm[25], lm[27], {
+        x: "y",
+        y: "z",
+        z: "x",
+    });
+    const leftLowerLegSphericalCoords = Vector.getRelativeSphericalCoords(lm[24], lm[26], lm[28], {
+        x: "y",
+        y: "z",
+        z: "x",
+    });
+    const hipRotation = Vector.findRotation(lm[23], lm[24]);
+
     const UpperLeg = {
-        r: Vector.findRotation(lm[23], lm[25]),
-        l: Vector.findRotation(lm[24], lm[26]),
+        r: new Vector({
+            x: rightUpperLegSphericalCoords.theta,
+            y: rightLowerLegSphericalCoords.phi,
+            z: rightUpperLegSphericalCoords.phi - hipRotation.z,
+        }),
+        l: new Vector({
+            x: leftUpperLegSphericalCoords.theta,
+            y: leftLowerLegSphericalCoords.phi,
+            z: leftUpperLegSphericalCoords.phi - hipRotation.z,
+        }),
     };
-    //recenter
-    UpperLeg.r.z = clamp(UpperLeg.r.z - 0.5, -0.5, 0);
-    UpperLeg.r.y = 0; //Y Axis is not correct
-    UpperLeg.l.z = clamp(UpperLeg.l.z - 0.5, -0.5, 0);
-    UpperLeg.l.y = 0; //Y Axis is not correct
 
     const LowerLeg = {
-        r: Vector.findRotation(lm[25], lm[27]),
-        l: Vector.findRotation(lm[26], lm[28]),
+        r: new Vector({
+            x: -Math.abs(rightLowerLegSphericalCoords.theta),
+            y: 0, // not relevant
+            z: 0, // not relevant
+        }),
+        l: new Vector({
+            x: -Math.abs(leftLowerLegSphericalCoords.theta),
+            y: 0, // not relevant
+            z: 0, // not relevant
+        }),
     };
-    LowerLeg.r.x = Vector.angleBetween3DCoords(lm[23], lm[25], lm[27]);
-    LowerLeg.r.y = 0; // Y Axis not correct
-    LowerLeg.r.z = 0; // Z Axis not correct
-    LowerLeg.l.x = Vector.angleBetween3DCoords(lm[24], lm[26], lm[28]);
-    LowerLeg.l.y = 0; // Y Axis not correct
-    LowerLeg.l.z = 0; // Z Axis not correct
 
     //Modify Rotations slightly for more natural movement
-    const rightLegRig = rigLeg(UpperLeg.r, LowerLeg.r, "Right");
-    const leftLegRig = rigLeg(UpperLeg.l, LowerLeg.l, "Left");
+    const rightLegRig = rigLeg(UpperLeg.r, LowerLeg.r, RIGHT);
+    const leftLegRig = rigLeg(UpperLeg.l, LowerLeg.l, LEFT);
 
     return {
         //Scaled
@@ -46,8 +72,8 @@ export const calcLegs = (lm: Results) => {
         },
         //Unscaled
         Unscaled: {
-            UpperArm: UpperLeg,
-            LowerLeg: LowerLeg,
+            UpperLeg,
+            LowerLeg,
         },
     };
 };
@@ -56,16 +82,25 @@ export const calcLegs = (lm: Results) => {
  * Converts normalized rotation values into radians clamped by human limits
  * @param {Object} UpperLeg : normalized rotation values
  * @param {Object} LowerLeg : normalized rotation values
- * @param {String} side : "Left" or "Right"
+ * @param {Side} side : left or right
  */
-export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side = "Right") => {
-    const invert = side === "Right" ? 1 : -1;
-    UpperLeg.z = UpperLeg.z * -2.3 * invert;
-    UpperLeg.x = clamp(UpperLeg.z * 0.1 * invert, -0.5, Math.PI);
-    LowerLeg.x = LowerLeg.x * -2.14 * 1.3;
+export const rigLeg = (UpperLeg: Vector, LowerLeg: Vector, side: Side = RIGHT) => {
+    const invert = side === RIGHT ? 1 : -1;
+
+    const rigedUpperLeg = new Euler({
+        x: clamp(UpperLeg.x, 0, 0.5) * PI,
+        y: clamp(UpperLeg.y, -0.25, 0.25) * PI,
+        z: clamp(UpperLeg.z, -0.5, 0.5) * PI + invert * offsets.upperLeg.z,
+        rotationOrder: "XYZ",
+    });
+    const rigedLowerLeg = new Euler({
+        x: LowerLeg.x * PI,
+        y: LowerLeg.y * PI,
+        z: LowerLeg.z * PI,
+    });
+
     return {
-        // do not use. leg values are inaccurate
-        UpperLeg: UpperLeg,
-        LowerLeg: LowerLeg,
+        UpperLeg: rigedUpperLeg,
+        LowerLeg: rigedLowerLeg,
     };
 };

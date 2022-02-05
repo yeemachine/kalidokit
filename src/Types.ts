@@ -1,5 +1,6 @@
 import Vector from "./utils/vector";
-
+import Euler from "./utils/euler";
+import { RIGHT, LEFT } from "./constants";
 export interface ISolveOptions {
     /**
      * Runtime for the solver.
@@ -42,32 +43,42 @@ export interface IPoseSolveOptions extends ISolveOptions {
     enableLegs: boolean;
 }
 
+/**
+ * The left or the right side
+ */
+export type Side = typeof RIGHT | typeof LEFT;
+
 export type XYZ = Record<"x" | "y" | "z", number>;
 
 export type LR<T = Vector> = Record<"l" | "r", T>;
+export type RotationOrder = "XYZ" | "YZX" | "ZXY" | "XZY" | "YXZ" | "ZYX";
+
+export type EulerRotation = XYZ & { rotationOrder?: RotationOrder };
+
+export type AxisMap = Record<"x" | "y" | "z", "x" | "y" | "z">;
 
 export interface IHips {
-    position: Record<"x" | "y" | "z", number>;
+    position: XYZ;
     rotation?: Vector;
-    worldPosition?: Record<"x" | "y" | "z", number>;
+    worldPosition?: XYZ;
 }
 
 export type TPose = {
-    RightUpperArm: Vector;
-    RightLowerArm: Vector;
-    LeftUpperArm: Vector;
-    LeftLowerArm: Vector;
+    RightUpperArm: Euler;
+    RightLowerArm: Euler;
+    LeftUpperArm: Euler;
+    LeftLowerArm: Euler;
     RightHand: Vector;
     LeftHand: Vector;
-    RightUpperLeg: Vector | XYZ;
-    RightLowerLeg: Vector | XYZ;
-    LeftUpperLeg: Vector | XYZ;
-    LeftLowerLeg: Vector | XYZ;
+    RightUpperLeg: Euler | XYZ;
+    RightLowerLeg: Euler | XYZ;
+    LeftUpperLeg: Euler | XYZ;
+    LeftLowerLeg: Euler | XYZ;
     Hips: IHips;
     Spine: Vector | XYZ;
 };
 
-export type HandKeys<S extends "Right" | "Left"> = `${S}${
+export type HandKeys<S extends Side> = `${S}${
     | "Wrist"
     | "RingProximal"
     | "RingIntermediate"
@@ -84,8 +95,8 @@ export type HandKeys<S extends "Right" | "Left"> = `${S}${
     | "LittleProximal"
     | "LittleIntermediate"
     | "LittleDistal"}`;
-export type THand<S extends "Right" | "Left"> = Record<HandKeys<S>, XYZ>;
-export type THandUnsafe<S extends "Right" | "Left"> = Record<HandKeys<S> | string, XYZ>;
+export type THand<S extends Side> = Record<HandKeys<S>, XYZ>;
+export type THandUnsafe<S extends Side> = Record<HandKeys<S> | string, XYZ>;
 
 export type TFace = {
     head: {

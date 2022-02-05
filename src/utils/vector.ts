@@ -1,4 +1,5 @@
-import { XYZ } from "../Types";
+import { XYZ, AxisMap, EulerRotation } from "../Types";
+import { PI, TWO_PI } from "./../constants";
 
 /** Vector Math class. */
 export default class Vector {
@@ -6,7 +7,7 @@ export default class Vector {
     public y: number;
     public z: number;
 
-    constructor(a?: number[] | Record<"x" | "y" | "z", number> | number | Vector, b?: number, c?: number) {
+    constructor(a?: number[] | XYZ | number | Vector | EulerRotation, b?: number, c?: number) {
         if (Array.isArray(a)) {
             this.x = a[0] ?? 0;
             this.y = a[1] ?? 0;
@@ -128,7 +129,6 @@ export default class Vector {
     unit() {
         return this.divide(this.length());
     }
-
     min() {
         return Math.min(Math.min(this.x, this.y), this.z);
     }
@@ -137,19 +137,23 @@ export default class Vector {
     }
     /**
      * To Angles
+     * @param {AxisMap} [axisMap = {x: "x", y: "y", z: "z"}]
      * @returns {{ theta: number, phi: number }}
      */
-    toAngles() {
+    toSphericalCoords(axisMap: AxisMap = { x: "x", y: "y", z: "z" }) {
         return {
-            theta: Math.atan2(this.z, this.x),
-            phi: Math.asin(this.y / this.length()),
+            theta: Math.atan2(this[axisMap.y], this[axisMap.x]),
+            phi: Math.acos(this[axisMap.z] / this.length()),
         };
     }
-
+    /**
+     * Returns the angle between this vector and vector a in radians.
+     * @param {Vector} a: Vector
+     * @returns {number}
+     */
     angleTo(a: Vector) {
         return Math.acos(this.dot(a) / (this.length() * a.length()));
     }
-
     /**
      * Array representation of the vector.
      * @param {number} n: Array length
@@ -187,7 +191,6 @@ export default class Vector {
         b.z = -a.z;
         return b;
     }
-
     static add(a: Vector, b: Vector | number, c: Vector = new Vector()) {
         if (b instanceof Vector) {
             c.x = a.x + b.x;
@@ -259,7 +262,7 @@ export default class Vector {
         return new Vector(Math.cos(theta) * Math.cos(phi), Math.sin(phi), Math.sin(theta) * Math.cos(phi));
     }
     static randomDirection() {
-        return Vector.fromAngles(Math.random() * Math.PI * 2, Math.asin(Math.random() * 2 - 1));
+        return Vector.fromAngles(Math.random() * TWO_PI, Math.asin(Math.random() * 2 - 1));
     }
     static min(a: Vector, b: Vector) {
         return new Vector(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.min(a.z, b.z));
@@ -300,41 +303,29 @@ export default class Vector {
     static angleBetween(a: Vector, b: Vector) {
         return a.angleTo(b);
     }
-    /**
-     * Angle between two vertices
-     * @param a
-     * @param b
-     * @param c
-     */
-    static angleBetweenVertices(a: Vector, b: Vector, c: Vector) {
-        const ab = a.subtract(b);
-        const bc = c.subtract(b);
-        return ab.angleTo(bc);
-    }
     static distance(a: Vector, b: Vector, d: number) {
         if (d === 2) return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
         else return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2) + Math.pow(a.z - b.z, 2));
     }
     static toDegrees(a: number) {
-        return a * (180 / Math.PI);
+        return a * (180 / PI);
     }
     static normalizeAngle(radians: number) {
-        const TWO_PI = Math.PI * 2;
         let angle = radians % TWO_PI;
-        angle = angle > Math.PI ? angle - TWO_PI : angle < -Math.PI ? TWO_PI + angle : angle;
+        angle = angle > PI ? angle - TWO_PI : angle < -PI ? TWO_PI + angle : angle;
         //returns normalized values to -1,1
-        return angle / Math.PI;
+        return angle / PI;
     }
     static normalizeRadians(radians: number) {
-        if (radians >= Math.PI / 2) {
-            radians -= 2 * Math.PI;
+        if (radians >= PI / 2) {
+            radians -= TWO_PI;
         }
-        if (radians <= -Math.PI / 2) {
-            radians += 2 * Math.PI;
-            radians = Math.PI - radians;
+        if (radians <= -PI / 2) {
+            radians += TWO_PI;
+            radians = PI - radians;
         }
         //returns normalized values to -1,1
-        return radians / Math.PI;
+        return radians / PI;
     }
     static find2DAngle(cx: number, cy: number, ex: number, ey: number) {
         const dy = ey - cy;
@@ -393,13 +384,11 @@ export default class Vector {
     }
     /**
      * Find angle between 3D Coordinates
-     * @param {Vector | number} a:
+     * @param {Vector | number} a: Vector or Number
+     * @param {Vector | number} b: Vector or Number
+     * @param {Vector | number} c: Vector or Number
      */
-    static angleBetween3DCoords(
-        a: Vector | Record<"x" | "y" | "z", number>,
-        b: Vector | Record<"x" | "y" | "z", number>,
-        c: Vector | Record<"x" | "y" | "z", number>
-    ) {
+    static angleBetween3DCoords(a: Vector | XYZ, b: Vector | XYZ, c: Vector | XYZ) {
         if (!(a instanceof Vector)) {
             a = new Vector(a);
             b = new Vector(b);
@@ -409,12 +398,10 @@ export default class Vector {
         const v1 = (a as Vector).subtract(b as Vector);
 
         // Calculate vector between points 2 and 3
-
         const v2 = (c as Vector).subtract(b as Vector);
 
         // The dot product of vectors v1 & v2 is a function of the cosine of the
         // angle between them (it's scaled by the product of their magnitudes).
-
         const v1norm = v1.unit();
         const v2norm = v2.unit();
 
@@ -426,5 +413,62 @@ export default class Vector {
 
         // return single angle Normalized to 1
         return Vector.normalizeRadians(angle);
+    }
+    /**
+     * Get normalized, spherical coordinates for the vector bc, relative to vector ab
+     * @param {Vector | number} a: Vector or Number
+     * @param {Vector | number} b: Vector or Number
+     * @param {Vector | number} c: Vector or Number
+     * @param {AxisMap} axisMap: Mapped axis to get the right spherical coords
+     */
+    static getRelativeSphericalCoords(a: Vector | XYZ, b: Vector | XYZ, c: Vector | XYZ, axisMap: AxisMap) {
+        if (!(a instanceof Vector)) {
+            a = new Vector(a);
+            b = new Vector(b);
+            c = new Vector(c);
+        }
+
+        // Calculate vector between points 1 and 2
+        const v1 = (b as Vector).subtract(a as Vector);
+
+        // Calculate vector between points 2 and 3
+        const v2 = (c as Vector).subtract(b as Vector);
+
+        const v1norm = v1.unit();
+        const v2norm = v2.unit();
+
+        const { theta: theta1, phi: phi1 } = v1norm.toSphericalCoords(axisMap);
+        const { theta: theta2, phi: phi2 } = v2norm.toSphericalCoords(axisMap);
+
+        const theta = theta1 - theta2;
+        const phi = phi1 - phi2;
+
+        return {
+            theta: Vector.normalizeAngle(theta),
+            phi: Vector.normalizeAngle(phi),
+        };
+    }
+    /**
+     * Get normalized, spherical coordinates for the vector bc
+     * @param {Vector | number} a: Vector or Number
+     * @param {Vector | number} b: Vector or Number
+     * @param {AxisMap} axisMap: Mapped axis to get the right spherical coords
+     */
+    static getSphericalCoords(a: Vector | XYZ, b: Vector | XYZ, axisMap: AxisMap = { x: "x", y: "y", z: "z" }) {
+        if (!(a instanceof Vector)) {
+            a = new Vector(a);
+            b = new Vector(b);
+        }
+
+        // Calculate vector between points 1 and 2
+        const v1 = (b as Vector).subtract(a as Vector);
+
+        const v1norm = v1.unit();
+        const { theta, phi } = v1norm.toSphericalCoords(axisMap);
+
+        return {
+            theta: Vector.normalizeAngle(-theta),
+            phi: Vector.normalizeAngle(PI / 2 - phi),
+        };
     }
 }
