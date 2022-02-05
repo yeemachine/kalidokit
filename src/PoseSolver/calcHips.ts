@@ -77,7 +77,7 @@ export const rigHips = (hips: IHips, spine: Vector | XYZ) => {
     }
 
     hips.worldPosition = {
-        x: hips.position.x * (0.5 + 1.8 * -hips.position.z),
+        x: hips.position.x * (0.1 + 1.8 * -hips.position.z),
         y: 0,
         z: hips.position.z * (0.1 + hips.position.z * -2),
     };
