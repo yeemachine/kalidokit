@@ -13,6 +13,8 @@ Kalidokit is a blendshape and kinematics solver for Mediapipe/Tensorflow.js face
 
 As the core to Vtuber web apps, [Kalidoface](https://kalidoface.com) and [Kalidoface 3D](https://3d.kalidoface.com), KalidoKit is designed specifically for rigging 3D VRM models and Live2D avatars!
 
+NOTE: This is a JS library meant for developers using Mediapipe pretrained models and not a complete app by itself. Please visit [Kalidoface](https://kalidoface.com) for the full vtuber experience 😉!
+
 <a href="https://glitch.com/edit/#!/kalidokit"><img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit_glitch.gif?raw=true" alt="Kalidokit Template" width="48%"/></a>
 <a href="https://glitch.com/edit/#!/kalidokit-live2d"><img src="https://github.com/yeemachine/kalidokit/blob/main/docs/kalidokit-live2d_glitch.gif?raw=true" alt="Kalidokit Template" width="48%"/></a>
 
