@@ -137,7 +137,7 @@ holistic.onResults(results=>{
     // landmark names may change depending on TFJS/Mediapipe model version
     let facelm = results.faceLandmarks;
     let poselm = results.poseLandmarks;
-    let poselm3D = results.ea;
+    let poselm3D = results.za;
     let rightHandlm = results.rightHandLandmarks;
     let leftHandlm = results.leftHandLandmarks;
 
