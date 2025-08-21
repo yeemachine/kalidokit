@@ -14,8 +14,8 @@ export const calcHips = (lm3d: TFVectorPose, lm2d: Omit<TFVectorPose, "z">) => {
     const hipRight2d = Vector.fromArray(lm2d[24]);
     const shoulderLeft2d = Vector.fromArray(lm2d[11]);
     const shoulderRight2d = Vector.fromArray(lm2d[12]);
-    const hipCenter2d = hipLeft2d.lerp(hipRight2d, 1);
-    const shoulderCenter2d = shoulderLeft2d.lerp(shoulderRight2d, 1);
+    const hipCenter2d = hipLeft2d.lerp(hipRight2d, 0.5);
+    const shoulderCenter2d = shoulderLeft2d.lerp(shoulderRight2d, 0.5);
     const spineLength = hipCenter2d.distance(shoulderCenter2d);
 
     const hips: IHips = {
