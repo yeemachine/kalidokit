@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>我的二维画像 · 表情原型</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f1f5fa;color:#1b2c45;font:15px/1.6 system-ui,sans-serif}main{max-width:1240px;margin:auto;padding:28px 24px}header{display:flex;justify-content:space-between;align-items:center;gap:18px}h1{margin:0;font-size:27px;letter-spacing:-.5px}p{margin:6px 0;color:#66758a}.badge{font-size:12px;color:#245bc3;background:#e3ecff;padding:5px 12px;border-radius:30px;white-space:nowrap}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(280px,1fr);gap:22px;margin-top:22px}.card{padding:18px;background:white;border:1px solid #dce5f0;border-radius:16px}.canvas-wrap{overflow:hidden;border-radius:11px;background:#d4e1ec;position:relative}#avatar{width:100%;height:auto;display:block;aspect-ratio:1}h2{font-size:16px;margin:0 0 12px}.caption{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}button{font:inherit;padding:9px 13px;border-radius:8px;border:1px solid #ccd8e7;background:white;color:#304766;cursor:pointer}button.active,button.primary{background:#245fe5;color:white;border-color:#245fe5}button:disabled{opacity:.45;cursor:default}.modes{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}#status{padding:10px 12px;background:#edf3ff;border-radius:8px;font-size:13px;color:#3c5981;margin:12px 0}.control{margin:16px 0}.control label{display:flex;justify-content:space-between;margin-bottom:6px}.control input{width:100%;accent-color:#245fe5}output{font-variant-numeric:tabular-nums;color:#245bc3}.small{font-size:12px;color:#728198}.preview{position:relative;margin-top:14px}video{width:100%;height:auto;min-height:120px;aspect-ratio:4/3;background:#15253a;border-radius:9px;display:block;object-fit:contain;transform:scaleX(-1)}.camera-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}footer{margin-top:18px;font-size:13px;color:#6a7b91}a{color:#245fe5}#fps{font-size:12px;color:#708198}@media(max-width:760px){main{padding:18px 12px}.layout{grid-template-columns:1fr}h1{font-size:23px}header{align-items:flex-start}}
+</style></head><body><main>
+<header><div><h1>我的二维画像</h1><p>先画出你，再用几个滑块让画像动起来。</p></div><span class="badge">第一版 · 正面表情</span></header>
+<div class="layout"><section class="card"><div class="caption"><h2>个人卡通画像</h2><span id="fps">正在加载素材</span></div><div class="canvas-wrap"><canvas id="avatar" width="1024" height="1024"></canvas></div><p class="small">已根据你提供的照片制作形象。眼镜与发型固定，眼睛和嘴唇为独立活动区域。</p></section>
+<aside class="card"><h2>试试让画像动起来</h2><div class="modes"><button id="manual" class="active">手动滑块</button><button id="demo">自动演示</button><button id="camera" class="primary">摄像头驱动</button></div>
+<div id="status" role="status" aria-live="polite">正在加载个人画像…</div>
+<div class="control"><label for="eyeL">画面左眼 · 睁开程度 <output id="eyeLValue">1.00</output></label><input id="eyeL" type="range" min="0" max="1" step="0.01" value="1"></div>
+<div class="control"><label for="eyeR">画面右眼 · 睁开程度 <output id="eyeRValue">1.00</output></label><input id="eyeR" type="range" min="0" max="1" step="0.01" value="1"></div>
+<div class="control"><label for="mouth">嘴巴 · 张开程度 <output id="mouthValue">0.00</output></label><input id="mouth" type="range" min="0" max="1" step="0.01" value="0"></div>
+<div class="control"><label for="roll">画像 · 倾斜角度 <output id="rollValue">0°</output></label><input id="roll" type="range" min="-11" max="11" step="0.1" value="0"></div>
+<div class="modes"><button id="reset">回到中性表情</button><button id="save">下载当前画像</button></div>
+<div class="preview"><video id="video" muted autoplay playsinline></video></div>
+<div class="camera-actions"><button id="calibrate" disabled>重新校准</button><button id="stop" disabled>关闭摄像头</button></div>
+<p class="small">开启后请正视镜头，睁眼、闭嘴约 1 秒完成校准。若反光或表情幅度影响跟踪，可重新校准。拖动任意滑块即可切回手动。</p>
+</aside></div>
+<footer>此页使用预先生成的个人画像素材；摄像头只提取动作，在浏览器内合成，不会每帧重新画脸。首次摄像头驱动需下载 MediaPipe 跟踪组件。尚不支持自动为新用户生成素材、侧脸或精确发音嘴型。<a href="../portrait/">查看早期图像处理实验</a></footer>
+</main><script src="./rig.js"></script><script src="./app.js"></script></body></html>
