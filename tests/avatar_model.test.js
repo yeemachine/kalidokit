@@ -1,0 +1,17 @@
+'use strict';
+const assert=require('node:assert/strict');
+const A=require('../docs/avatar/model.js');
+const K=require('../docs/avatar/vendor/kalidokit.umd.js');
+assert.equal(typeof K.Face.solve,'function');
+const malicious=A.sanitize({skinTone:'url(evil)',glasses:'false',faceWidth:999,hairStyle:'anything',hairVolume:NaN});
+assert.equal(malicious.skinTone,A.defaults.skinTone);assert.equal(malicious.glasses,true);assert.equal(malicious.faceWidth,1.2);assert.equal(malicious.hairStyle,'wavy');assert.equal(malicious.hairVolume,.8);
+const pts=Array.from({length:478},()=>({x:.4,y:.5,z:.01}));
+let options;
+A.solveFace(pts,{width:640,height:480},{Face:{solve(copy,opt){copy[0].x=256;options=opt;return {};}}});
+assert.equal(pts[0].x,.4);assert.equal(options.runtime,'mediapipe');assert.equal(A.solveFace([],{},K),null);
+const rig=A.fromKalido({eye:{l:0,r:1},head:{x:.1,y:.2,z:.3},mouth:{x:.2,y:.7,shape:{O:.2,U:.1}},pupil:{x:.2,y:-.2},brow:.5});
+assert.equal(rig.eyeL,1);assert.equal(rig.eyeR,0);assert(rig.mouth>.8);assert(rig.yaw<0);assert(Object.values(rig).every(Number.isFinite));
+assert.equal(A.fromKalido(null).eyeL,1);
+assert.equal(A.estimateAppearance([],640,480,null).hairColor,A.defaults.hairColor);
+const degenerate=Array.from({length:478},()=>({x:.5,y:.5,z:0}));assert.deepEqual(A.estimateAppearance(degenerate,640,480,null),A.sanitize());
+console.log('PASS: KalidoKit availability, bounded appearance, immutable landmarks, mirrored eyes, pose mapping, and degenerate captures.');
