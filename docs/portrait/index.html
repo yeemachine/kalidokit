@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>本人实时卡通画像 · 第一版</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#edf3f8;color:#182b43;font:16px/1.6 system-ui,sans-serif}main{max-width:1160px;margin:auto;padding:32px 24px}h1{font-size:28px;margin:0 0 8px}p{margin:8px 0;color:#536780}.toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}button,.upload{border:1px solid #c6d4e4;border-radius:9px;padding:10px 18px;background:#fff;color:#1c416b;font:inherit;cursor:pointer}button:first-child{background:#245ee8;color:white;border-color:#245ee8}button:disabled{opacity:.5;cursor:default}.views{display:grid;grid-template-columns:1fr 1fr;gap:20px}figure{margin:0;background:white;padding:12px;border-radius:14px;border:1px solid #dae4ee}figcaption{margin-bottom:8px;font-weight:600}video,canvas{display:block;width:100%;aspect-ratio:4/3;object-fit:contain;background:#172332;border-radius:7px}video{transform:scaleX(-1)}.controls{display:flex;gap:24px;flex-wrap:wrap;margin-top:20px;padding:20px;background:white;border-radius:12px}label{display:grid;gap:6px;min-width:170px}label.upload{display:inline-block;min-width:0}input[type=range]{width:180px}select{font:inherit;padding:5px;border:1px solid #c6d4e4;border-radius:6px}#status{padding:12px 16px;background:#e0eaf7;border-radius:9px;flex:1;min-width:250px}.note{font-size:14px;margin-top:16px}#file{display:none}@media(max-width:720px){.views{grid-template-columns:1fr}main{padding:20px 14px}}
+</style>
+<main>
+<h1>你的脸，实时变成卡通画</h1>
+<p>保留摄像头拍到的脸型、五官、发型与动作，用色块和轮廓线重绘画面。</p>
+<div class="toolbar">
+<button id="start">开启摄像头</button><button id="stop" disabled>停止</button>
+<label class="upload">加载照片测试<input id="file" type="file" accept="image/*"></label>
+<span id="status" role="status" aria-live="polite">准备就绪，点击开启摄像头。</span>
+</div>
+<div class="views">
+<figure><figcaption>摄像头原图</figcaption><video id="video" muted playsinline autoplay></video><canvas id="photo" hidden style="display:none"></canvas></figure>
+<figure><figcaption>本人卡通化</figcaption><canvas id="output" width="640" height="480"></canvas></figure>
+</div>
+<div class="controls">
+<label>色块层次 <output id="levelsValue">7</output><input id="levels" type="range" min="3" max="16" value="7"></label>
+<label>轮廓线强度 <output id="inkValue">0.65</output><input id="ink" type="range" min="0" max="100" value="65"></label>
+<label>平滑程度 <output id="smoothValue">3</output><input id="smooth" type="range" min="1" max="5" value="3"></label>
+<label>处理分辨率<select id="resolution"><option value="480">480像素宽</option><option value="640" selected>640像素宽</option><option value="960">960像素宽</option></select></label>
+</div>
+<p class="note">第一版采用图像卡通化，尚未做人脸分区重建或个人角色建模。处理在本浏览器内完成；本页面没有上传图像的网络请求，也不需要下载 AI 模型。摄像头画面为镜像显示。</p>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const video = $('video'), canvas = $('output'), status = $('status');
+const gl = canvas.getContext('webgl', {alpha:false, antialias:false, preserveDrawingBuffer:true});
+let stream = null, source = null, running = false, starting = false, raf = 0, frames = 0, lastReport = 0;
+let sourceTexture, quad, smoothProgram, toonProgram, targets = [], width = 0, height = 0;
+const vertex = `attribute vec2 p; varying vec2 uv; void main(){uv=(p+1.0)*0.5;gl_Position=vec4(p,0.0,1.0);}`;
+const smoothing = `precision mediump float;
+varying vec2 uv; uniform sampler2D image; uniform vec2 pixel; uniform vec2 direction; uniform float radius;
+void main(){vec3 center=texture2D(image,uv).rgb;vec3 total=vec3(0.0);float weights=0.0;
+for(int i=-4;i<=4;i++){float x=float(i);vec3 c=texture2D(image,clamp(uv+pixel*direction*x*radius,vec2(0.0),vec2(1.0))).rgb;
+vec3 delta=c-center;float w=exp(-x*x/8.0-dot(delta,delta)*35.0);total+=c*w;weights+=w;}
+gl_FragColor=vec4(total/weights,1.0);}`;
+const cartoon = `precision mediump float;
+varying vec2 uv;uniform sampler2D image;uniform vec2 pixel;uniform float levels;uniform float ink;
+float lum(vec3 c){return dot(c,vec3(0.299,0.587,0.114));}
+float sampleLum(vec2 p){return lum(texture2D(image,clamp(p,vec2(0.0),vec2(1.0))).rgb);}
+void main(){vec2 q=vec2(1.0-uv.x,uv.y);vec3 c=texture2D(image,q).rgb;
+float a=sampleLum(q+pixel*vec2(-1.,-1.)),b=sampleLum(q+pixel*vec2(0.,-1.)),d=sampleLum(q+pixel*vec2(1.,-1.));
+float e=sampleLum(q+pixel*vec2(-1.,0.)),f=sampleLum(q+pixel*vec2(1.,0.));
+float g=sampleLum(q+pixel*vec2(-1.,1.)),h=sampleLum(q+pixel*vec2(0.,1.)),j=sampleLum(q+pixel*vec2(1.,1.));
+float gx=-a-2.*e-g+d+2.*f+j,gy=-a-2.*b-d+g+2.*h+j;
+float edge=smoothstep(0.12,0.5,length(vec2(gx,gy)));
+float y=lum(c);float quantized=floor(y*levels+0.5)/levels;
+vec3 color=clamp(vec3(quantized)+(c-vec3(y))*1.12,0.0,1.0);
+color=mix(color,vec3(0.055,0.08,0.12),edge*ink);
+gl_FragColor=vec4(color,1.0);}`;
+function compile(type, code){const s=gl.createShader(type);gl.shaderSource(s,code);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error(gl.getShaderInfoLog(s));return s;}
+function program(fragment){const p=gl.createProgram();const v=compile(gl.VERTEX_SHADER,vertex),f=compile(gl.FRAGMENT_SHADER,fragment);gl.attachShader(p,v);gl.attachShader(p,f);gl.linkProgram(p);gl.deleteShader(v);gl.deleteShader(f);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw Error(gl.getProgramInfoLog(p));return p;}
+function texture(){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t;}
+function initialize(){if(!gl)throw Error('此浏览器无法使用 WebGL，请检查浏览器的图形加速设置。');smoothProgram=program(smoothing);toonProgram=program(cartoon);quad=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,quad);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);sourceTexture=texture();gl.disable(gl.DEPTH_TEST);}
+function resize(){const sw=source.videoWidth||source.naturalWidth,sh=source.videoHeight||source.naturalHeight;if(!sw||!sh)return false;
+const w=Math.min(Number($('resolution').value),sw),h=Math.max(1,Math.round(w*sh/sw));if(w===width&&h===height)return true;
+for(const t of targets){gl.deleteTexture(t.texture);gl.deleteFramebuffer(t.framebuffer);}targets=[];width=canvas.width=w;height=canvas.height=h;
+for(let i=0;i<2;i++){const t=texture();gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,w,h,0,gl.RGBA,gl.UNSIGNED_BYTE,null);const fb=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,fb);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);if(gl.checkFramebufferStatus(gl.FRAMEBUFFER)!==gl.FRAMEBUFFER_COMPLETE)throw Error('无法创建图像处理缓冲区。');targets.push({texture:t,framebuffer:fb});}return true;}
+function pass(p,input,target){gl.bindFramebuffer(gl.FRAMEBUFFER,target);gl.viewport(0,0,width,height);gl.useProgram(p);gl.bindBuffer(gl.ARRAY_BUFFER,quad);const loc=gl.getAttribLocation(p,'p');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,input);gl.uniform1i(gl.getUniformLocation(p,'image'),0);gl.uniform2f(gl.getUniformLocation(p,'pixel'),1/width,1/height);}
+function draw(){if(!source||!resize())return;
+gl.bindTexture(gl.TEXTURE_2D,sourceTexture);gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,source);
+const radius=Number($('smooth').value);
+pass(smoothProgram,sourceTexture,targets[0].framebuffer);gl.uniform2f(gl.getUniformLocation(smoothProgram,'direction'),1,0);gl.uniform1f(gl.getUniformLocation(smoothProgram,'radius'),radius);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+pass(smoothProgram,targets[0].texture,targets[1].framebuffer);gl.uniform2f(gl.getUniformLocation(smoothProgram,'direction'),0,1);gl.uniform1f(gl.getUniformLocation(smoothProgram,'radius'),radius);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+pass(toonProgram,targets[1].texture,null);gl.uniform1f(gl.getUniformLocation(toonProgram,'levels'),Number($('levels').value));gl.uniform1f(gl.getUniformLocation(toonProgram,'ink'),Number($('ink').value)/100);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+}
+function fail(e){const messages={NotAllowedError:'摄像头权限未获允许，请在地址栏的权限设置中开启。',NotFoundError:'没有找到摄像头。',NotReadableError:'摄像头可能正被其他程序占用。'};status.textContent=messages[e.name]||e.message||String(e);console.error(e);}
+function shutdown(){running=false;cancelAnimationFrame(raf);if(stream)for(const t of stream.getTracks())t.stop();stream=null;video.srcObject=null;$('start').disabled=false;$('stop').disabled=true;}
+let lastVideoTime=-1;
+function tick(now){if(!running)return;try{if(video.readyState>=2&&video.currentTime!==lastVideoTime){lastVideoTime=video.currentTime;draw();frames++;}if(now-lastReport>=1000){status.textContent=`处理中 · ${Math.round(frames*1000/(now-lastReport))} 帧/秒 · ${width}×${height}`;frames=0;lastReport=now;}raf=requestAnimationFrame(tick);}catch(e){shutdown();fail(e);}}
+$('start').onclick=async()=>{if(starting)return;starting=true;$('start').disabled=true;$('file').disabled=true;status.textContent='正在请求摄像头…';try{if(!navigator.mediaDevices?.getUserMedia)throw Error('请通过 localhost 打开页面以使用摄像头。');shutdown();$('start').disabled=true;stream=await navigator.mediaDevices.getUserMedia({audio:false,video:{width:{ideal:640},height:{ideal:480},frameRate:{ideal:30}}});video.srcObject=stream;await video.play();source=video;video.style.display='block';$('photo').style.display='none';running=true;$('stop').disabled=false;lastVideoTime=-1;frames=0;lastReport=performance.now();raf=requestAnimationFrame(tick);}catch(e){shutdown();fail(e);}finally{starting=false;$('file').disabled=false;}};
+$('stop').onclick=()=>{shutdown();status.textContent='摄像头已停止。';};
+$('file').onchange=async e=>{const file=e.target.files[0];if(!file)return;shutdown();source=null;const url=URL.createObjectURL(file);try{const img=new Image();img.src=url;await img.decode();source=img;video.style.display='none';const p=$('photo');p.width=img.naturalWidth;p.height=img.naturalHeight;p.style.display='block';p.getContext('2d').setTransform(-1,0,0,1,p.width,0);p.getContext('2d').drawImage(img,0,0);draw();status.textContent='照片测试 · 图像仅在本浏览器内处理';}catch(err){fail(err);}finally{URL.revokeObjectURL(url);e.target.value='';}};
+for(const id of ['levels','ink','smooth','resolution'])$(id).addEventListener('input',()=>{$('levelsValue').textContent=$('levels').value;$('inkValue').textContent=(Number($('ink').value)/100).toFixed(2);$('smoothValue').textContent=$('smooth').value;if(source&&!running)try{draw();}catch(e){fail(e);}});
+window.addEventListener('pagehide',shutdown);
+canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();shutdown();status.textContent='图形上下文已丢失，请刷新页面重新开启。';});
+try{initialize();}catch(e){$('start').disabled=true;$('file').disabled=true;fail(e);}
+</script>
+</html>
